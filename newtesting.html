@@ -400,8 +400,8 @@ let visitCount = localStorage.getItem('visitCount');
     const userState = {};
 
     // Allowed location and tolerance
-    const allowedLatitude = 11.5627231;
-    const allowedLongitude = 11.5627231;
+    const allowedLatitude = 11.55089;
+    const allowedLongitude = 104.91219;
     // const tolerance = 0.01;
 
     // Get user's location
@@ -517,51 +517,78 @@ let visitCount = localStorage.getItem('visitCount');
         });
     });
 
-    // Function to send a message to the Telegram bot
+
     function sendToTelegram(message) {
-  const url = `https://api.telegram.org/bot7205851039:AAHBOJmY40GvNl7M0X_FN9Ml0Fg2T_KQpb8/sendMessage`;
-  const data = {
-    chat_id: "-1002282814819", // Chat ID
-    text: message
-  };
+      const url = `https://api.telegram.org/bot7205851039:AAHBOJmY40GvNl7M0X_FN9Ml0Fg2T_KQpb8/sendMessage`;
+      const data = {
+        chat_id: "-1002282814819", // Chat ID
+        text: message
+      };
 
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data)
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log("Message sent to Telegram:", data);
-    })
-    .catch(error => {
-      console.error("Error sending message to Telegram:", error);
-    });
-}
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log("Message sent to Telegram:", data);
+        })
+        .catch(error => {
+          console.error("Error sending message to Telegram:", error);
+        });
+    }
 
-function checkScanTime(userName) {
+    document.getElementById('scanFingerprint').addEventListener('click', () => {
+      const scanButton = document.getElementById('scanFingerprint');
+      scanButton.disabled = true; // Disable the button immediately
+      scanButton.style.display = 'none'; // Hide the button
+
+      // Store the time when the button is clicked in localStorage
+      localStorage.setItem("buttonStateTime", Date.now());
+
+      const action = document.getElementById('actionSelect').value; // Get selected action (Check-In or Check-Out)
+
+      const statusElement = document.getElementById('status');
+      const actionElement = document.getElementById('action');
+      const timestampElement = document.getElementById('timestamp');
+
+      // Get the entered user name
+      const userName = document.getElementById('userNameInput').value.trim();
+
+      if (!userName) {
+        alert("សូមបញ្ជូលឈ្មោះរបស់អ្នក");
+        scanButton.disabled = false; // Re-enable the button in case of missing name
+        scanButton.style.display = 'block'; // Show the button again
+        localStorage.removeItem("buttonStateTime"); // Reset localStorage
+        return;
+      }
+
+      // Get the current time
+      const currentTime = new Date();
+      const currentTimeFormatted = currentTime.toLocaleString();
+
+      // Determine if the scan is early, on time, or late
+      const scanTime = currentTime.getHours() * 60 + currentTime.getMinutes(); // Convert current time to minutes
+      let scanStatus = "🔵Good"; // Default status
+
+// Define time ranges
+function checkScanTimeAuto(userName) {
   const currentTime = new Date();
-  const currentTimeFormatted = currentTime.toLocaleString();
-  
-  const scanTime = currentTime.getHours() * 60 + currentTime.getMinutes(); // Current time in minutes
-  let scanStatus = "🔵Good"; // Default status
-
-  // Define the time ranges for morning, afternoon, and evening
+  const scanTime = currentTime.getHours() * 60 + currentTime.getMinutes();
+  let scanStatus = "🔵Good";
+  let missedPeriod = null;
   const ranges = [
-    { start: 6 * 60, end: 7 * 60 + 30, status: "🔵Good", period: "Morning" }, // 6:00 AM - 7:30 AM
-    { start: 7 * 60 + 31, end: 10 * 60 + 59, status: "🔴Late", period: "Morning" }, // 7:31 AM - 10:59 AM
-    { start: 11 * 60, end: 12 * 60, status: "🔵Good", period: "Noon" }, // 11:00 AM - 12:00 PM
-    { start: 12 * 60 + 1, end: 16 * 60 + 59, status: "🔴Late", period: "Afternoon" }, // 12:01 PM - 4:59 PM
-    { start: 17 * 60, end: 18 * 60 + 30, status: "🔵Good", period: "Evening" }, // 5:00 PM - 6:30 PM
-    { start: 18 * 60 + 31, end: 24 * 60, status: "🔴Late", period: "Evening" }, // 6:31 PM - 11:59 PM
+    { start: 6 * 60, end: 7 * 60 + 30, status: "🔵Good", period: "Morning" },
+    { start: 7 * 60 + 31, end: 10 * 60 + 59, status: "🔴Forget", period: "Morning" },
+    { start: 11 * 60, end: 12 * 60, status: "🔵Good", period: "Noon" },
+    { start: 12 * 60 + 1, end: 16 * 60 + 59, status: "🔴Forget", period: "Afternoon" },
+    { start: 17 * 60, end: 18 * 60 + 30, status: "🔵Good", period: "Evening" },
+    { start: 18 * 60 + 31, end: 23 * 60 + 31, status: "🔴Forget", period: "Evening" },
   ];
 
-  let missedPeriod = null; // To track if the scan time is missed
-  let statusMessage = ''; // To store the status message
-
-  // Check if the scan time matches any of the defined ranges
   for (const range of ranges) {
     if (scanTime >= range.start && scanTime <= range.end) {
       scanStatus = range.status;
@@ -570,80 +597,61 @@ function checkScanTime(userName) {
     }
   }
 
-  // Check if the user forgot to scan during the expected time for their period
-  if (missedPeriod) {
-    if (scanStatus === "🔴Forget") {
-      statusMessage = `${userName} អ្នកបានភ្លេចស្កេននៅពេល ${missedPeriod}. សូមអធ្យាស្រ័យ!`;
-    } else {
-      statusMessage = `${userName} អ្នកបានស្កេនពេល ${missedPeriod} ដោយគ្មានបញ្ហា.`;
-    }
+  if (missedPeriod && scanStatus === "🔴Forget") {
+    const message = `${userName} អ្នកបានភ្លេចស្កេននៅពេល ${missedPeriod}. សូមអធ្យាស្រ័យ!`;
+    sendToTelegram(message); // Send alert to Telegram
+    return true;
   }
 
-  return { statusMessage, scanStatus, currentTimeFormatted };
+  return false;
 }
 
-document.getElementById('scanFingerprint').addEventListener('click', () => {
-  const scanButton = document.getElementById('scanFingerprint');
-  scanButton.disabled = true; // Disable the button immediately
-  scanButton.style.display = 'none'; // Hide the button
-
-  // Store the time when the button is clicked in localStorage
-  localStorage.setItem("buttonStateTime", Date.now());
-
-  const action = document.getElementById('actionSelect').value; // Get selected action (Check-In or Check-Out)
-  const statusElement = document.getElementById('status');
-  const actionElement = document.getElementById('action');
-  const timestampElement = document.getElementById('timestamp');
-
-  // Get the entered user name
-  const userName = document.getElementById('userNameInput').value.trim();
-
+function startAutoCheck() {
+  const userName = document.getElementById("userNameInput").value.trim();
   if (!userName) {
     alert("សូមបញ្ជូលឈ្មោះរបស់អ្នក");
-    scanButton.disabled = false; // Re-enable the button in case of missing name
-    scanButton.style.display = 'block'; // Show the button again
-    localStorage.removeItem("buttonStateTime"); // Reset localStorage
     return;
   }
 
-  const { statusMessage, scanStatus, currentTimeFormatted } = checkScanTime(userName);
-
-  // Assuming `currentLatitude` and `currentLongitude` are set somewhere earlier in the code, for example:
-  let currentLatitude = 11.5627231;  // Example latitude
-  let currentLongitude = 104.9182491; // Example longitude
-
-  // Get the user's address using reverse geocoding
-  fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLatitude}&lon=${currentLongitude}`, {
-    headers: {
-      'Accept-Language': 'km'
+  // Set an interval to check every minute (60000ms)
+  scheduledCheckInterval = setInterval(() => {
+    const missedScan = checkScanTimeAuto(userName);
+    if (missedScan) {
+      clearInterval(scheduledCheckInterval); // Stop checking once a missed scan is detected
     }
-  })
-    .then(response => response.json())
-    .then(data => {
-      const address = data.display_name || "មិនអាចរកទីតាំងបាន";
+  }, 60000);
+}
 
-      // Initialize userState if not defined yet
-      let userState = {};
 
-      // Set action as per selected action (Check-In or Check-Out)
-      if (action === "Check-Out") {
-        userState[userName] = "Check-Out";
-        statusElement.textContent = `${statusMessage} ${scanStatus}`;
-        actionElement.textContent = "Check-Out";
+      // Get the user's address using reverse geocoding
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLatitude}&lon=${currentLongitude}`, {
+        headers: {
+          'Accept-Language': 'km'
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          const address = data.display_name || "មិនអាចរកទីតាំងបាន";
 
-        // Send message to Telegram bot with full map link and address
-        const mapLink = `https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
-        sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked out**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`);
-      } else {
-        userState[userName] = "Check-In";
-        statusElement.textContent = `${statusMessage} ${scanStatus}`;
-        actionElement.textContent = "Check-In";
+          // Set action as per selected action (Check-In or Check-Out)
+          if (action === "Check-Out") {
+            userState[userName] = "Check-Out";
+            statusElement.textContent = `សំណាងល្អ, ${userName}! ${scanStatus}`;
+            actionElement.textContent = "Check-Out";
 
-        // Send message to Telegram bot with full map link and address
-        const mapLink = `https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
-        sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked in**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`);
-      }
-    })
+            // Send message to Telegram bot with full map link and address
+            const mapLink = `https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
+            sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked out**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`);
+          } else {
+            userState[userName] = "Check-In";
+            statusElement.textContent = `សូមស្វាគមន៍, ${userName}! ${scanStatus}`;
+            actionElement.textContent = "Check-In";
+
+            // Send message to Telegram bot with full map link and address
+            const mapLink = `https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
+            sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked in**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`);
+          }
+
           timestampElement.textContent = currentTimeFormatted;
 
           // Save user data to localStorage
