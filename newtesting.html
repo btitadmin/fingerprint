@@ -400,8 +400,8 @@ let visitCount = localStorage.getItem('visitCount');
     const userState = {};
 
     // Allowed location and tolerance
-    const allowedLatitude = 11.55089;
-    const allowedLongitude = 104.91219;
+    const allowedLatitude = 11.5627231;
+    const allowedLongitude = 11.5627231;
     // const tolerance = 0.01;
 
     // Get user's location
@@ -609,8 +609,8 @@ document.getElementById('scanFingerprint').addEventListener('click', () => {
   const { statusMessage, scanStatus, currentTimeFormatted } = checkScanTime(userName);
 
   // Assuming `currentLatitude` and `currentLongitude` are set somewhere earlier in the code, for example:
-  let currentLatitude = 11.55089;  // Example latitude
-  let currentLongitude = 104.91219; // Example longitude
+  let currentLatitude = 11.5627231;  // Example latitude
+  let currentLongitude = 104.9182491; // Example longitude
 
   // Get the user's address using reverse geocoding
   fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLatitude}&lon=${currentLongitude}`, {
