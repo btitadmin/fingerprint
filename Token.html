@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ចាប់យក Device Token</title>
+  <script>
+    // Function to generate a unique device token (UUID)
+    function generateDeviceToken() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = (Math.random() * 16) | 0;
+        const v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      });
+    }
+
+    // Function to get or create the device token
+    function getDeviceToken() {
+      // Check if the token already exists in localStorage
+      let deviceToken = localStorage.getItem('device_token');
+
+      // If no token exists, generate a new one and store it
+      if (!deviceToken) {
+        deviceToken = generateDeviceToken();
+        localStorage.setItem('device_token', deviceToken);
+      }
+
+      return deviceToken;
+    }
+
+    // Display the device token
+    function displayDeviceToken() {
+      const token = getDeviceToken();
+      console.log('Device Token:', token);
+      document.getElementById('device-token').innerText = token;
+    }
+
+    // Run the function when the page loads
+    window.onload = displayDeviceToken;
+  </script>
+</head>
+<body>
+  <h1>Device Token Generator</h1>
+  <p>ឧបករណ៍នេះមាន Device Token៖</p>
+  <p id="device-token" style="font-weight: bold; color: blue;">កំពុងបង្កើត...</p>
+</body>
+</html>
