@@ -14,9 +14,8 @@
       });
     }
 
-    // Function to get or create the device token
+    // Function to get or create the device token (no auto reset)
     function getDeviceToken() {
-      // Check if the token already exists in localStorage
       let deviceToken = localStorage.getItem('device_token');
 
       // If no token exists, generate a new one and store it
