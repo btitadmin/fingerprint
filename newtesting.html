@@ -615,7 +615,7 @@ for (const range of ranges) {
 
             // Send message to Telegram bot with full map link and address
             const mapLink = `https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
-            sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked in**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`);
+            // sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked in**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`);
           // Calculate late hours if within the late range
           if (scanStatus === "🔴Late") {
             let lateHours, lateMinutes;
