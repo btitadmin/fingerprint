@@ -622,9 +622,9 @@ for (const range of ranges) {
             if (scanTime >= 7 * 60 + 31 && scanTime <= 10 * 60 + 59) {
               lateHours = Math.floor((scanTime - 7 * 60 - 31) / 60); // Calculate late hours
               lateMinutes = (scanTime - 7 * 60 - 31) % 60; // Calculate late minutes
-            } else if (scanTime >= 12 * 60 + 1 && scanTime <= 16 * 60 + 59) {
-              lateHours = Math.floor((scanTime - 12 * 60 - 1) / 60); // Calculate late hours
-              lateMinutes = (scanTime - 12 * 60 - 1) % 60; // Calculate late minutes
+            } else if (scanTime >= 13 * 60 + 1 && scanTime <= 16 * 60 + 59) {
+              lateHours = Math.floor((scanTime - 13 * 60 - 1) / 60); // Calculate late hours
+              lateMinutes = (scanTime - 13 * 60 - 1) % 60; // Calculate late minutes
             }
             const lateTimeMessage = `Late by ${lateHours} hours and ${lateMinutes} minutes`;
 
