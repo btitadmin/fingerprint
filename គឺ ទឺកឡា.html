@@ -137,21 +137,21 @@
           <label for="userNameInput" class="form-label d-none">ជ្រើសរើសអ្នកប្រើប្រាស់</label>
           <select id="userNameInput" class="form-select hidename" required>
             <!-- <option value="សៅ សម្បត្តិ">សៅ សម្បត្តិ(0163)</option>
-            <option value="ឌឹម សុជាតិ">ឌឹម សុជាតិ(0158)</option>
+          <option value="ឌឹម សុជាតិ">ឌឹម សុជាតិ(0158)</option>
             <option value="សៀង សារុន">សៀង សារុន(0151)</option>
             <option value="ឆន រត្តនៈ">ឆន រត្តនៈ(0243)</option>
             <option value="ម៉ុល នីតា">ម៉ុល នីតា(0242)</option>
             <option value="សឹម សុខ">សឹម សុខ(0250)</option>
             <option value="ផូ សុខនី">ផូ សុខនី(0254)</option>
-            <option value="ឡេង ឌឿន">ឡេង ឌឿន(0169)</option>
-            <option value="វណ្ណ ដាណែត">វណ្ណ ដាណែត(0172)</option>
-            <option value="វ៉ាន់ សារ៉េត">វ៉ាន់ សារ៉េត(0062)</option> -->
+            <option value="ឡេង ឌឿន">ឡេង ឌឿន(0169)</option> -->
+            <!-- <option value="វណ្ណ ដាណែត">វណ្ណ ដាណែត(0172)</option> -->
+            <!-- <option value="វ៉ាន់ សារ៉េត">វ៉ាន់ សារ៉េត(0062)</option> -->
             <option value="គឺ តឹកឡា">គឺ តឹកឡា(0183)</option>
-            <!-- <option value="លី ស៊ាងអុី">លី ស៊ាងអុី(0224)</option>
-            <option value="វណ្ណ ដាណែត">វណ្ណ ដាណែត(0172)</option>
-            <option value="ម៉ុង ដាលីន">ម៉ុង ដាលីន(0066)</option>
-            <option value="ភឿន ដាលីន">ភឿន ដាលីន(0016)</option>
-            <option value="បឿន កញ្ញា">បឿន កញ្ញា(0238)</option> -->
+            <!-- <option value="លី ស៊ាងអុី">លី ស៊ាងអុី(0224)</option> -->
+            <!-- <option value="វណ្ណ ដាណែត">វណ្ណ ដាណែត(0172)</option> -->
+            <!-- <option value="ម៉ុង ដាលីន">ម៉ុង ដាលីន(0066)</option> -->
+            <!-- <option value="ភឿន ដាលីន">ភឿន ដាលីន(0016)</option> -->
+            <!-- <option value="បឿន កញ្ញា">បឿន កញ្ញា(0238)</option> -->
           </select>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -569,8 +569,8 @@ let visitCount = localStorage.getItem('visitCount');
       const currentTime = new Date();
       const currentTimeFormatted = currentTime.toLocaleString();
 
-      // Determine if the scan is early, on time, or late
-      let scanStatus = "🔵Good"; // Default status
+      const scanTime = currentTime.getHours() * 60 + currentTime.getMinutes(); // Convert current time to minutes
+let scanStatus = "🔵Good"; // Default status
 
 // Define time ranges
 const ranges = [
@@ -729,5 +729,3 @@ for (const range of ranges) {
     
   </script>
 </body>
-
-<script
