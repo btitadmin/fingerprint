@@ -136,23 +136,22 @@
         <div class="mb-3 mt-4">
           <label for="userNameInput" class="form-label d-none">ជ្រើសរើសអ្នកប្រើប្រាស់</label>
           <select id="userNameInput" class="form-select hidename" required>
-            <!-- <option value="សៅ សម្បត្តិ">សៅ សម្បត្តិ(0163)</option> -->
-            <!-- <option value="ឌឹម សុជាតិ">ឌឹម សុជាតិ(0158)</option> -->
-            <!-- <option value="សៀង សារុន">សៀង សារុន(0151)</option> -->
-            <!-- <option value="ឆន រត្តនៈ">ឆន រត្តនៈ(0243)</option> -->
+            <option value="សៅ សម្បត្តិ">សៅ សម្បត្តិ(0163)</option>
+            <!-- <option value="ឌឹម សុជាតិ">ឌឹម សុជាតិ(0158)</option>
+            <option value="សៀង សារុន">សៀង សារុន(0151)</option>
+            <option value="ឆន រត្តនៈ">ឆន រត្តនៈ(0243)</option>
             <option value="ម៉ុល នីតា">ម៉ុល នីតា(0242)</option>
-            <!-- <option value="សឹម សុខ">សឹម សុខ(0250)</option> -->
-            <!-- <option value="ផូ សុខនី">ផូ សុខនី(0254)</option> -->
-            <!-- <option value="ឡេង ឌឿន">ឡេង ឌឿន(0169)</option> -->
-            <!-- <option value="វណ្ណ ដាណែត">វណ្ណ ដាណែត(0172)</option> -->
-            <!-- <option value="វ៉ាន់ សារ៉េត">វ៉ាន់ សារ៉េត(0062)</option> -->
-            <!-- <option value="គឺ ទឺកឡា">គឺ ទឺកឡា(0183)</option>  -->
-            <!-- <option value="លី ស៊ាងអុី">លី ស៊ាងអុី(0224)</option> -->
-            <!-- <option value="វណ្ណ ដាណែត">វណ្ណ ដាណែត(0172)</option> -->
-            <!-- <option value="ម៉ុង ដាលីន">ម៉ុង ដាលីន(0066)</option> -->
-            <!-- <option value="ភឿន ដាលីន">ភឿន ដាលីន(0016)</option> -->
-            <!-- <option value="បឿន កញ្ញា">បឿន កញ្ញា(0238)</option> -->
-        
+            <option value="សឹម សុខ">សឹម សុខ(0250)</option>
+            <option value="ផូ សុខនី">ផូ សុខនី(0254)</option>
+            <option value="ឡេង ឌឿន">ឡេង ឌឿន(0169)</option>
+            <option value="វណ្ណ ដាណែត">វណ្ណ ដាណែត(0172)</option>
+            <option value="វ៉ាន់ សារ៉េត">វ៉ាន់ សារ៉េត(0062)</option>
+            <option value="គឺ ទឺកឡា">គឺ ទឺកឡា(0183)</option>
+            <option value="លី ស៊ាងអុី">លី ស៊ាងអុី(0224)</option>
+            <option value="វណ្ណ ដាណែត">វណ្ណ ដាណែត(0172)</option>
+            <option value="ម៉ុង ដាលីន">ម៉ុង ដាលីន(0066)</option>
+            <option value="ភឿន ដាលីន">ភឿន ដាលីន(0016)</option>
+            <option value="បឿន កញ្ញា">បឿន កញ្ញា(0238)</option> -->
           </select>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -268,24 +267,24 @@ let visitCount = localStorage.getItem('visitCount');
             position: absolute;
           }
          </style>
-         <div class="mb-3">
+        <div class="mb-3">
           <label for="idSelect" class="form-label ID"></label>
           <select id="idSelect" class="form-select" required>
-            <option value="0242">0242</option>
+            <option value="0163">0163</option>
             <!-- Add more options as needed -->
           </select>
         </div>
         <div class="mb-3">
           <label for="idSelect" class="form-label DT"></label>
           <select id="departmentSelect" class="form-select" required>
-            <option value="Accountant">Accountant</option>
+            <option value="IT">IT</option>
             <!-- Add more options as needed -->
           </select>
         </div>
         <div class="mb-3">
           <label for="idSelect" class="form-label PT"></label>
           <select id="PositionSelect" class="form-select" required>
-            <option value="Accounting">Accounting</option>
+            <option value="IT SUPPORT">IT SUPPORT</option>
             <!-- Add more options as needed -->
           </select>
         </div>
@@ -517,7 +516,7 @@ let visitCount = localStorage.getItem('visitCount');
         });
     });
 
-
+    // Function to send a message to the Telegram bot
     function sendToTelegram(message) {
       const url = `https://api.telegram.org/bot7205851039:AAHBOJmY40GvNl7M0X_FN9Ml0Fg2T_KQpb8/sendMessage`;
       const data = {
@@ -570,59 +569,26 @@ let visitCount = localStorage.getItem('visitCount');
       const currentTime = new Date();
       const currentTimeFormatted = currentTime.toLocaleString();
 
-      // Determine if the scan is early, on time, or late
       const scanTime = currentTime.getHours() * 60 + currentTime.getMinutes(); // Convert current time to minutes
-      let scanStatus = "🔵Good"; // Default status
+let scanStatus = "🔵Good"; // Default status
 
 // Define time ranges
-function checkScanTimeAuto(userName) {
-  const currentTime = new Date();
-  const scanTime = currentTime.getHours() * 60 + currentTime.getMinutes();
-  let scanStatus = "🔵Good";
-  let missedPeriod = null;
-  const ranges = [
-    { start: 6 * 60, end: 7 * 60 + 30, status: "🔵Good", period: "Morning" },
-    { start: 7 * 60 + 31, end: 10 * 60 + 59, status: "🔴Forget", period: "Morning" },
-    { start: 11 * 60, end: 12 * 60, status: "🔵Good", period: "Noon" },
-    { start: 12 * 60 + 1, end: 16 * 60 + 59, status: "🔴Forget", period: "Afternoon" },
-    { start: 17 * 60, end: 18 * 60 + 30, status: "🔵Good", period: "Evening" },
-    { start: 18 * 60 + 31, end: 23 * 60 + 31, status: "🔴Forget", period: "Evening" },
-  ];
+const ranges = [
+  { start: 6 * 60, end: 7 * 60 + 30, status: "🔵Good" }, // 6:00 AM - 7:30 AM
+  { start: 7 * 60 + 31, end: 10 * 60 + 59, status: "🔴Late" }, // 7:31 AM - 10:59 AM
+  { start: 11 * 60, end: 12 * 60, status: "🔵Good" }, // 11:00 AM - 12:00 PM
+  { start: 12 * 60 + 1, end: 16 * 60 + 59, status: "🔴Late" }, // 12:01 PM - 4:59 PM
+  { start: 17 * 60, end: 24 * 60, status: "🔵Good" }, // 5:00 PM onward
+];
 
-  for (const range of ranges) {
-    if (scanTime >= range.start && scanTime <= range.end) {
-      scanStatus = range.status;
-      missedPeriod = range.period;
-      break;
-    }
+
+// Determine scan status
+for (const range of ranges) {
+  if (scanTime >= range.start && scanTime <= range.end) {
+    scanStatus = range.status;
+    break;
   }
-
-  if (missedPeriod && scanStatus === "🔴Forget") {
-    const message = `${userName} អ្នកបានភ្លេចស្កេននៅពេល ${missedPeriod}. សូមអធ្យាស្រ័យ!`;
-    sendToTelegram(message); // Send alert to Telegram
-    return true;
-  }
-
-  return false;
 }
-
-function startAutoCheck() {
-  const userName = document.getElementById("userNameInput").value.trim();
-  if (!userName) {
-    alert("សូមបញ្ជូលឈ្មោះរបស់អ្នក");
-    return;
-  }
-
-  // Set an interval to check every minute (60000ms)
-  scheduledCheckInterval = setInterval(() => {
-    const missedScan = checkScanTimeAuto(userName);
-    if (missedScan) {
-      clearInterval(scheduledCheckInterval); // Stop checking once a missed scan is detected
-    }
-  }, 60000);
-}
-
-
       // Get the user's address using reverse geocoding
       fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLatitude}&lon=${currentLongitude}`, {
         headers: {
@@ -650,6 +616,36 @@ function startAutoCheck() {
             // Send message to Telegram bot with full map link and address
             const mapLink = `https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
             sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked in**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`);
+          // Calculate late hours if within the late range
+          if (scanStatus === "🔴Late") {
+            let lateHours, lateMinutes;
+            if (scanTime >= 7 * 60 + 31 && scanTime <= 10 * 60 + 59) {
+              lateHours = Math.floor((scanTime - 7 * 60 - 31) / 60); // Calculate late hours
+              lateMinutes = (scanTime - 7 * 60 - 31) % 60; // Calculate late minutes
+            } else if (scanTime >= 12 * 60 + 1 && scanTime <= 16 * 60 + 59) {
+              lateHours = Math.floor((scanTime - 12 * 60 - 1) / 60); // Calculate late hours
+              lateMinutes = (scanTime - 12 * 60 - 1) % 60; // Calculate late minutes
+            }
+            const lateTimeMessage = `Late by ${lateHours} hours and ${lateMinutes} minutes`;
+
+            // Send message to Telegram bot with late time information
+            sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked in**\n\nStatus: ${scanStatus}\n\nLate Time: ${lateTimeMessage}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`);
+          }
+
+          // Function to reset late hours count daily
+          function resetLateHours() {
+            const lastResetTime = localStorage.getItem('lastResetTime');
+            const currentTime = new Date().getTime();
+            const oneDay = 24 * 60 * 60 * 1000; // 1 day in milliseconds
+
+            if (!lastResetTime || currentTime - lastResetTime > oneDay) {
+              localStorage.setItem('lastResetTime', currentTime);
+              localStorage.setItem('lateHours', 0);
+            }
+          }
+
+          // Call resetLateHours function on page load
+          resetLateHours();
           }
 
           timestampElement.textContent = currentTimeFormatted;
@@ -764,5 +760,3 @@ function startAutoCheck() {
     
   </script>
 </body>
-
-<script
