@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ចូលតែ 1 Device</title>
+  <script>
+    // Function to generate a unique device token (UUID)
+    function generateDeviceToken() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = (Math.random() * 16) | 0;
+        const v = c === 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      });
+    }
+
+    // Function to store and check the device token
+    function checkAccess() {
+      const allowedToken = 'c0818665-8f91-45da-a3e4-8bd45bcdf85a'; // Replace this with your predefined allowed token
+      let deviceToken = localStorage.getItem('device_token');
+
+      // If no token exists, generate one and store it
+      if (!deviceToken) {
+        deviceToken = generateDeviceToken();
+        localStorage.setItem('device_token', deviceToken);
+      }
+
+      // Check if the stored token matches the allowed token
+      if (deviceToken === allowedToken) {
+        alert('សូមស្វាគមន៍! អ្នកអាចចូលប្រើបាន!');
+        window.location.href = 'https://fingerprint-sytem.vercel.app/%E1%9E%9F%E1%9F%85%20%E1%9E%9F%E1%9E%98%E1%9F%92%E1%9E%94%E1%9E%8F%E1%9F%92%E1%9E%8F%E1%9E%B7.html';
+      } else {
+        alert('សូមអភ័យទោស! អ្នកមិនមានសិទ្ធិចូលប្រើទេ!');
+      }
+    }
+
+    // Run the checkAccess function when the page loads
+    window.onload = checkAccess;
+  </script>
+</head>
+<body>
+  <h1>ការចូលប្រើតែ 1 Device</h1>
+  <p>សូមអភ័យទោស! ការចូលប្រើនេះត្រូវការកំណត់សិទ្ធិតែមួយឧបករណ៍។</p>
+</body>
+</html>
