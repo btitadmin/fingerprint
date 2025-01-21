@@ -399,9 +399,9 @@ let visitCount = localStorage.getItem('visitCount');
     const userState = {};
 
     // Allowed location and tolerance
-    const allowedLatitude = 11.570694;
-    const allowedLongitude = 104.910778;
-    // const tolerance = 0.01;
+    const allowedLatitude = 11.562759;
+    const allowedLongitude = 104.918146;
+    const tolerance = 0.01;
 
     // Get user's location
     const locationElement = document.getElementById('location');
@@ -588,87 +588,51 @@ for (const range of ranges) {
     break;
   }
 }
-      // Get the user's address using reverse geocoding
-// Google Maps API Key
-const apiKey = "AIzaSyC43fS8JmhyUz2Jz8x5vZ2zxsm0rjN1nX8";
 
-// Fetch address using Google Maps Geocoding API
-fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${currentLatitude},${currentLongitude}&key=${apiKey}`)
+
+
+
+
+      // Get the user's address using reverse geocoding
+// Replace with your Google Maps API key
+const googleMapsApiKey = 'AIzaSyABCuD68vPAAkohhheHEw6yhuyUDwCzoNc';
+
+// Fetch user's location with Google Maps reverse geocoding
+fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${currentLatitude},${currentLongitude}&key=${googleMapsApiKey}`)
   .then(response => response.json())
   .then(data => {
-    let address = "មិនអាចរកទីតាំងបាន"; // Default message if address not found
-
-    // Extract address if available
     if (data.results && data.results.length > 0) {
-      address = data.results[0].formatted_address;
-    }
-
-    // Set action as per selected action (Check-In or Check-Out)
-    if (action === "Check-Out") {
-      userState[userName] = "Check-Out";
-      statusElement.textContent = `សំណាងល្អ, ${userName}! ${scanStatus}`;
-      actionElement.textContent = "Check-Out";
-
-      // Send message to Telegram bot with full map link and address
-      const mapLink = `https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
-      sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked out**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`);
+      const address = data.results[0].formatted_address || "មិនអាចរកទីតាំងបាន"; // Get the formatted address
+      console.log("Address from Google Maps:", address);
+      
+      // You can now use the address in your message or display it on the page
     } else {
-      userState[userName] = "Check-In";
-      statusElement.textContent = `សូមស្វាគមន៍, ${userName}! ${scanStatus}`;
-      actionElement.textContent = "Check-In";
-
-      // Send message to Telegram bot with full map link and address
-      const mapLink = `https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
-      sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked in**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`);
+      console.error("No results found for the location.");
     }
   })
   .catch(error => {
-    console.error("Error fetching address:", error);
-    alert("មិនអាចទាញយកអាសយដ្ឋានបានទេ!");
+    console.error("Error fetching address from Google Maps:", error);
   });
 
 
-          timestampElement.textContent = currentTimeFormatted;
+          // Set action as per selected action (Check-In or Check-Out)
+          if (action === "Check-Out") {
+            userState[userName] = "Check-Out";
+            statusElement.textContent = `សំណាងល្អ, ${userName}! ${scanStatus}`;
+            actionElement.textContent = "Check-Out";
 
-          // Save user data to localStorage
-          const userData = JSON.parse(localStorage.getItem("userData")) || [];
-          userData.push({
-            userName,
-            action,
-            timestamp: currentTimeFormatted,
-            location: { latitude: currentLatitude, longitude: currentLongitude },
-            status: scanStatus,
-            address
-          });
-          localStorage.setItem("userData", JSON.stringify(userData));
+            // Send message to Telegram bot with full map link and address
+            const mapLink = `https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
+            sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked out**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`);
+          } else {
+            userState[userName] = "Check-In";
+            statusElement.textContent = `សូមស្វាគមន៍, ${userName}! ${scanStatus}`;
+            actionElement.textContent = "Check-In";
 
-          // Reload the page after 1 minute to hide the button
-          setTimeout(() => {
-            window.location.href = window.location.href;
-          }, 60000); // 1 minute = 60000 milliseconds
-        })
-        .catch(error => {
-          console.error("Error fetching address:", error);
-        });
-      // Set action as per selected action (Check-In or Check-Out)
-      // if (action === "Check-Out") {
-      //   userState[userName] = "Check-Out";
-      //   statusElement.textContent = `សំណាងល្អ, ${userName}! ${scanStatus}`;
-      //   actionElement.textContent = "Check-Out";
-
-      //   // Send message to Telegram bot with full map link
-      //   const mapLink = `https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
-      //   sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked out**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\n[មើលទីតាំង] ${mapLink}`);
-      // } else {
-      //   userState[userName] = "Check-In";
-      //   statusElement.textContent = `សូមស្វាគមន៍, ${userName}! ${scanStatus}`;
-      //   actionElement.textContent = "Check-In";
-
-      //   // Send message to Telegram bot with full map link
-      //   const mapLink = `https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
-      //   sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked in**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ ៖ ${currentTimeFormatted}\n[មើលទីតាំង] ${mapLink}`);
-      // }
-
+            // Send message to Telegram bot with full map link and address
+            const mapLink = `https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
+            sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked in**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`);
+          }
       timestampElement.textContent = currentTimeFormatted;
 
       // Save user data to localStorage
@@ -681,6 +645,8 @@ fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${currentLatitud
         status: scanStatus
       });
       localStorage.setItem("userData", JSON.stringify(userData));
+
+      // Reload the page after 1 minute to hide the button
 
 
     // Check the button state on page load
