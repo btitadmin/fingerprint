@@ -591,7 +591,7 @@ for (const range of ranges) {
   }
 }
       // Get the user's address using reverse geocoding
-                fetch(
+            fetch(
                     `https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLatitude}&lon=${currentLongitude}`,
                     {
                         headers: {
@@ -601,7 +601,7 @@ for (const range of ranges) {
                 )
                     .then((response) => response.json())
                     .then((data) => {
-                        const address = data.address.neighbourhood || data.display_name || "មិនអាចរកទីតាំងបាន";
+                        const address = data.address.road || data.address.neighbourhood || data.address.city || "មិនអាចរកទីតាំងបាន";
 
           // Set action as per selected action (Check-In or Check-Out)
           if (action === "Check-Out") {
