@@ -133,9 +133,10 @@ background-image: url(https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmJyMzlp
       // List of allowed tokens
       const allowedTokens = [
         'c0818665-8f91-45da-a3e4-8bd45bcdf85a', // Bath PC
-        '8cb48e7f-bccb-483c-904c-81981d3957b3', // Token 2
-        '358c61f6-4d72-41a5-9092-d3ae1bfc1f20', // Token 3
-        '6ddac305-026e-4048-90bb-9ba63802e2b4'  // Token 4
+        '084a64ee-205a-4b26-9d99-d13cadb8453d',  // Cheat(Telegram)
+        '367c6df1-e051-4d25-a4c2-d347ea7a52e7',  // Cheat(Safari) 
+        '91e93dcf-a6d1-4ea8-8170-d68855d9bd96',  // Cheat(Chrome) 
+        '1963c4c3-5795-4c37-84a1-b68db1ddfd03'  // Cheat(PC) 
       ];
 
       let deviceToken = localStorage.getItem('device_token');
@@ -212,24 +213,22 @@ background-image: url(https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmJyMzlp
         <div class="mb-3 mt-4">
           <label for="userNameInput" class="form-label d-none">ជ្រើសរើសអ្នកប្រើប្រាស់</label>
           <select id="userNameInput" class="form-select hidename" required>
-            <!-- <option value="" disabled selected>ជ្រើសរើសឈ្មោះរបស់អ្នក!</option> -->
-            <!-- <option value="សៅ សម្បត្តិ">សៅ សម្បត្តិ(0163)</option>
             <option value="ឌឹម សុជាតិ">ឌឹម សុជាតិ(0158)</option>
+            <!-- <option value="ឌឹម សុជាតិ">ឌឹម សុជាតិ(0158)</option>
             <option value="សៀង សារុន">សៀង សារុន(0151)</option>
             <option value="ឆន រត្តនៈ">ឆន រត្តនៈ(0243)</option>
             <option value="ម៉ុល នីតា">ម៉ុល នីតា(0242)</option>
             <option value="សឹម សុខ">សឹម សុខ(0250)</option>
-            <option value="ផូ សុខនី">ផូ សុខនី(0254)</option> -->
-            <!-- <option value="ឡេង ឌឿន">ឡេង ឌឿន(0169)</option> -->
-            <!-- <option value="វណ្ណ ដាណែត">វណ្ណ ដាណែត(0172)</option>
+            <option value="ផូ សុខនី">ផូ សុខនី(0254)</option>
+            <option value="ឡេង ឌឿន">ឡេង ឌឿន(0169)</option>
+            <option value="វណ្ណ ដាណែត">វណ្ណ ដាណែត(0172)</option>
             <option value="វ៉ាន់ សារ៉េត">វ៉ាន់ សារ៉េត(0062)</option>
-            <!-- <option value="គឺ ទឺកឡា">គឺ ទឺកឡា(0183)</option>  -->
+            <option value="គឺ ទឺកឡា">គឺ ទឺកឡា(0183)</option>
             <option value="លី ស៊ាងអុី">លី ស៊ាងអុី(0224)</option>
-            <!-- <option value="វណ្ណ ដាណែត">វណ្ណ ដាណែត(0172)</option>
+            <option value="វណ្ណ ដាណែត">វណ្ណ ដាណែត(0172)</option>
             <option value="ម៉ុង ដាលីន">ម៉ុង ដាលីន(0066)</option>
             <option value="ភឿន ដាលីន">ភឿន ដាលីន(0016)</option>
             <option value="បឿន កញ្ញា">បឿន កញ្ញា(0238)</option> -->
-            <!-- Add more options as needed -->
           </select>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -348,28 +347,28 @@ let visitCount = localStorage.getItem('visitCount');
         <div class="mb-3">
           <label for="idSelect" class="form-label ID"></label>
           <select id="idSelect" class="form-select" required>
-            <option value="0224">0224</option>
+            <option value="0158">0158</option>
             <!-- Add more options as needed -->
           </select>
         </div>
         <div class="mb-3">
           <label for="idSelect" class="form-label DT"></label>
           <select id="departmentSelect" class="form-select" required>
-            <option value="Stock">Stock</option>
+            <option value="IT">IT</option>
             <!-- Add more options as needed -->
           </select>
         </div>
         <div class="mb-3">
           <label for="idSelect" class="form-label PT"></label>
           <select id="PositionSelect" class="form-select" required>
-            <option value="Stock 318">Stock 318</option>
+            <option value="IT MANAGER">IT MANAGER</option>
             <!-- Add more options as needed -->
           </select>
         </div>
         <div class="mb-3">
           <label for="idSelect" class="form-label BH"></label>
           <select id="BranchSelect" class="form-select" required>
-            <option value="318 Shop">318 Shop</option>
+            <option value="Head Office">Head Office</option>
             <!-- Add more options as needed -->
           </select>
         </div>
@@ -479,7 +478,7 @@ let visitCount = localStorage.getItem('visitCount');
     // Allowed location and tolerance
     const allowedLatitude = 11.55089;
     const allowedLongitude = 104.91219;
-    // const tolerance = 0.01;
+    const tolerance = 0.01;
 
     // Get user's location
     const locationElement = document.getElementById('location');
@@ -647,122 +646,25 @@ let visitCount = localStorage.getItem('visitCount');
       const currentTime = new Date();
       const currentTimeFormatted = currentTime.toLocaleString();
 
-      // Determine if the scan is early, on time, or late
       const scanTime = currentTime.getHours() * 60 + currentTime.getMinutes(); // Convert current time to minutes
+let scanStatus = "🔵Good"; // Default status
 
-            let scanStatus = "🔵Good"; // Default status
+// Define time ranges
+const ranges = [
+  { start: 6 * 60, end: 7 * 60 + 30, status: "🔵Good" }, // 6:00 AM - 7:30 AM
+  { start: 7 * 60 + 31, end: 10 * 60 + 59, status: "🔴Late" }, // 7:31 AM - 10:59 AM
+  { start: 12 * 60, end: 13 * 60, status: "🔵Good" }, // 11:00 AM - 12:00 PM
+  { start: 13 * 60 + 1, end: 16 * 60 + 59, status: "🔴Late" }, // 12:01 PM - 4:59 PM
+  { start: 17 * 60, end: 24 * 60, status: "🔵Good" }, // 5:00 PM onward
+];
 
-      // Define time ranges for morning and evening scans
-      // In
-      const morningStartTime = 6 * 60; // 6:00 AM in minutes
-      const morningEndTime = 7 * 60 + 30; // 7:29 AM in minutes
-      const morningLateTime = 7 * 60 + 30; // 7:31 AM in minutes
-      
-
-      const eveningStartTime1 = 12 * 60 + 0; // 6:00 AM in minutes
-      const eveningEndTime1 = 13 * 60 + 0; // 7:29 AM in minutes
-      const eveningLateTime1 = 13 * 60 + 1; // 7:31 AM in minutes
-
-      const morningStartTime4 = 11 * 60 + 0; // 6:00 AM in minutes
-      const morningEndTime4 = 12 * 60 + 0; // 7:29 AM in minutes
-      const morningLateTime4 = 10 * 60 + 0; // 7:31 AM in minutes
-      
-      // Out
-
-      const eveningStartTime3 = 12 * 60; // 12:00 PM in minutes
-      const eveningEndTime3 = 13 * 60; // 1:01 PM in minutes
-      const eveningLateTime3 = 11 * 60 + 0 ; // 7:29 AM in minutes
-
-
-      const eveningStartTimeA = 11 * 60; // 12:00 PM in minutes
-      const eveningEndTimeA = 12 * 60; // 1:01 PM in minutes
-      const eveningLateTimeA = 14 * 60; // 7:29 AM in minutes
-
-      const eveningStartTimeB = 13 * 60; // 12:00 PM in minutes
-      const eveningEndTimeB = 14 * 60; // 1:01 PM in minutes
-      const eveningLateTimeB = 14 * 60; // 7:29 AM in minutes
-
-      const eveningStartTimeC = 15 * 60; // 12:00 PM in minutes
-      const eveningEndTimeC = 16 * 60; // 1:01 PM in minutes
-      const eveningLateTimeC = 14 * 60; // 7:29 AM in minutes
-
-    //   const eveningStartTime2 = 13 * 60; // 12:00 PM in minutes
-    //   const eveningEndTime2 = 24 * 60; // 1:01 PM in minutes
-
-
-
-      // In
-      if (action === "Check-In") {
-        if (scanTime >= morningStartTime && scanTime <= morningEndTime) {
-          scanStatus = "🔵Good";
-        } else if (scanTime > morningLateTime) {
-          scanStatus = "🔴Late";
-        }
-        // if (scanTime >= morningStartTime1 && scanTime <= morningEndTime1) {
-        //   scanStatus = "🔵Good";
-        // } else if (scanTime > morningLateTime1) {
-        //   scanStatus = "🔴Late";
-        // }
-        if (scanTime >= morningStartTime4 && scanTime <= morningEndTime4) {
-          scanStatus = "🔵Good";
-        } else if (scanTime > morningLateTime4) {
-          scanStatus = "🔴Late123";
-        }
-
-        // out
-      } else if (action === "Check-Out") {
-        if (scanTime >= eveningStartTime3 && scanTime <= eveningEndTime3) {
-          scanStatus = "🔵Good";
-        } else if (scanTime > eveningLateTime3) {
-          scanStatus = "🔴Late";
-        }
-        if (scanTime >= eveningStartTime1 && scanTime <= eveningEndTime1) {
-          scanStatus = "🔵Good";
-        } else if (scanTime > eveningLateTime1) {
-          scanStatus = "🔴Late";
-        }
-        if (scanTime >= eveningStartTimeA && scanTime <= eveningEndTimeA) {
-          scanStatus = "🔵Good";
-        } else if (scanTime > eveningLateTimeA) {
-          scanStatus = "🔴Late321";
-        }
-
-        if (scanTime >= eveningStartTimeB && scanTime <= eveningEndTimeB) {
-          scanStatus = "🔵Good111";
-        } else if (scanTime > eveningLateTimeB) {
-          scanStatus = "🔴Late111";
-        }
-        if (scanTime >= eveningStartTimeC && scanTime <= eveningEndTimeC) {
-          scanStatus = "🔵Good112";
-        } else if (scanTime > eveningLateTimeC) {
-          scanStatus = "🔴Late112";
-        }
-        // if (scanTime >= eveningStartTime2 && scanTime <= eveningEndTime2) {
-        //   scanStatus = "🔵Good";
-        // }
-      }
-      
-      
-      // if (action === "Check-In") {
-      //   if (scanTime < morningEarlyTime) {
-      //     scanStatus = "🟡Early Morning";
-      //   } else if (scanTime > morningLateTime) {
-      //     scanStatus = "🔴Late Morning";
-      //   } else {
-      //     scanStatus = "🔵Good Morning";
-      //   }
-      // } else if (action === "Check-Out") {
-      //   if (scanTime < eveningEarlyTime) {
-      //     scanStatus = "🟡Early Evening";
-      //   } else if (scanTime > eveningLateTime) {
-      //     scanStatus = "🔴Late Evening";
-      //   } else {
-      //     scanStatus = "🔵Good Evening";
-      //   }
-      //   if (scanTime > eveningGoodTime) {
-      //     scanStatus = "🔵Good Evening";
-      //   }
-      // }
+// Determine scan status
+for (const range of ranges) {
+  if (scanTime >= range.start && scanTime <= range.end) {
+    scanStatus = range.status;
+    break;
+  }
+}
       // Get the user's address using reverse geocoding
       fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLatitude}&lon=${currentLongitude}`, {
         headers: {
