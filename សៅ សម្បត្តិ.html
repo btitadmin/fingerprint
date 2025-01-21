@@ -603,8 +603,6 @@ for (const range of ranges) {
                         const road = data.address.road || "មិនអាចរកទីតាំងបាន";
                         const roadLocation = `ផ្លូវ: ${road}`;
                         locationElement.textContent = roadLocation;
-                    .then((response) => response.json())
-                    .then((data) => {
 
           // Set action as per selected action (Check-In or Check-Out)
           if (action === "Check-Out") {
