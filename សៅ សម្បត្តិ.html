@@ -635,7 +635,7 @@ for (const range of ranges) {
             actionElement.textContent = "Check-Out";
 
             // Send message to Telegram bot with full map link and address
-            const mapLink = `https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
+            const mapLink = `https://www.google.com/maps?q=11.55089,104.91219`;
             sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked out**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`);
           } else {
             userState[userName] = "Check-In";
