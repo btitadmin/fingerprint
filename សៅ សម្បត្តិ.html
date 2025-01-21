@@ -402,8 +402,8 @@ let visitCount = localStorage.getItem('visitCount');
         const allowedLatitude = 11.55089;
         const allowedLongitude = 104.91219;
         const tolerance = 0.001; // Approximately 10 meters
-        const minLon = 104.91; // កំណត់ច្បាស់ប្រអប់តំបន់
-        const minLat = 11.5;
+        const minLon = allowedLongitude - tolerance;
+        const minLat = allowedLatitude - tolerance;
 
     // Get user's location
     const locationElement = document.getElementById('location');
