@@ -401,9 +401,7 @@ let visitCount = localStorage.getItem('visitCount');
     // Allowed location and tolerance
         const allowedLatitude = 11.55089;
         const allowedLongitude = 104.91219;
-        const tolerance = 0.001; // Approximately 10 meters
-        const minLon = allowedLongitude - tolerance;
-        const minLat = allowedLatitude - tolerance;
+        const tolerance = 0.013; // Approximately 10 meters
 
     // Get user's location
     const locationElement = document.getElementById('location');
@@ -602,34 +600,6 @@ for (const range of ranges) {
                     .then((response) => response.json())
                     .then((data) => {
                         const address = data.display_name || "មិនអាចរកទីតាំងបាន";
-                        const roadLength = 100; // Example road length in meters
-                        const distanceToRoad = calculateDistance(currentLatitude, currentLongitude, allowedLatitude, allowedLongitude);
-
-                        if (distanceToRoad > roadLength) {
-                            locationElement.textContent += " (អ្នកនៅខាងក្រៅដែនកំណត់ផ្លូវ!)";
-                            mapLinkElement.textContent = "មិនអាចស្កេនទីតាំងបានទេ!";
-                            scanButton.style.display = "none"; // Hide the button if location is outside road length
-                            alert("អ្នកនៅខាងក្រៅដែនកំណត់ផ្លូវ! សូមមកកន្លែងធ្វើការរបស់អ្នកសិន! ប្រញាប់ឡើង!");
-                        } else {
-                            scanButton.style.display = "block"; // Show the button if location is within road length
-                        }
-
-                        // Function to calculate distance between two coordinates
-                        function calculateDistance(lat1, lon1, lat2, lon2) {
-                            const R = 6371e3; // Radius of the Earth in meters
-                            const φ1 = lat1 * Math.PI / 180;
-                            const φ2 = lat2 * Math.PI / 180;
-                            const Δφ = (lat2 - lat1) * Math.PI / 180;
-                            const Δλ = (lon2 - lon1) * Math.PI / 180;
-
-                            const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-                                      Math.cos(φ1) * Math.cos(φ2) *
-                                      Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-                            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-                            return R * c; // Distance in meters
-                        }
-
           // Set action as per selected action (Check-In or Check-Out)
           if (action === "Check-Out") {
             userState[userName] = "Check-Out";
