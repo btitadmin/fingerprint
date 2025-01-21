@@ -605,16 +605,6 @@ for (const range of ranges) {
                         locationElement.textContent = roadLocation;
                     .then((response) => response.json())
                     .then((data) => {
-                        const address = data.display_name || "មិនអាចរកទីតាំងបាន";
-
-                        // Check if the address is within the allowed location bounds
-                        const allowedArea = "11.550890, 104.912206"; // Example allowed area
-                        if (!data.display_name.includes(allowedArea)) {
-                            alert("ទីតាំងនេះមិនត្រឹមត្រូវទេ! សូមមកកន្លែងធ្វើការរបស់អ្នកសិន!");
-                            scanButton.disabled = true;
-                            scanButton.style.display = "none";
-                            return;
-                        }
 
           // Set action as per selected action (Check-In or Check-Out)
           if (action === "Check-Out") {
