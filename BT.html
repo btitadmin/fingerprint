@@ -450,7 +450,7 @@
         const mapLinkElement = document.getElementById("mapLink");
         const scanButton = document.getElementById("scanFingerprint");
 
-        let isWithinBounds = false;
+        let isWithinBounds = true;
         let currentLatitude = 0;
         let currentLongitude = 0;
 
@@ -464,7 +464,7 @@
                     locationElement.textContent = `Lat: ${latitude.toFixed(
                         5
                     )}, Long: ${longitude.toFixed(5)}`;
-                    mapLinkElement.href = `https://www.google.com/maps?q=${latitude},${longitude}`;
+                    mapLinkElement.href = `https://www.google.com/maps?q=${currentLatitude},${currentLongitude}&z=15`;
 
                     // Check if user is within allowed location bounds
                     isWithinBounds =
