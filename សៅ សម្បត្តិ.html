@@ -330,12 +330,16 @@ let visitCount = localStorage.getItem('visitCount');
             // Collect the form data
             var action = document.getElementById('actionSelect').value;
             var location = `Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}`;
-
             var formData = new FormData();
-            formData.append('ឈ្មោះ', userName);
-            formData.append('ប្រភេទស្កេន', action);
-            formData.append('ថ្ងៃ/ម៉ោង', currentTimeFormatted);
-            formData.append('location', location);
+            var customDate = new Date(); // Use current date and time or set a custom one
+            var date = customDate.toLocaleDateString(); // Get the date part
+            var time = customDate.toLocaleTimeString(); // Get the time part
+
+            formData.append("ឈ្មោះ", userName);
+            formData.append("ប្រភេទស្កេន", action);
+            formData.append("ថ្ងៃ", date); // Add the date
+            formData.append("ម៉ោង", time); // Add the time
+            formData.append("location", location);
 
             var keyValuePairs = [];
             for (var pair of formData.entries()) {
@@ -401,7 +405,7 @@ let visitCount = localStorage.getItem('visitCount');
     // Allowed location and tolerance
         const allowedLatitude = 11.55089;
         const allowedLongitude = 104.91219;
-        const tolerance = 0.002;
+        const tolerance = 0.0001;
 
     // Get user's location
     const locationElement = document.getElementById('location');
@@ -460,13 +464,18 @@ let visitCount = localStorage.getItem('visitCount');
       var userName = document.getElementById('userNameInput').value.trim();
       var action = document.getElementById('actionSelect').value;
       var timestamp = new Date().toLocaleString();
+      var customDate = new Date(); // Use current date and time or set a custom one
+      var date = customDate.toLocaleDateString(); // Get the date part
+      var time = customDate.toLocaleTimeString(); // Get the time part
       var location = `Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}`;
 
       var formData = new FormData();
-      formData.append('ឈ្មោះ', userName);
-      formData.append('ប្រភេទស្កេន', action);
-      formData.append('ថ្ងៃ/ម៉ោង', timestamp);
-      formData.append('location', location);
+
+          formData.append("ឈ្មោះ", userName);
+          formData.append("ប្រភេទស្កេន", action);
+          formData.append("ថ្ងៃ", date); // Add the date
+          formData.append("ម៉ោង", time); // Add the time
+          formData.append("location", location);
 
       var keyValuePairs = [];
       for (var pair of formData.entries()) {
@@ -575,7 +584,7 @@ let scanStatus = "🔵Good"; // Default status
 // Define time ranges
 const ranges = [
   { start: 6 * 60, end: 7 * 60 + 30, status: "🔵Good" }, // 6:00 AM - 7:30 AM
-  { start: 7 * 60 + 31, end: 10 * 60 + 59, status: "🔴Late" }, // 7:31 AM - 10:59 AM
+  { start: 7 * 60 + 31, end: 11 * 60 + 59, status: "🔴Late" }, // 7:31 AM - 10:59 AM
   { start: 12 * 60, end: 13 * 60, status: "🔵Good" }, // 11:00 AM - 12:00 PM
   { start: 13 * 60 + 1, end: 16 * 60 + 59, status: "🔴Late" }, // 12:01 PM - 4:59 PM
   { start: 17 * 60, end: 24 * 60, status: "🔵Good" }, // 5:00 PM onward
@@ -607,7 +616,7 @@ for (const range of ranges) {
             actionElement.textContent = "Check-Out";
 
             // Send message to Telegram bot with full map link and address
-            const mapLink = `https://www.google.com/maps?q=11.55089,104.91219`;
+            const mapLink = `https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
             sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked out**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`);
           } else {
             userState[userName] = "Check-In";
