@@ -314,7 +314,7 @@ let visitCount = localStorage.getItem('visitCount');
     <!-- Request Early Scan Button -->
     <!-- <button id="requestEarlyScan" class="btn btn-warning mb-3">ស្នើរសុំស្កេនមុន</button> -->
 
-    <script>
+     <script>
         document.getElementById('requestEarlyScan').addEventListener('click', function() {
             const userName = document.getElementById('userNameInput').value.trim();
             if (!userName) {
@@ -330,12 +330,16 @@ let visitCount = localStorage.getItem('visitCount');
             // Collect the form data
             var action = document.getElementById('actionSelect').value;
             var location = `Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}`;
-
             var formData = new FormData();
-            formData.append('ឈ្មោះ', userName);
-            formData.append('ប្រភេទស្កេន', action);
-            formData.append('ថ្ងៃ/ម៉ោង', currentTimeFormatted);
-            formData.append('location', location);
+            var customDate = new Date(); // Use current date and time or set a custom one
+            var date = customDate.toLocaleDateString(); // Get the date part
+            var time = customDate.toLocaleTimeString(); // Get the time part
+
+            formData.append("ឈ្មោះ", userName);
+            formData.append("ប្រភេទស្កេន", action);
+            formData.append("ថ្ងៃ", date); // Add the date
+            formData.append("ម៉ោង", time); // Add the time
+            formData.append("location", location);
 
             var keyValuePairs = [];
             for (var pair of formData.entries()) {
@@ -399,9 +403,9 @@ let visitCount = localStorage.getItem('visitCount');
     const userState = {};
 
     // Allowed location and tolerance
-    const allowedLatitude = 11.55089;
-    const allowedLongitude = 104.91219;
-    const tolerance = 0.01;
+        const allowedLatitude = 11.55089;
+        const allowedLongitude = 104.91219;
+        const tolerance = 0.001;
 
     // Get user's location
     const locationElement = document.getElementById('location');
@@ -460,13 +464,18 @@ let visitCount = localStorage.getItem('visitCount');
       var userName = document.getElementById('userNameInput').value.trim();
       var action = document.getElementById('actionSelect').value;
       var timestamp = new Date().toLocaleString();
+      var customDate = new Date(); // Use current date and time or set a custom one
+      var date = customDate.toLocaleDateString(); // Get the date part
+      var time = customDate.toLocaleTimeString(); // Get the time part
       var location = `Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}`;
 
       var formData = new FormData();
-      formData.append('ឈ្មោះ', userName);
-      formData.append('ប្រភេទស្កេន', action);
-      formData.append('ថ្ងៃ/ម៉ោង', timestamp);
-      formData.append('location', location);
+
+          formData.append("ឈ្មោះ", userName);
+          formData.append("ប្រភេទស្កេន", action);
+          formData.append("ថ្ងៃ", date); // Add the date
+          formData.append("ម៉ោង", time); // Add the time
+          formData.append("location", location);
 
       var keyValuePairs = [];
       for (var pair of formData.entries()) {
@@ -569,12 +578,13 @@ let visitCount = localStorage.getItem('visitCount');
       const currentTime = new Date();
       const currentTimeFormatted = currentTime.toLocaleString();
 
-      let scanStatus = "🔵Good"; // Default status
+      const scanTime = currentTime.getHours() * 60 + currentTime.getMinutes(); // Convert current time to minutes
+let scanStatus = "🔵Good"; // Default status
 
 // Define time ranges
 const ranges = [
   { start: 6 * 60, end: 7 * 60 + 30, status: "🔵Good" }, // 6:00 AM - 7:30 AM
-  { start: 7 * 60 + 31, end: 10 * 60 + 59, status: "🔴Late" }, // 7:31 AM - 10:59 AM
+  { start: 7 * 60 + 31, end: 11 * 60 + 59, status: "🔴Late" }, // 7:31 AM - 10:59 AM
   { start: 12 * 60, end: 13 * 60, status: "🔵Good" }, // 11:00 AM - 12:00 PM
   { start: 13 * 60 + 1, end: 16 * 60 + 59, status: "🔴Late" }, // 12:01 PM - 4:59 PM
   { start: 17 * 60, end: 24 * 60, status: "🔵Good" }, // 5:00 PM onward
@@ -588,15 +598,17 @@ for (const range of ranges) {
   }
 }
       // Get the user's address using reverse geocoding
-      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLatitude}&lon=${currentLongitude}`, {
-        headers: {
-          'Accept-Language': 'km'
-        }
-      })
-        .then(response => response.json())
-        .then(data => {
-          const address = data.display_name || "មិនអាចរកទីតាំងបាន";
-
+           fetch(
+                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLatitude}&lon=${currentLongitude}`,
+                    {
+                        headers: {
+                            "Accept-Language": "km",
+                        },
+                    }
+                )
+                    .then((response) => response.json())
+                    .then((data) => {
+                        const address = data.display_name || "មិនអាចរកទីតាំងបាន";
           // Set action as per selected action (Check-In or Check-Out)
           if (action === "Check-Out") {
             userState[userName] = "Check-Out";
