@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="kh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ការស្នើសុំច្បាប់</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>ស្នើសុំច្បាប់</h2>
+        <form id="legalRequestForm">
+            <div class="form-group">
+                <label for="name">ឈ្មោះ:</label>
+                <input type="text" class="form-control" id="name" placeholder="បញ្ចូលឈ្មោះរបស់អ្នក" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">លេខទូរស័ព្ទ:</label>
+                <input type="tel" class="form-control" id="phone" placeholder="បញ្ចូលលេខទូរស័ព្ទ" required>
+            </div>
+            <div class="form-group">
+                <label for="legalType">ប្រភេទច្បាប់:</label>
+                <select class="form-control" id="legalType" required>
+                    <option value="" disabled selected>ជ្រើសរើសប្រភេទច្បាប់</option>
+                    <option value="ការពារសិទ្ធិ">ការពារសិទ្ធិ</option>
+                    <option value="ចរចារវីថាបណ្តែត">ចរចារវីថាបណ្តែត</option>
+                    <option value="សំណុំរឿងផ្ទាល់ខ្លួន">សំណុំរឿងផ្ទាល់ខ្លួន</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description">ពិពណ៌នាពីច្បាប់:</label>
+                <textarea class="form-control" id="description" rows="4" placeholder="ពិពណ៌នាពីច្បាប់ដែលអ្នកស្នើសុំ" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">ស្នើសុំ</button>
+        </form>
+        <div id="responseMessage" class="mt-3" style="display: none;"></div>
+    </div>
+
+    <script>
+     const botAToken = '7797004720:AAEMEXVl4BnZvkcNBCRu0gYNO6Du0zYbPyw'; // Replace with Bot A Token
+        const botAChatId = '-1002453800696'; // Replace with Bot A Chat ID
+        const botBToken = '7610209447:AAGCR4RLKi3N4t-no2tod7ZWzErNmmkOTms'; // Replace with Bot B Token
+        const botBChatId = '-1002330039942'; // Replace with Bot B Chat ID
+
+        document.getElementById('legalRequestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const legalType = document.getElementById('legalType').value;
+            const description = document.getElementById('description').value;
+
+            const responseMessage = document.getElementById('responseMessage');
+            responseMessage.style.display = 'block';
+            responseMessage.classList.add('alert', 'alert-success');
+            responseMessage.textContent = 'ការស្នើសុំរបស់អ្នកត្រូវបានបញ្ជូនដោយជោគជ័យ។';
+
+            // Prepare the message for Bot A
+            const message = `ការស្នើសុំច្បាប់៖\nឈ្មោះ៖ ${name}\nលេខទូរស័ព្ទ៖ ${phone}\nប្រភេទច្បាប់៖ ${legalType}\nពិពណ៌នា៖ ${description}`;
+            const keyboard = {
+                inline_keyboard: [
+                    [
+                        { text: "អនុម័ត", callback_data: `approve|${name}` },
+                        { text: "បដិសេធ", callback_data: `reject|${name}` }
+                    ]
+                ]
+            };
+
+            // Send the message to Bot A
+            fetch(`https://api.telegram.org/bot${botAToken}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: botAChatId,
+                    text: message,
+                    reply_markup: keyboard
+                })
+            })
+            .then(res => res.json())
+            .then(data => console.log('Message Sent to Bot A:', data))
+            .catch(err => console.error('Error:', err));
+        });
+
+        // Poll for updates from Bot A
+        async function pollTelegramUpdates() {
+            let offset = 0;
+
+            while (true) {
+                try {
+                    const response = await fetch(`https://api.telegram.org/bot${botAToken}/getUpdates?offset=${offset}&timeout=30`);
+                    const data = await response.json();
+
+                    if (data.ok && data.result.length > 0) {
+                        data.result.forEach(update => {
+                            console.log('Update:', update);
+
+                            if (update.callback_query) {
+                                handleCallbackQuery(update.callback_query);
+                            }
+
+                            offset = update.update_id + 1;
+                        });
+                    }
+                } catch (error) {
+                    console.error('Polling Error:', error);
+                }
+            }
+        }
+
+        // Handle the callback query
+        function handleCallbackQuery(callbackQuery) {
+            const callbackData = callbackQuery.data.split('|');
+            const action = callbackData[0]; // approve or reject
+            const requesterName = callbackData[1]; // Requester's name
+
+            const userMessage = action === "approve" 
+                ? `សួស្តី ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានអនុម័ត។`
+                : `សួស្តី ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានបដិសេធ។`;
+
+            // Send the message to Bot B
+            fetch(`https://api.telegram.org/bot${botBToken}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: botBChatId,
+                    text: userMessage
+                })
+            })
+            .then(res => res.json())
+            .then(data => console.log('Message Sent to Bot B:', data))
+            .catch(err => console.error('Error:', err));
+        }
+
+        // Start polling for updates
+        pollTelegramUpdates();
+    </script>
+</body>
+</html>
