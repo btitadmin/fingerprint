@@ -36,6 +36,24 @@
                     <option value="សម្រាកកម្មវិធីបុណ្យសព្វ">សម្រាកកម្មវិធីបុណ្យសព</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label for="legalType" style="font-family: kh Muol;">ចំនួនថ្ងៃ៖<span class="required" style="color: red; font-weight: bold; margin: 3px;">*</span></label>
+                <select class="form-control" style="border: 1px solid goldenrod; padding: 5px; border-radius: 8px;" id="DateType" required>
+                    <option value="" disabled selected>ជ្រើសរើសចំនួនថ្ងៃសុំ</option>
+                    <option value="0,5/ថ្ងៃ">0,5/ថ្ងៃ</option>
+                    <option value="1/ថ្ងៃ">1/ថ្ងៃ</option>
+                    <option value="1,5/ថ្ងៃ">1,5/ថ្ងៃ</option>
+                    <option value="2/ថ្ងៃ">2/ថ្ងៃ</option>
+                    <option value="2,5/ថ្ងៃ">2,5/ថ្ងៃ</option>
+                    <option value="3/ថ្ងៃ">3/ថ្ងៃ</option>
+                    <option value="3,5/ថ">3,5/ថ្ងៃ</option>
+                    <option value="4/ថ្ងៃ">4/ថ្ងៃ</option>
+                    <option value="4,5/ថ្ងៃ">4,5/ថ្ងៃ</option>
+                    <option value="5/ថ្ងៃ">5/ថ្ងៃ</option>
+                    <option value="5,5/ថ្ងៃ">5,5/ថ្ងៃ</option>
+                    <option value="6/ថ្ងៃ">6/ថ្ងៃ</option>
+                </select>
+            </div>
             
             <div class="form-group" style="position: relative; top: -0.5rem;">
                 <label for="phone"style="font-family: kh Muol;">លេខទូរស័ព្ទ:<span class="required" style="color: red; font-weight: bold; margin: 3px;">*</span></label>
@@ -132,7 +150,7 @@
             const legalType = document.getElementById('legalType').value;
             const description = document.getElementById('description').value;
             const Warehouse = document.getElementById('Warehouse').value;
-            // const Typesofrules = document.getElementById('Typesofrules').value;
+            const DateType = document.getElementById('DateType').value;
             const imageFile = document.getElementById('imageFile').files[0];
 
 
@@ -170,7 +188,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         chat_id: botAChatId,
-                        text: `\nឈ្មោះ៖ ${name}\nលេខទូរស័ព្ទ៖ ${phone}\nទីតាំងឃ្លាំង៖ ${Warehouse}\nប្រភេទច្បាប់៖ ${legalType}\nមូលហេតុ៖ ${description}`,
+                        text: `\nឈ្មោះ៖ ${name}\nលេខទូរស័ព្ទ៖ ${phone}\nទីតាំងឃ្លាំង៖ ${Warehouse}\nប្រភេទច្បាប់៖ ${legalType}\nចំនួនថ្ងៃ៖ ${DateType}\nមូលហេតុ៖ ${description}`,
                         reply_markup: keyboard
                     })
                 })
@@ -214,8 +232,8 @@
             const requesterName = callbackData[1]; // Requester's name
 
             const userMessage = action === "approve" 
-                ? `សួស្តី ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានអនុម័ត។`
-                : `សួស្តី ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានបដិសេធ។`;
+                ? `\nសួស្តី! ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានអនុម័ត។👌 `
+                : `\nសួស្តី! ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានបដិសេធ។🙅 `;
 
             // Send the message to Bot B
             fetch(`https://api.telegram.org/bot${botBToken}/sendMessage`, {
