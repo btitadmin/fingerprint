@@ -20,17 +20,33 @@
 </head>
 <body>
     <div class="container">
-        <h2>ស្នើសុំច្បាប់</h2>
-        <form id="legalRequestForm">
+        <h2 style="text-decoration: underline;">ស្នើសុំច្បាប់</h2>
+        <form id="legalRequestForm" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="name">ឈ្មោះ:</label>
-                <input type="text" class="form-control" id="name" placeholder="បញ្ចូលឈ្មោះរបស់អ្នក" required>
+                <input type="text" class="form-control" style="border: 1px solid goldenrod; padding: 10px; border-radius: 8px;" id="name" placeholder="បញ្ចូលឈ្មោះរបស់អ្នក" required>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="gap: 10px; width: 100%; display: block;">
+                <label>ប្រភេទច្បាប់៖</label><br>
+            
+                <input type="checkbox" id="Typesofrules" name="Typesofrules" value="សម្រាក់ប្រចាំឆ្នាំ">
+                <label for="Warehouse1">សម្រាក់ប្រចាំឆ្នាំ</label><br>
+            
+                <input type="checkbox" id="Typesofrules2" name="Typesofrules" value="ស្ទឹងមានជ័យ១">
+                <label for="Warehouse2">ស្ទឹងមានជ័យ១</label><br>
+            
+                <input type="checkbox" id="Typesofrules3" name="Typesofrules" value="ចម្រើនផល១">
+                <label for="Warehouse3">ចម្រើនផល១</label><br>
+            
+                <input type="checkbox" id="Typesofrules4" name="Typesofrules" value="ចំការដូង">
+                <label for="Warehouse4">ចំការដូង</label><br>
+            </div>
+            
+            <div class="form-group" style="position: relative; top: -1rem;">
                 <label for="phone">លេខទូរស័ព្ទ:</label>
-                <input type="tel" class="form-control" id="phone" placeholder="បញ្ចូលលេខទូរស័ព្ទ" required>
+                <input type="tel" class="form-control"style="border: 1px solid goldenrod; padding: 10px; border-radius: 8px;"  id="phone" placeholder="បញ្ចូលលេខទូរស័ព្ទ" required>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="legalType">ប្រភេទច្បាប់:</label>
                 <select class="form-control" id="legalType" required>
                     <option value="" disabled selected>ជ្រើសរើសប្រភេទច្បាប់</option>
@@ -38,18 +54,79 @@
                     <option value="ចរចារវីថាបណ្តែត">ចរចារវីថាបណ្តែត</option>
                     <option value="សំណុំរឿងផ្ទាល់ខ្លួន">សំណុំរឿងផ្ទាល់ខ្លួន</option>
                 </select>
+            </div> -->
+
+            <div class="form-group" style="position: relative; top: -1rem;">
+                <label for="Warehouse">ទីតាំងឃ្លាំង</label>
+                <select class="form-control" style="border: 1px solid goldenrod; padding: 5px; border-radius: 8px;" id="Warehouse" required>
+                    <option value="" disabled selected>ជ្រើសរើសទីតាំងឃ្លាំង</option>
+                    <option value="ការិយាល័យកណ្តាល">ការិយាល័យកណ្តាល</option>
+                    <option value="ស្ទឹងមានជ័យ១">ស្ទឹងមានជ័យ១</option>
+                    <option value="ចម្រើនផល១">ចម្រើនផល១</option>
+                    <option value="ចំការដូង">ចំការដូង</option>
+                </select>
             </div>
-            <div class="form-group">
+            <style>
+                input[type="file"] {
+                    position: relative;
+                    top: -2rem;
+                    align-items: center;
+                    padding: 10px;
+                    border: 1px solid goldenrod;
+                    border-radius: 8px;
+                    
+                }
+            </style>
+            <div class="mass" style="display: none; position: absolute; z-index: 1; bottom: 10rem;">
+                <!-- <div style="background-color: rgb(0, 0, 0); width: 100%; height: 20vh; border-radius: 20px 30px;">Hi</div> -->
+                <p style="  font-size: 13px; background-color: azure; padding: 10px; border-radius: 1px 30px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); width: 80%;">គឺសំដៅលើឯកសារភ្ជាប់នៃការស្នើរសុំរបស់អ្នកផ្សេងៗរបស់អ្នក។<br>ឧទារហណ៍៖ ឯកសារបញ្ជក់ដូចជា៖<br>ឈឺ,អាពាហ៍ពិពាហ៍,បុណ្យ,ផ្សេងៗ<br>*សូមបញ្ជូលឯកសារទាំងអស់នោះមកកាន់ HR ដើម្បីត្រួតពិនិត្យ</p>
+            </div>
+            <div class="form-group" style="position: relative; top: -1rem;">
+                <h6>រូបភាពឯកសារយោង
+                    <p class="Bulbsignal" style="display: inline-flex; align-items: center; position: relative;">
+                        <a href="#" style="text-align: end; justify-content: end; position: relative; top: -0.3rem;"><img src="https://cdn-icons-png.flaticon.com/512/702/702797.png" alt="" width="20px"></a>
+                    </p>
+                </h6>
+                <label for="imageFile"></label>
+                <input type="file" class="form-control-file"  id="imageFile" accept="image/*" required>
+            </div>
+            <div class="form-group bg" style="position: relative; top: -3rem;">
                 <label for="description">ពិពណ៌នាពីច្បាប់:</label>
-                <textarea class="form-control" id="description" rows="4" placeholder="ពិពណ៌នាពីច្បាប់ដែលអ្នកស្នើសុំ" required></textarea>
+                <textarea class="form-control" id="description" rows="4" style="border: 1px solid goldenrod; padding: 10px; border-radius: 8px;" placeholder="ពិពណ៌នាពីច្បាប់ដែលអ្នកស្នើសុំ" required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">ស្នើសុំ</button>
+            <button type="submit" class="btn btn-primary btn-block" style="position: relative; top: -3rem;">ស្នើសុំ</button>
         </form>
         <div id="responseMessage" class="mt-3" style="display: none;"></div>
     </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-     const botAToken = '7797004720:AAEMEXVl4BnZvkcNBCRu0gYNO6Du0zYbPyw'; // Replace with Bot A Token
+        $(document).ready(function() {
+            $('.Bulbsignal').click(function() {
+                $('.mass').fadeToggle(300);
+            });
+        });
+    </script>
+    <script>
+            // Function to get selected checkboxes
+    function getSelectedWarehouses() {
+        var selected = [];
+        var checkboxes = document.querySelectorAll('input[name="Warehouse"]:checked');
+        checkboxes.forEach(function(checkbox) {
+            selected.push(checkbox.value);
+        });
+        console.log("ទីតាំងឃ្លាំងដែលបានជ្រើស: ", selected);
+    }
+
+    // Add event listener for checking and getting values
+    document.querySelectorAll('input[name="Warehouse"]').forEach(function(checkbox) {
+        checkbox.addEventListener('change', getSelectedWarehouses);
+    });
+
+
+
+
+
+        const botAToken = '7797004720:AAEMEXVl4BnZvkcNBCRu0gYNO6Du0zYbPyw'; // Replace with Bot A Token
         const botAChatId = '-1002453800696'; // Replace with Bot A Chat ID
         const botBToken = '7610209447:AAGCR4RLKi3N4t-no2tod7ZWzErNmmkOTms'; // Replace with Bot B Token
         const botBChatId = '-1002330039942'; // Replace with Bot B Chat ID
@@ -61,14 +138,22 @@
             const phone = document.getElementById('phone').value;
             const legalType = document.getElementById('legalType').value;
             const description = document.getElementById('description').value;
+            const Warehouse = document.getElementById('Warehouse').value;
+            const Typesofrules = document.getElementById('Typesofrules').value;
+            const imageFile = document.getElementById('imageFile').files[0];
+
 
             const responseMessage = document.getElementById('responseMessage');
             responseMessage.style.display = 'block';
             responseMessage.classList.add('alert', 'alert-success');
             responseMessage.textContent = 'ការស្នើសុំរបស់អ្នកត្រូវបានបញ្ជូនដោយជោគជ័យ។';
 
-            // Prepare the message for Bot A
-            const message = `ការស្នើសុំច្បាប់៖\nឈ្មោះ៖ ${name}\nលេខទូរស័ព្ទ៖ ${phone}\nប្រភេទច្បាប់៖ ${legalType}\nពិពណ៌នា៖ ${description}`;
+            const formData = new FormData();
+            formData.append('chat_id', botAChatId);
+            formData.append('photo', imageFile);
+            // formData.append('caption', `ការស្នើសុំច្បាប់\nឈ្មោះ៖ ${name}\nលេខទូរស័ព្ទ៖ ${phone}\nទីតាំងឃ្លាំង៖ ${Warehouse}\nប្រភេទច្បាប់៖ ${legalType}\nមូលហេតុ៖ ${description}`);
+
+            // Prepare the keyboard
             const keyboard = {
                 inline_keyboard: [
                     [
@@ -78,18 +163,28 @@
                 ]
             };
 
-            // Send the message to Bot A
-            fetch(`https://api.telegram.org/bot${botAToken}/sendMessage`, {
+            // Send the message to Bot A with the inline keyboard
+            fetch(`https://api.telegram.org/bot${botAToken}/sendPhoto`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: botAChatId,
-                    text: message,
-                    reply_markup: keyboard
-                })
+                body: formData
             })
             .then(res => res.json())
-            .then(data => console.log('Message Sent to Bot A:', data))
+            .then(data => {
+                console.log('Message Sent to Bot A:', data);
+
+                fetch(`https://api.telegram.org/bot${botAToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: botAChatId,
+                        text: `ប្រភេទច្បាប់៖ ${Typesofrules}\nឈ្មោះ៖ ${name}\nលេខទូរស័ព្ទ៖ ${phone}\nទីតាំងឃ្លាំង៖ ${Warehouse}\nប្រភេទច្បាប់៖ ${legalType}\nមូលហេតុ៖ ${description}`,
+                        reply_markup: keyboard
+                    })
+                })
+                .then(res => res.json())
+                .then(data => console.log('Message with keyboard Sent to Bot A:', data))
+                .catch(err => console.error('Error:', err));
+            })
             .catch(err => console.error('Error:', err));
         });
 
