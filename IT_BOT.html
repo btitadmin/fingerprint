@@ -227,27 +227,40 @@
 
         // Handle the callback query
         function handleCallbackQuery(callbackQuery) {
-            const callbackData = callbackQuery.data.split('|');
-            const action = callbackData[0]; // approve or reject
-            const requesterName = callbackData[1]; // Requester's name
+    const callbackData = callbackQuery.data.split('|');
+    const action = callbackData[0]; // approve or reject
+    const requesterName = callbackData[1]; // Requester's name
 
-            const userMessage = action === "approve" 
-                ? `\nសួស្តី! ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានអនុម័ត។👌 `
-                : `\nសួស្តី! ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានបដិសេធ។🙅 `;
+    // Replace with actual values
+    const botBToken = '7610209447:AAGCR4RLKi3N4t-no2tod7ZWzErNmmkOTms';
+    const botBChatId = '-1002330039942';
 
-            // Send the message to Bot B
-            fetch(`https://api.telegram.org/bot${botBToken}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: botBChatId,
-                    text: userMessage
-                })
-            })
-            .then(res => res.json())
-            .then(data => console.log('Message Sent to Bot B:', data))
-            .catch(err => console.error('Error:', err));
-        }
+    // Define message thread IDs for each topic
+    const approveTopicId = 77; // Replace with the actual message_thread_id for Approve Topic
+    const rejectTopicId = 77; // Replace with the actual message_thread_id for Reject Topic
+
+    // Select the appropriate thread ID based on the action
+    const threadId = action === "approve" ? approveTopicId : rejectTopicId;
+
+    const userMessage = action === "approve" 
+        ? `\nសួស្តី! ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានអនុម័ត។👌`
+        : `\nសួស្តី! ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានបដិសេធ។🙅`;
+
+    // Send the message to Bot B
+    fetch(`https://api.telegram.org/bot${botBToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: botBChatId,
+            text: userMessage,
+            message_thread_id: threadId // Specify the topic ID
+        })
+    })
+    .then(res => res.json())
+    .then(data => console.log('Message Sent to Bot B:', data))
+    .catch(err => console.error('Error:', err));
+}
+
 
         // Start polling for updates
         pollTelegramUpdates();
