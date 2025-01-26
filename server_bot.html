@@ -357,8 +357,8 @@
             const requesterName = callbackData[1]; // Requester's name
 
             const userMessage = action === "approve" 
-            ? `សួស្តី ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានអនុម័ត។`
-            : `សួស្តី ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានបដិសេធ។`;
+            ? `សួស្តី! ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានអនុម័ត។ ✅`
+            : `សួស្តី! ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានបដិសេធ។ ❌`;
 
             // Send the message to Bot B
             fetch(`https://api.telegram.org/bot${botBToken}/sendMessage`, {
