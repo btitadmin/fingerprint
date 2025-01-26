@@ -547,10 +547,10 @@
       // Start polling for updates immediately
       pollTelegramUpdates();
       // Show auto popup message when the website is opened
-      window.addEventListener("load", function () {
+           window.addEventListener("load", function () {
         const autoPopup = document.createElement("div");
         autoPopup.innerHTML = ` 
-            <div style="position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
+            <div style="position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); width:90%; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
                 <h4 style="font-family: kh Muol;">សូមស្វាគមន៍!</h4>
                 <p>សូមបំពេញទម្រង់ស្នើសុំច្បាប់របស់អ្នកឱ្យបានត្រឹមត្រូវ<br>សូមរង់ចាំរហូតដល់ទិន្នន័យរបស់អ្នកបានបញ្ជូនរួចរាល់។</p>
             
@@ -561,7 +561,7 @@
         // Auto close the popup after 10 seconds
         setTimeout(function () {
           autoPopup.remove();
-        }, 2000);
+        }, 4000);
       });
       // Auto reload the page every 30 seconds
     </script>
