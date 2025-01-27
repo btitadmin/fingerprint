@@ -217,7 +217,7 @@
         const botBChatId = '-4603693451'; // Replace with Bot B Chat ID
 
         document.getElementById('legalRequestForm').addEventListener('submit', function (e) {
-            e.preventPreventDefault();
+            e.preventDefault();
 
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
@@ -237,10 +237,10 @@
             // Prepare the keyboard
             const keyboard = {
             inline_keyboard: [
-                [
-                { text: "អនុម័ត", callback_data: `approve|${name}` },
-                { text: "បដិសេធ", callback_data: `reject|${name}` }
-                ]
+            [
+            { text: "អនុម័ត", callback_data: `approve|${name}` },
+            { text: "បដិសេធ", callback_data: `reject|${name}` }
+            ]
             ]
             };
 
@@ -251,64 +251,64 @@
             })
             .then(res => res.json())
             .then(data => {
-                console.log('Message Sent to Bot A:', data);
+            console.log('Message Sent to Bot A:', data);
 
-                // Now send the text message with the keyboard
-                fetch(`https://api.telegram.org/bot${botAToken}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: botAChatId,
-                    text: `\nឈ្មោះ៖ ${name}\nលេខទូរស័ព្ទ៖ ${phone}\nទីតាំងឃ្លាំង៖ ${Warehouse}\nប្រភេទច្បាប់៖ ${legalType}\nចំនួនថ្ងៃ៖ ${DateType}\nមូលហេតុ៖ ${description}`,
-                    reply_markup: keyboard
-                })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    console.log('Message with keyboard Sent to Bot A:', data);
+            // Now send the text message with the keyboard
+            fetch(`https://api.telegram.org/bot${botAToken}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: botAChatId,
+                text: `\nឈ្មោះ៖ ${name}\nលេខទូរស័ព្ទ៖ ${phone}\nទីតាំងឃ្លាំង៖ ${Warehouse}\nប្រភេទច្បាប់៖ ${legalType}\nចំនួនថ្ងៃ៖ ${DateType}\nមូលហេតុ៖ ${description}`,
+                reply_markup: keyboard
+            })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log('Message with keyboard Sent to Bot A:', data);
 
-                    // Show success message only after all data is sent
-                    responseMessage.style.display = 'block';
-                    responseMessage.classList.add('alert', 'alert-success');
-                    responseMessage.textContent = 'ការស្នើសុំរបស់អ្នកត្រូវបានបញ្ជូនដោយជោគជ័យ។';
-                    // Show popup message while sending data
-                    const sendingPopup = document.createElement('div');
-                    sendingPopup.innerHTML = `
-                    <div style="position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
-                        <h4 style="font-family: kh Muol;">កំពុងបញ្ជូន...</h4>
-                        <p>សូមរង់ចាំ...</p>
-                    </div>
-                    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
-                    `;
-                    document.body.appendChild(sendingPopup);
+                // Show success message only after all data is sent
+                responseMessage.style.display = 'block';
+                responseMessage.classList.add('alert', 'alert-success');
+                responseMessage.textContent = 'ការស្នើសុំរបស់អ្នកត្រូវបានបញ្ជូនដោយជោគជ័យ។';
+                // Show popup message while sending data
+                const sendingPopup = document.createElement('div');
+                sendingPopup.innerHTML = `
+                <div style="position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
+                <h4 style="font-family: kh Muol;">កំពុងបញ្ជូន...</h4>
+                <p>សូមរង់ចាំ...</p>
+                </div>
+                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
+                `;
+                document.body.appendChild(sendingPopup);
 
-                    // Remove popup after data is sent
-                    setTimeout(() => {
-                    sendingPopup.remove();
-                    }, 5000);
+                // Remove popup after data is sent
+                setTimeout(() => {
+                sendingPopup.remove();
+                }, 5000);
 
-                    // Store form data in localStorage
-                    localStorage.setItem('formData', JSON.stringify({
-                    name,
-                    phone,
-                    legalType,
-                    description,
-                    Warehouse,
-                    DateType
-                    }));
-                })
-                .catch(err => {
-                    console.error('Error sending message with keyboard:', err);
-                    responseMessage.style.display = 'block';
-                    responseMessage.classList.add('alert', 'alert-danger');
-                    responseMessage.textContent = 'មានបញ្ហាក្នុងការបញ្ជូនទិន្នន័យ។ សូមព្យាយាមម្តងទៀត។';
-                });
+                // Store form data in localStorage
+                localStorage.setItem('formData', JSON.stringify({
+                name,
+                phone,
+                legalType,
+                description,
+                Warehouse,
+                DateType
+                }));
             })
             .catch(err => {
-                console.error('Error sending photo:', err);
+                console.error('Error sending message with keyboard:', err);
                 responseMessage.style.display = 'block';
                 responseMessage.classList.add('alert', 'alert-danger');
-                responseMessage.textContent = 'មានបញ្ហាក្នុងការបញ្ជូនរូបភាព។ សូមព្យាយាមម្តងទៀត។';
+                responseMessage.textContent = 'មានបញ្ហាក្នុងការបញ្ជូនទិន្នន័យ។ សូមព្យាយាមម្តងទៀត។';
+            });
+            })
+            .catch(err => {
+            console.error('Error sending photo:', err);
+            responseMessage.style.display = 'block';
+            responseMessage.classList.add('alert', 'alert-danger');
+            responseMessage.textContent = 'មានបញ្ហាក្នុងការបញ្ជូនរូបភាព។ សូមព្យាយាមម្តងទៀត។';
             });
         });
 
@@ -335,13 +335,13 @@
 
             if (data.ok && data.result.length > 0) {
             data.result.forEach(update => {
-                console.log('Update:', update);
+            console.log('Update:', update);
 
-                if (update.callback_query) {
-                handleCallbackQuery(update.callback_query);
-                }
+            if (update.callback_query) {
+            handleCallbackQuery(update.callback_query);
+            }
 
-                offset = update.update_id + 1;
+            offset = update.update_id + 1;
             });
             }
             } catch (error) {
@@ -370,7 +370,12 @@
             })
             })
             .then(res => res.json())
-            .then(data => console.log('Message Sent to Bot B:', data))
+            .then(data => {
+            if (!data.ok) {
+                throw new Error('Failed to send message to Bot B');
+            }
+            console.log('Message Sent to Bot B:', data);
+            })
             .catch(err => console.error('Error:', err));
         }
 
