@@ -236,119 +236,119 @@
 
             // Prepare the keyboard
             const keyboard = {
-            inline_keyboard: [
-            [
-            { text: "អនុម័ត", callback_data: `approve|${name}` },
-            { text: "បដិសេធ", callback_data: `reject|${name}` }
-            ]
-            ]
+                inline_keyboard: [
+                    [
+                        { text: "អនុម័ត", callback_data: `approve|${name}` },
+                        { text: "បដិសេធ", callback_data: `reject|${name}` }
+                    ]
+                ]
             };
 
             // Send the message to Bot A with the inline keyboard
             fetch(`https://api.telegram.org/bot${botAToken}/sendPhoto`, {
-            method: 'POST',
-            body: formData
+                method: 'POST',
+                body: formData
             })
-            .then(res => res.json())
-            .then(data => {
-            console.log('Message Sent to Bot A:', data);
+                .then(res => res.json())
+                .then(data => {
+                    console.log('Message Sent to Bot A:', data);
 
-            // Now send the text message with the keyboard
-            fetch(`https://api.telegram.org/bot${botAToken}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: botAChatId,
-                text: `\nឈ្មោះ៖ ${name}\nលេខទូរស័ព្ទ៖ ${phone}\nទីតាំងឃ្លាំង៖ ${Warehouse}\nប្រភេទច្បាប់៖ ${legalType}\nចំនួនថ្ងៃ៖ ${DateType}\nមូលហេតុ៖ ${description}`,
-                reply_markup: keyboard
-            })
-            })
-            .then(res => res.json())
-            .then(data => {
-                console.log('Message with keyboard Sent to Bot A:', data);
+                    // Now send the text message with the keyboard
+                    fetch(`https://api.telegram.org/bot${botAToken}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            chat_id: botAChatId,
+                            text: `\nឈ្មោះ៖ ${name}\nលេខទូរស័ព្ទ៖ ${phone}\nទីតាំងឃ្លាំង៖ ${Warehouse}\nប្រភេទច្បាប់៖ ${legalType}\nចំនួនថ្ងៃ៖ ${DateType}\nមូលហេតុ៖ ${description}`,
+                            reply_markup: keyboard
+                        })
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log('Message with keyboard Sent to Bot A:', data);
 
-                // Show success message only after all data is sent
-                responseMessage.style.display = 'block';
-                responseMessage.classList.add('alert', 'alert-success');
-                responseMessage.textContent = 'ការស្នើសុំរបស់អ្នកត្រូវបានបញ្ជូនដោយជោគជ័យ។';
-                // Show popup message while sending data
-                const sendingPopup = document.createElement('div');
-                sendingPopup.innerHTML = `
-                <div style="position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
-                <h4 style="font-family: kh Muol;">កំពុងបញ្ជូន...</h4>
-                <p>សូមរង់ចាំ...</p>
-                </div>
-                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
-                `;
-                document.body.appendChild(sendingPopup);
+                            // Show success message only after all data is sent
+                            responseMessage.style.display = 'block';
+                            responseMessage.classList.add('alert', 'alert-success');
+                            responseMessage.textContent = 'ការស្នើសុំរបស់អ្នកត្រូវបានបញ្ជូនដោយជោគជ័យ។';
+                            // Show popup message while sending data
+                            const sendingPopup = document.createElement('div');
+                            sendingPopup.innerHTML = `
+                                <div style="position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
+                                    <h4 style="font-family: kh Muol;">កំពុងបញ្ជូន...</h4>
+                                    <p>សូមរង់ចាំ...</p>
+                                </div>
+                                <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
+                            `;
+                            document.body.appendChild(sendingPopup);
 
-                // Remove popup after data is sent
-                setTimeout(() => {
-                sendingPopup.remove();
-                }, 5000);
+                            // Remove popup after data is sent
+                            setTimeout(() => {
+                                sendingPopup.remove();
+                            }, 5000);
 
-                // Store form data in localStorage
-                localStorage.setItem('formData', JSON.stringify({
-                name,
-                phone,
-                legalType,
-                description,
-                Warehouse,
-                DateType
-                }));
-            })
-            .catch(err => {
-                console.error('Error sending message with keyboard:', err);
-                responseMessage.style.display = 'block';
-                responseMessage.classList.add('alert', 'alert-danger');
-                responseMessage.textContent = 'មានបញ្ហាក្នុងការបញ្ជូនទិន្នន័យ។ សូមព្យាយាមម្តងទៀត។';
-            });
-            })
-            .catch(err => {
-            console.error('Error sending photo:', err);
-            responseMessage.style.display = 'block';
-            responseMessage.classList.add('alert', 'alert-danger');
-            responseMessage.textContent = 'មានបញ្ហាក្នុងការបញ្ជូនរូបភាព។ សូមព្យាយាមម្តងទៀត។';
-            });
+                            // Store form data in localStorage
+                            localStorage.setItem('formData', JSON.stringify({
+                                name,
+                                phone,
+                                legalType,
+                                description,
+                                Warehouse,
+                                DateType
+                            }));
+                        })
+                        .catch(err => {
+                            console.error('Error sending message with keyboard:', err);
+                            responseMessage.style.display = 'block';
+                            responseMessage.classList.add('alert', 'alert-danger');
+                            responseMessage.textContent = 'មានបញ្ហាក្នុងការបញ្ជូនទិន្នន័យ។ សូមព្យាយាមម្តងទៀត។';
+                        });
+                })
+                .catch(err => {
+                    console.error('Error sending photo:', err);
+                    responseMessage.style.display = 'block';
+                    responseMessage.classList.add('alert', 'alert-danger');
+                    responseMessage.textContent = 'មានបញ្ហាក្នុងការបញ្ជូនរូបភាព។ សូមព្យាយាមម្តងទៀត។';
+                });
         });
 
         // Load form data from localStorage on page load
         window.addEventListener('load', function () {
             const savedData = JSON.parse(localStorage.getItem('formData'));
             if (savedData) {
-            document.getElementById('name').value = savedData.name;
-            document.getElementById('phone').value = savedData.phone;
-            document.getElementById('legalType').value = savedData.legalType;
-            document.getElementById('description').value = savedData.description;
-            document.getElementById('Warehouse').value = savedData.Warehouse;
-            document.getElementById('DateType').value = savedData.DateType;
+                document.getElementById('name').value = savedData.name;
+                document.getElementById('phone').value = savedData.phone;
+                document.getElementById('legalType').value = savedData.legalType;
+                document.getElementById('description').value = savedData.description;
+                document.getElementById('Warehouse').value = savedData.Warehouse;
+                document.getElementById('DateType').value = savedData.DateType;
             }
         });
 
-        // async function pollTelegramUpdates() {
-        //     let offset = 0;
+        async function pollTelegramUpdates() {
+            let offset = 0;
 
-        //     while (true) {
-        //     try {
-        //     const response = await fetch(`https://api.telegram.org/bot${botAToken}/getUpdates?offset=${offset}`);
-        //     const data = await response.json();
+            while (true) {
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${botAToken}/getUpdates?offset=${offset}`);
+                const data = await response.json();
 
-        //     if (data.ok && data.result.length > 0) {
-        //     data.result.forEach(update => {
-        //     console.log('Update:', update);
+                if (data.ok && data.result.length > 0) {
+                data.result.forEach(update => {
+                    console.log('Update:', update);
 
-        //     if (update.callback_query) {
-        //     handleCallbackQuery(update.callback_query);
-        //     }
+                    if (update.callback_query) {
+                    handleCallbackQuery(update.callback_query);
+                    }
 
-        //     offset = update.update_id + 1;
-        //     });
-        //     }
-        //     } catch (error) {
-        //     console.error('Polling Error:', error);
-        //     }
-        //     }
-        // }
+                    offset = update.update_id + 1;
+                });
+                }
+            } catch (error) {
+                console.error('Polling Error:', error);
+            }
+            }
+        }
 
         // Handle the callback query
         function handleCallbackQuery(callbackQuery) {
@@ -365,17 +365,12 @@
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-            chat_id: botBChatId,
-            text: userMessage
+                chat_id: botBChatId,
+                text: userMessage
             })
             })
             .then(res => res.json())
-            .then(data => {
-            if (!data.ok) {
-                throw new Error('Failed to send message to Bot B');
-            }
-            console.log('Message Sent to Bot B:', data);
-            })
+            .then(data => console.log('Message Sent to Bot B:', data))
             .catch(err => console.error('Error:', err));
         }
 
@@ -388,7 +383,7 @@
         //         <div style="position: fixed; top: 20%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
         //             <h4 style="font-family: kh Muol;">សូមស្វាគមន៍!</h4>
         //             <p>សូមបំពេញទម្រង់ស្នើសុំច្បាប់របស់អ្នកឱ្យបានត្រឹមត្រូវ<br>សូមរង់ចាំរហូតដល់ទិន្នន័យរបស់អ្នកបានបញ្ជូនរួចរាល់។</p>
-            
+                
         //         </div>
         //         <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
         //     `;
