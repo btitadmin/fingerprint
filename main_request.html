@@ -523,28 +523,28 @@
       //   }
       // }
 
-      // Handle the callback query
-      function handleCallbackQuery(callbackQuery) {
-        const callbackData = callbackQuery.data.split("|");
-        const action = callbackData[0]; // approve or reject
-        const requesterName = callbackData[1]; // Requester's name
+      // // Handle the callback query
+      // function handleCallbackQuery(callbackQuery) {
+      //   const callbackData = callbackQuery.data.split("|");
+      //   const action = callbackData[0]; // approve or reject
+      //   const requesterName = callbackData[1]; // Requester's name
 
-        const userMessage =
-          action === "approve"
+      //   const userMessage =
+      //     action === "approve"
          
-        // Send the message to Bot B
-        fetch(`https://api.telegram.org/bot${botBToken}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-        chat_id: botBChatId,
-        text: userMessage,
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => console.log("Message Sent to Bot B:", data))
-          .catch((err) => console.error("Error:", err));
-      }
+      //   // Send the message to Bot B
+      //   fetch(`https://api.telegram.org/bot${botBToken}/sendMessage`, {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify({
+      //   chat_id: botBChatId,
+      //   text: userMessage,
+      //     }),
+      //   })
+      //     .then((res) => res.json())
+      //     .then((data) => console.log("Message Sent to Bot B:", data))
+      //     .catch((err) => console.error("Error:", err));
+      // }
 
       // Start polling for updates immediately
       pollTelegramUpdates();
