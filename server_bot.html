@@ -351,33 +351,33 @@
         }
 
         // Handle the callback query
-        function handleCallbackQuery(callbackQuery) {
-            const callbackData = callbackQuery.data.split('|');
-            const action = callbackData[0]; // approve or reject
-            const requesterName = callbackData[1]; // Requester's name
+        // function handleCallbackQuery(callbackQuery) {
+        //     const callbackData = callbackQuery.data.split('|');
+        //     const action = callbackData[0]; // approve or reject
+        //     const requesterName = callbackData[1]; // Requester's name
 
-            const userMessage = action === "approve" 
-            ? `សួស្តី! ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានអនុម័ត។ ✅`
-            : `សួស្តី! ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានបដិសេធ។ ❌`;
+        //     const userMessage = action === "approve" 
+        //     ? `សួស្តី! ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានអនុម័ត។ ✅`
+        //     : `សួស្តី! ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានបដិសេធ។ ❌`;
 
-            // Send the message to Bot B
-            fetch(`https://api.telegram.org/bot${botBToken}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-            chat_id: botBChatId,
-            text: userMessage
-            })
-            })
-            .then(res => res.json())
-            .then(data => {
-            if (!data.ok) {
-                throw new Error('Failed to send message to Bot B');
-            }
-            console.log('Message Sent to Bot B:', data);
-            })
-            .catch(err => console.error('Error:', err));
-        }
+        //     // Send the message to Bot B
+        //     fetch(`https://api.telegram.org/bot${botBToken}/sendMessage`, {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //     chat_id: botBChatId,
+        //     text: userMessage
+        //     })
+        //     })
+        //     .then(res => res.json())
+        //     .then(data => {
+        //     if (!data.ok) {
+        //         throw new Error('Failed to send message to Bot B');
+        //     }
+        //     console.log('Message Sent to Bot B:', data);
+        //     })
+        //     .catch(err => console.error('Error:', err));
+        // }
 
         // Start polling for updates immediately
         pollTelegramUpdates();
