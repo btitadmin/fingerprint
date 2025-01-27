@@ -496,32 +496,32 @@
         }
       });
 
-      async function pollTelegramUpdates() {
-        let offset = 0;
+      // async function pollTelegramUpdates() {
+      //   let offset = 0;
 
-        while (true) {
-          try {
-        const response = await fetch(
-          `https://api.telegram.org/bot${botAToken}/getUpdates?offset=${offset}`
-        );
-        const data = await response.json();
+      //   while (true) {
+      //     try {
+      //   const response = await fetch(
+      //     `https://api.telegram.org/bot${botAToken}/getUpdates?offset=${offset}`
+      //   );
+      //   const data = await response.json();
 
-        if (data.ok && data.result.length > 0) {
-          data.result.forEach((update) => {
-            console.log("Update:", update);
+      //   if (data.ok && data.result.length > 0) {
+      //     data.result.forEach((update) => {
+      //       console.log("Update:", update);
 
-            if (update.callback_query) {
-          handleCallbackQuery(update.callback_query);
-            }
+      //       if (update.callback_query) {
+      //     handleCallbackQuery(update.callback_query);
+      //       }
 
-            offset = update.update_id + 1;
-          });
-        }
-          } catch (error) {
-        console.error("Polling Error:", error);
-          }
-        }
-      }
+      //       offset = update.update_id + 1;
+      //     });
+      //   }
+      //     } catch (error) {
+      //   console.error("Polling Error:", error);
+      //     }
+      //   }
+      // }
 
       // Handle the callback query
       function handleCallbackQuery(callbackQuery) {
@@ -531,9 +531,7 @@
 
         const userMessage =
           action === "approve"
-          ? `សួស្តី! ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានអនុម័ត។ ✅`
-          : `សួស្តី! ${requesterName} ការស្នើរសុំរបស់អ្នកត្រូវបានបដិសេធ។ ❌`;
-
+         
         // Send the message to Bot B
         fetch(`https://api.telegram.org/bot${botBToken}/sendMessage`, {
           method: "POST",
