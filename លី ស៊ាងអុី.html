@@ -408,7 +408,7 @@ let visitCount = localStorage.getItem('visitCount');
         const allowedLatitude = 11.55089;
         const allowedLongitude = 104.91219;
         const tolerance = 0.001;
-
+        const allowedRadius = 0.001;
     // Get user's location
     const locationElement = document.getElementById('location');
     const mapLinkElement = document.getElementById('mapLink');
@@ -417,6 +417,15 @@ let visitCount = localStorage.getItem('visitCount');
     let isWithinBounds = false;
     let currentLatitude = 0;
     let currentLongitude = 0;
+
+
+    if (locationElement.textContent.includes("កំពុងស្កេនទីតាំង")) {
+        scanButton.style.display = 'none';
+        document.getElementById('requestEarlyScan').style.display = 'none';
+    } else {
+        scanButton.style.display = 'block';
+        document.getElementById('requestEarlyScan').style.display = 'block';
+    }
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -610,7 +619,7 @@ for (const range of ranges) {
                 )
                     .then((response) => response.json())
                     .then((data) => {
-                        const address = data.display_name || "មិនអាចរកទីតាំងបាន";
+                           const address = data.address.road || "មិនអាចរកទីតាំងបាន";
           // Set action as per selected action (Check-In or Check-Out)
           if (action === "Check-Out") {
             userState[userName] = "Check-Out";
