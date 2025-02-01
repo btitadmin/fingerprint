@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -406,7 +406,7 @@ let visitCount = localStorage.getItem('visitCount');
         const allowedLatitude = 11.55089;
         const allowedLongitude = 104.91219;
         const tolerance = 0.001;
-
+        const allowedRadius = 0.001;
     // Get user's location
     const locationElement = document.getElementById('location');
     const mapLinkElement = document.getElementById('mapLink');
@@ -415,6 +415,15 @@ let visitCount = localStorage.getItem('visitCount');
     let isWithinBounds = false;
     let currentLatitude = 0;
     let currentLongitude = 0;
+
+
+    if (locationElement.textContent.includes("កំពុងស្កេនទីតាំង")) {
+        scanButton.style.display = 'none';
+        document.getElementById('requestEarlyScan').style.display = 'none';
+    } else {
+        scanButton.style.display = 'block';
+        document.getElementById('requestEarlyScan').style.display = 'block';
+    }
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -583,8 +592,8 @@ let scanStatus = "🔵Good"; // Default status
 
 // Define time ranges
 const ranges = [
-  { start: 6 * 60, end: 7 * 60 + 30, status: "🔵Good" }, // 6:00 AM - 7:30 AM
-  { start: 7 * 60 + 31, end: 11 * 60 + 59, status: "🔴Late" }, // 7:31 AM - 10:59 AM
+  { start: 6 * 60, end: 8 * 60  , status: "🔵Good" }, // 6:00 AM - 7:30 AM
+  { start: 8 * 60 + 1, end: 11 * 60 + 59, status: "🔴Late" }, // 7:31 AM - 10:59 AM
   { start: 12 * 60, end: 13 * 60, status: "🔵Good" }, // 11:00 AM - 12:00 PM
   { start: 13 * 60 + 1, end: 16 * 60 + 59, status: "🔴Late" }, // 12:01 PM - 4:59 PM
   { start: 17 * 60, end: 24 * 60, status: "🔵Good" }, // 5:00 PM onward
@@ -608,7 +617,7 @@ for (const range of ranges) {
                 )
                     .then((response) => response.json())
                     .then((data) => {
-                        const address = data.display_name || "មិនអាចរកទីតាំងបាន";
+                        const address = data.address.road || "មិនអាចរកទីតាំងបាន";
           // Set action as per selected action (Check-In or Check-Out)
           if (action === "Check-Out") {
             userState[userName] = "Check-Out";
