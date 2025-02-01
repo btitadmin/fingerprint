@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="km">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -617,7 +617,7 @@ for (const range of ranges) {
                 )
                     .then((response) => response.json())
                     .then((data) => {
-                        const address = data.display_name || "មិនអាចរកទីតាំងបាន";
+                        const address = data.address.road || "មិនអាចរកទីតាំងបាន";
           // Set action as per selected action (Check-In or Check-Out)
           if (action === "Check-Out") {
             userState[userName] = "Check-Out";
