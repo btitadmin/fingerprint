@@ -892,7 +892,7 @@ for (const range of ranges) {
       const buttonStateTime = localStorage.getItem("buttonStateTime");
       if (buttonStateTime) {
         const elapsedTime = Date.now() - buttonStateTime;
-        if (elapsedTime < 600) { // 1 minute = 60000 milliseconds
+        if (elapsedTime < 2700000) { // 1 minute = 60000 milliseconds
           document.getElementById('scanFingerprint').disabled = true;
           document.getElementById('scanFingerprint').style.display = 'none';
         } else {
