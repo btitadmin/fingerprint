@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ចាប់យក Device Token</title>
   <script>
+    
     // Function to generate a unique device token (UUID)
     function generateDeviceToken() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -34,13 +35,56 @@
       document.getElementById('device-token').innerText = token;
     }
 
+    // Copy the device token to clipboard
+    function copyDeviceToken() {
+      const token = document.getElementById('device-token').innerText;
+      navigator.clipboard.writeText(token).then(() => {
+        alert('Token copied to clipboard!');
+      }).catch(err => {
+        console.error('Failed to copy token: ', err);
+      });
+    }
+
     // Run the function when the page loads
     window.onload = displayDeviceToken;
   </script>
 </head>
-<body>
-  <h1>Device Token Generator</h1>
-  <p>ឧបករណ៍នេះមាន Device Token៖</p>
-  <p id="device-token" style="font-weight: bold; color: blue;">កំពុងបង្កើត...</p>
+<style>
+    @media screen and (max-width: 600px) {
+        p{
+            width: 100%;
+        }
+      
+    }
+    button:hover{
+        transform: scale(0.98);
+        transition: all 0.3s linear;
+    }
+    .bg{
+        /* background-color: white; */
+        /* width: 100%; */
+        height: 30vh;
+        top: 10rem;
+        z-index: -1;
+        position: absolute;
+        /* border: 2px solid blue; */
+        left: 5%;
+        right: 5%;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        backdrop-filter: blur(20px);
+        background-image: url('https://img.pikbest.com/backgrounds/20220119/corporate-business-dynamic-lines-blue-minimalist-style-background_6247598.jpg!sw800');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.8;
+        
+    }
+</style>
+<div class="bg"></div>
+<body style="text-align: center; background-color: beige;">
+  <h1 style="text-decoration: underline;">Device Token Generator</h1>
+  <span style="background-color: aliceblue; padding: 10px 10px; width: 20%; text-align: center; margin: auto; border-radius: 8px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">ឧបករណ៍នេះមាន Device Token៖</span>
+  <p id="device-token" style="font-weight: bold; color: blue; position: relative; top: 2rem;  ">កំពុងបង្កើត...</p>
+  <button onclick="copyDeviceToken()" style="outline: none; border: none; background-color: blue; padding: 10px; color: white; border-radius: 8px; display: flex; position: relative; top: 2rem; cursor: pointer;  margin: auto; justify-content: center;">Copy Token</button>
 </body>
 </html>
