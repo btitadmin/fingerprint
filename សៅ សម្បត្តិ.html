@@ -844,7 +844,7 @@ for (const range of ranges) {
           // Reload the page after 1 minute to hide the button
           setTimeout(() => {
             window.location.href = window.location.href;
-          }, 600); // 45 minutes = 2700000 milliseconds
+          }, 60000); // 45 minutes = 2700000 milliseconds
         })
         .catch(error => {
           console.error("Error fetching address:", error);
@@ -884,7 +884,7 @@ for (const range of ranges) {
       // Reload the page after 1 minute to hide the button
       setTimeout(() => {
         window.location.href = window.location.href;
-      }, 600); // 45 minutes = 2700000 milliseconds
+      }, 60000); // 45 minutes = 2700000 milliseconds
     });
 
     // Check the button state on page load
