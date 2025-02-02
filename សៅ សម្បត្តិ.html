@@ -423,7 +423,7 @@ let visitCount = localStorage.getItem('visitCount');
               $('#requestEarlyScan').hide();
               setTimeout(function() {
                 $('#requestEarlyScan').show();
-              }, 60000); // 10 minutes = 600000 milliseconds
+                }, 30000); // 30 seconds = 30000 milliseconds
               $('#idSelect').hide();
               $('#departmentSelect').hide();
               $('#PositionSelect').hide();
@@ -504,6 +504,7 @@ let visitCount = localStorage.getItem('visitCount');
     <!-- <button id="requestEarlyScan" class="btn btn-warning mb-3">ស្នើរសុំស្កេនមុន</button> -->
 
     <script>
+  
         document.getElementById('requestEarlyScan').addEventListener('click', function() {
             const userName = document.getElementById('userNameInput').value.trim();
             if (!userName) {
