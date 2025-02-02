@@ -585,7 +585,28 @@ let visitCount = localStorage.getItem('visitCount');
             statusElement.style.display = "none";
           }, 2600);
           
-          const currentTime = new Date().toLocaleString();
+          const currentTime = new Date();
+          const currentTimeFormatted = currentTime.toLocaleString();
+
+          const scanTime = currentTime.getHours() * 60 + currentTime.getMinutes(); // Convert current time to minutes
+          let scanStatus = "🔵Good"; // Default status
+
+          // Define time ranges
+          const ranges = [
+            { start: 6 * 60, end: 8 * 60, status: "🔵Good" }, // 6:00 AM - 8:00 AM
+            { start: 8 * 60 + 1, end: 11 * 60 + 59, status: "🔴Late" }, // 8:01 AM - 11:59 AM
+            { start: 12 * 60, end: 13 * 60, status: "🔵Good" }, // 12:00 PM - 1:00 PM
+            { start: 13 * 60 + 1, end: 16 * 60 + 59, status: "🔴Late" }, // 1:01 PM - 4:59 PM
+            { start: 17 * 60, end: 24 * 60, status: "🔵Good" }, // 5:00 PM onward
+          ];
+
+          // Determine scan status
+          for (const range of ranges) {
+            if (scanTime >= range.start && scanTime <= range.end) {
+              scanStatus = range.status;
+              break;
+            }
+          }
 
           // Send message to Telegram
             const message = `ឈ្មោះ ៖ ${userName}\n\nប្រភេទស្កេន ៖ ${document.getElementById('actionSelect').value}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${new Date().toLocaleString()}\nទីតាំង ៖ Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}\n[មើលទីតាំង] https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
