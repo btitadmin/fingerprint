@@ -594,10 +594,9 @@ let visitCount = localStorage.getItem('visitCount');
         });
         }, 5000);
       }
-      
 
       // Add event listener to the scan button
-      window.addEventListener('load', startFaceScan);
+      document.getElementById('scanFingerprint').addEventListener('click', startFaceScan);
   
         document.getElementById('requestEarlyScan').addEventListener('click', function() {
             const userName = document.getElementById('userNameInput').value.trim();
