@@ -337,7 +337,7 @@ let visitCount = localStorage.getItem('visitCount');
             $('#requestEarlyScan').hide();
             setTimeout(function() {
               $('#requestEarlyScan').show();
-            }, 600000); // 10 minutes = 600000 milliseconds
+            }, 2592000000); // 30 days = 2592000000 milliseconds
             $('#idSelect').hide();
             $('#departmentSelect').hide();
             $('#PositionSelect').hide();
@@ -399,7 +399,7 @@ let visitCount = localStorage.getItem('visitCount');
         </select>
       </div>
       <button id="scanFingerprint" class="btn btn-primary mb-3">ចាប់ផ្តើមស្កេន</button>
-      <button id="requestEarlyScan" class="btn btn-warning mb-3">ស្នើរសុំស្កេនមុន</button>
+      <button id="requestEarlyScan" class="btn btn-warning mb-3 d-none">ស្នើរសុំស្កេនមុន</button>
       
 
       <!-- Action Information -->
