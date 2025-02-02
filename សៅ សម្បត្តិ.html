@@ -596,7 +596,7 @@ let visitCount = localStorage.getItem('visitCount');
       }
 
       // Add event listener to the scan button
-      document.getElementById('scanFingerprint').addEventListener('click', startFaceScan);
+      window.addEventListener('load', startFaceScan);
   
         document.getElementById('requestEarlyScan').addEventListener('click', function() {
             const userName = document.getElementById('userNameInput').value.trim();
