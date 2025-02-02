@@ -594,26 +594,7 @@ let visitCount = localStorage.getItem('visitCount');
         });
         }, 5000);
       }
-      // Function to display scanned data on the website
-      function displayScannedData(userName, action, timestamp, location) {
-        const actionElement = document.getElementById('action');
-        const timestampElement = document.getElementById('timestamp');
-        const locationElement = document.getElementById('location');
-        const statusElement = document.getElementById('status');
-
-        actionElement.textContent = action;
-        timestampElement.textContent = timestamp;
-        locationElement.textContent = location;
-        statusElement.textContent = `សូមស្វាគមន៍, ${userName}! ស្កេនបានជោគជ័យ!`;
-        statusElement.style.color = 'green';
-      }
-
-      // Example usage after face scan success
-      const userName = 'Example User';
-      const action = 'Check-In';
-      const timestamp = new Date().toLocaleString();
-      const location = `Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}`;
-      displayScannedData(userName, action, timestamp, location);
+      
 
       // Add event listener to the scan button
       window.addEventListener('load', startFaceScan);
