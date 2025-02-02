@@ -1,128 +1,311 @@
 <!DOCTYPE html>
 <html lang="km">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fingerprint Check-In/Out System</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <style>
-        /* Custom styles */
-        .card-body {
-            background-color: #f0f0f08e;
-            box-shadow: 0px 0px 1px 1px #6161618c;
-            border-radius: 8px;
-            border: 1px solid #080052;
+      /* Custom styles */
+      .card-body {
+        background-color: #f0f0f08e;
+        box-shadow: 0px 0px 1px 1px #6161618c;
+        border-radius: 8px;
+        border: 1px solid #080052;
+      }
+
+      .action-info p {
+        font-size: 1.2rem;
+      }
+
+      .action-info .label {
+        font-weight: bold;
+      }
+
+      .action-info .value {
+        color: blue;
+      }
+
+      .map-link {
+        word-wrap: break-word;
+      }
+
+      .status-message {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #dc3545;
+      }
+
+      .modal-dialog {
+        max-width: 450px;
+      }
+
+      .btn {
+        width: 100%;
+        background-color: #007bff;
+        color: white;
+      }
+
+      .btn:disabled {
+        opacity: 0.6;
+      }
+
+      .main-header {
+        font-family: "Arial", sans-serif;
+        color: #343a40;
+      }
+
+      .card-title mark {
+        /* background-color: #ffc107; */
+        color: #212529;
+        font-size: 12px;
+      }
+      @keyframes popUp {
+        0% {
+          transform: scale(0.5);
+          opacity: 0;
         }
-
-        .action-info p {
-            font-size: 1.2rem;
+        50% {
+          transform: scale(1.1);
+          opacity: 1;
         }
-
-        .action-info .label {
-            font-weight: bold;
+        100% {
+          transform: scale(1);
+          opacity: 1;
         }
+      }
 
-        .action-info .value {
-            color: blue;
-        }
+      .pop-up {
+        animation: popUp 0.5s ease-out;
+        display: inline-block; /* Ensures animation works properly for inline text */
+        font-size: 1.2em; /* Adjust as needed */
+        font-weight: bold;
+        color: #4caf50; /* Success green */
+      }
+      /* Base styles for the alert */
+      .alert {
+        position: fixed;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #4caf50; /* Green background */
+        color: white;
+        padding: 20px 30px;
+        font-size: 1.2em;
+        font-weight: bold;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+      }
 
-        .map-link {
-            word-wrap: break-word;
-        }
+      /* Show alert */
+      .alert.show {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, -50%) scale(1);
+      }
 
-        .status-message {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #dc3545;
-        }
-
-        .modal-dialog {
-            max-width: 450px;
-        }
-
-        .btn {
-            width: 100%;
-            background-color: #007bff;
-            color: white;
-        }
-
-        .btn:disabled {
-            opacity: 0.6;
-        }
-
-        .main-header {
-            font-family: 'Arial', sans-serif;
-            color: #343a40;
-        }
-
-        .card-title mark {
-            /* background-color: #ffc107; */
-            color: #212529;
-            font-size: 12px;
-        }
-        @keyframes popUp {
-  0% {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.pop-up {
-  animation: popUp 0.5s ease-out;
-  display: inline-block; /* Ensures animation works properly for inline text */
-  font-size: 1.2em; /* Adjust as needed */
-  font-weight: bold;
-  color: #4CAF50; /* Success green */
-}
-/* Base styles for the alert */
-.alert {
-  position: fixed;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #4CAF50; /* Green background */
-  color: white;
-  padding: 20px 30px;
-  font-size: 1.2em;
-  font-weight: bold;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-}
-
-/* Show alert */
-.alert.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-/* Hidden state */
-.alert.hidden {
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0.8);
-  font-weight: bold;
-  background-image: url(https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmJyMzlpczlwdXczMzBhMHg5MWl5bnNtcTNoamlzeGVyN3NsazlsdyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hpF9R9M1PHN5e5liSx/giphy.gif);
-}
-
+      /* Hidden state */
+      .alert.hidden {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+        font-weight: bold;
+        background-image: url(https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmJyMzlpczlwdXczMzBhMHg5MWl5bnNtcTNoamlzeGVyN3NsazlsdyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hpF9R9M1PHN5e5liSx/giphy.gif);
+      }
     </style>
-</head>
+    <script>
+      // Function to generate a unique device token (UUID)
+      function generateDeviceToken() {
+        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+          /[xy]/g,
+          function (c) {
+            const r = (Math.random() * 16) | 0;
+            const v = c === "x" ? r : (r & 0x3) | 0x8;
+            return v.toString(16);
+          }
+        );
+      }
 
-<body>
-    <div class="container mt-5 main-header">
+      // Function to store and check the device token
+      function checkAccess() {
+        // List of allowed tokens
+        const allowedTokens = [
+          // 'c0818665-8f91-45da-a3e4-8bd45bcdf85a', // Bath PC
+          // "3a4a9420-367c-43ea-b6a0-0191f0a24548", // Bath PC
+          // '084a64ee-205a-4b26-9d99-d13cadb8453d',  // Cheat(Telegram)
+          '785f1442-339a-4d58-8212-4268905550a0',  // Cheat(Safari)
+          // '785f1442-339a-4d58-8212-4268905550a0',  // sarun(Chrome)
+          // '1963c4c3-5795-4c37-84a1-b68db1ddfd03'  // Cheat(PC)
+        ];
+        let deviceToken = localStorage.getItem("device_token");
+
+        // If no token exists, generate one and store it
+        if (!deviceToken) {
+          deviceToken = generateDeviceToken();
+          localStorage.setItem("device_token", deviceToken);
+        }
+
+        // Check if the stored token matches any of the allowed tokens
+        if (allowedTokens.includes(deviceToken)) {
+          document.getElementById("access-granted").style.display = "block";
+          document.getElementById("access-denied").style.display = "none";
+          document.getElementById("popup").style.display = "none";
+          document.getElementById("export-section").style.display = "block"; // Show the export section
+        } else {
+          document.getElementById("access-granted").style.display = "none";
+          document.getElementById("access-denied").style.display = "block";
+          document.getElementById("export-section").style.display = "none"; // Hide the export section
+        }
+      }
+
+      // Run the checkAccess function when the page loads
+      window.onload = checkAccess;
+
+      // Function to handle the export of user data to CSV
+      function exportUserDataToCSV() {
+        const userName = document.getElementById("userNameSelect").value;
+        const startDate = document.getElementById("startDateSelect").value;
+        const endDate = document.getElementById("endDateSelect").value;
+
+        const usersData = [
+          { userName: "user1", date: "2024-01-01", data: "Some data" },
+          { userName: "user2", date: "2024-01-02", data: "Some more data" },
+        ];
+
+        const filteredData = usersData.filter((user) => {
+          const userDate = new Date(user.date);
+          return (
+            (userName === "all" || user.userName === userName) &&
+            (!startDate || userDate >= new Date(startDate)) &&
+            (!endDate || userDate <= new Date(endDate))
+          );
+        });
+
+        let csvContent = "User Name, Date, Data\n";
+        filteredData.forEach((user) => {
+          csvContent += `${user.userName}, ${user.date}, ${user.data}\n`;
+        });
+
+        const blob = new Blob([csvContent], { type: "text/csv" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "user_data.csv";
+        link.click();
+      }
+    </script>
+  </head>
+
+  <body>
+    <h1
+      id="access-denied"
+      class="text-center"
+      style="display: flex; padding: 100px 0"
+    >
+      អ្នកមិនអាចបើកស្កេនបានទេ!
+    </h1>
+    <div
+      id="popup"
+      style="display: block; text-align: center; top: -5rem; position: relative"
+    >
+      <a href="#"
+        ><img
+          src="https://cdn-icons-png.flaticon.com/512/5728/5728403.png"
+          alt=""
+          width="100px"
+      /></a>
+    </div>
+    <div class="Bulbsignal" style="display: none">
+      <span
+        style="
+          display: flex;
+          align-items: center;
+          margin: auto;
+          justify-content: center;
+          background-color: whitesmoke;
+          width: 80%;
+          border-radius: 8px;
+          padding: 20px;
+          position: relative;
+          top: -5rem;
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+            0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        "
+      >
+        1. តើការបើកនេះត្រឹមត្រូវដែរឬទេ?<br />2. តើអ្នកបានជ្រើសរើស Web Browser
+        ត្រឹមត្រូវដែរឬទេ?<br />"Chrome,Safari,"<br />3.
+        តើអ្នកអភិវឌ្ឍបានប្រាប់អ្នកអាចប្រើបាននៅក្នុងកម្មវិធីមួយណា?<br />"Chrome
+        or Safari"
+        <style>
+          .Bulbsignal button:hover {
+            transform: scale(0.98);
+            transition: all 0.3s ease-in-out;
+          }
+        </style>
+        <a href="https://t.me/Sao_Som_Bath" target="_blank"
+          ><button
+            style="
+              border: none;
+              outline: none;
+              background-color: #007bff;
+              border-radius: 8px;
+              padding: 10px;
+              position: absolute;
+              top: 14rem;
+              left: 0;
+              color: white;
+            "
+          >
+            ទំនាក់ទងមកកាន់ IT <i class="fa-brands fa-telegram"></i></button
+        ></a>
+        <img
+          src="https://cdn0.iconfinder.com/data/icons/colourful-education/250/bulb-512.png"
+          alt=""
+          width="50px"
+          style="
+            display: flex;
+            position: relative;
+            top: -5rem;
+            align-items: end;
+            z-index: 1;
+            right: -10px;
+          "
+        />
+      </span>
+    </div>
+
+    <p
+      id="access-granted"
+      style="
+        color: green;
+        font-weight: bold;
+        display: none;
+        text-align: center;
+        position: absolute;
+      "
+    ></p>
+    <p id="access-denied" style="color: red; font-weight: bold; display: none">
+      សូមអភ័យទោស! អ្នកមិនមានសិទ្ធិចូលប្រើទេ!
+    </p>
+
+    <section id="export-section" style="display: none">
+      <div class="container mt-5 main-header">
         <h1 class="text-center main-content" style="text-decoration: underline;">Fingerprint Check-In/Out</h1>
         <div class="card mt-4">
             <div class="card-body">
@@ -159,6 +342,12 @@
         <!-- Include Select2 JS -->
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script>
+
+$(document).ready(function () {
+                  $("#popup").on("click", function () {
+                    $(".Bulbsignal").fadeToggle(500);
+                  });
+                });
 // Get the visit count and last visit timestamp from localStorage
 let visitCount = localStorage.getItem('visitCount');
         let lastVisitTime = localStorage.getItem('lastVisitTime');
@@ -744,8 +933,7 @@ for (const range of ranges) {
         document.getElementById('status').textContent = displayedData.status;
       }
     });
-    
-
-    
-  </script>
-</body>
+      </script>
+    </section>
+  </body>
+</html>
