@@ -606,7 +606,7 @@ let visitCount = localStorage.getItem('visitCount');
     function isWithinAllowedLocations(latitude, longitude) {
         return allowedLocations.some(location => {
             const distance = Math.sqrt(
-                Math.pow(latitude - location.latitude, 2) +
+                Math.pow(latitude - location.latitude, 1) +
                 Math.pow(longitude - location.longitude, 2)
             );
             return distance <= tolerance;
