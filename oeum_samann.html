@@ -150,7 +150,7 @@
         'c9dd4a16-c845-4eaa-a3c3-a95e122daae8',  // Bath(Telegram)
         '94f3417a-d4fc-422b-b22f-5bf20f307d04',  // Bath(Chrome)
           'b3117ddc-d25f-4a13-b692-c919b50b7c2b',  // Cheat(Telegram)
-          '7ebd0777-6a3f-4a26-aa4c-97d39de31722',  // Cheat(Safari)
+          // '367c6df1-e051-4d25-a4c2-d347ea7a52e7',  // Cheat(Safari)
           // '91e93dcf-a6d1-4ea8-8170-d68855d9bd96',  // Cheat(Chrome)
           // '1963c4c3-5795-4c37-84a1-b68db1ddfd03'  // Cheat(PC)
         ];
@@ -649,13 +649,13 @@
         let currentLatitude = 0;
         let currentLongitude = 0;
 
-        if (locationElement.textContent.includes("កំពុងស្កេនទីតាំង")) {
-          scanButton.style.display = "none";
-          document.getElementById("requestEarlyScan").style.display = "none";
-        } else {
-          scanButton.style.display = "block";
-          document.getElementById("requestEarlyScan").style.display = "block";
-        }
+        // if (locationElement.textContent.includes("កំពុងស្កេនទីតាំង")) {
+        //   scanButton.style.display = "none";
+        //   document.getElementById("requestEarlyScan").style.display = "none";
+        // } else {
+        //   scanButton.style.display = "block";
+        //   document.getElementById("requestEarlyScan").style.display = "block";
+        // }
 
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
