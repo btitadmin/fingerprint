@@ -621,7 +621,7 @@ let visitCount = localStorage.getItem('visitCount');
     let currentLatitude = 0;
     let currentLongitude = 0;
 
-    if (locationElement.textContent.includes("កំពុងស្កេនទីតាំង") || locationElement.textContent.includes("មិនអាចយកទីតាំងនេះបានទេ!")) {
+    if ( locationElement.textContent.includes("មិនអាចយកទីតាំងនេះបានទេ!")) {
         scanButton.style.display = 'none';
         document.getElementById('requestEarlyScan').style.display = 'none';
     } else {
