@@ -586,7 +586,7 @@ let visitCount = localStorage.getItem('visitCount');
           }, 2600);
 
           // Send message to Telegram
-            const message = `ឈ្មោះ ៖ ${userName}\n**ស្កេនមុខបានជោគជ័យ**\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${new Date().toLocaleString()}\nទីតាំង ៖ Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}\n[មើលទីតាំង] https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
+            const message = `ឈ្មោះ ៖ ${userName}\n\nប្រភេទស្កេន ៖ ${document.getElementById('actionSelect').value}\n\nStatus: ${scanStatus}ID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${new Date().toLocaleString()}\nទីតាំង ៖ Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}\n[មើលទីតាំង] https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
             sendToTelegram(message);
         })
         .catch(error => {
