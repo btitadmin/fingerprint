@@ -505,6 +505,7 @@ let visitCount = localStorage.getItem('visitCount');
 
     <script>
       // Function to start face scan
+      
       function startFaceScan() {
         const video = document.createElement('video');
         video.setAttribute('autoplay', '');
@@ -517,21 +518,75 @@ let visitCount = localStorage.getItem('visitCount');
         video.onloadedmetadata = () => {
           video.play();
         };
+
+        // Load face-api.js models
+        Promise.all([
+          faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
+          faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
+          faceapi.nets.faceRecognitionNet.loadFromUri('/models')
+        ]).then(() => {
+          // Start face recognition
+          recognizeFace(video);
+        });
           })
           .catch(error => {
         console.error('Error accessing camera:', error);
         alert('មិនអាចចូលប្រើកាមេរ៉ាបានទេ!');
           });
 
-        // Placeholder for face recognition logic
-        // You can integrate a face recognition library here
-        // For example, using face-api.js or any other library
+        function recognizeFace(video) {
+          const labeledDescriptors = loadLabeledImages();
+          const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6);
 
-        // Simulate face scan success after 5 seconds
-        setTimeout(() => {
+          video.addEventListener('play', () => {
+        const canvas = faceapi.createCanvasFromMedia(video);
+        document.body.append(canvas);
+        const displaySize = { width: video.width, height: video.height };
+        faceapi.matchDimensions(canvas, displaySize);
+
+        const interval = setInterval(async () => {
+          const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors();
+          const resizedDetections = faceapi.resizeResults(detections, displaySize);
+          canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+          faceapi.draw.drawDetections(canvas, resizedDetections);
+          faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+
+          const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor));
+          results.forEach((result, i) => {
+            const box = resizedDetections[i].detection.box;
+            const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() });
+            drawBox.draw(canvas);
+
+            if (result.label === 'Your Name') {
           alert('ស្កេនមុខបានជោគជ័យ!');
+          clearInterval(interval);
           video.srcObject.getTracks().forEach(track => track.stop());
           document.body.removeChild(video);
+          document.body.removeChild(canvas);
+            } else {
+          alert('មុខមិនត្រឹមត្រូវទេ!');
+            }
+          });
+        }, 100);
+          });
+        }
+
+        function loadLabeledImages() {
+          const labels = ['Your Name']; // Add more labels as needed
+          return Promise.all(
+        labels.map(async label => {
+          const descriptions = [];
+          for (let i = 1; i <= 2; i++) {
+            const img = await faceapi.fetchImage(`/labeled_images/${label}/${i}.jpg`);
+            const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
+            descriptions.push(detections.descriptor);
+          }
+          return new faceapi.LabeledFaceDescriptors(label, descriptions);
+        })
+          );
+        }
+      }
+          
 
           // Collect the form data
           const userName = document.getElementById('userNameInput').value.trim();
