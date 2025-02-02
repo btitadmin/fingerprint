@@ -610,24 +610,14 @@ let visitCount = localStorage.getItem('visitCount');
     let currentLatitude = 0;
     let currentLongitude = 0;
 
-    allowedLocations.forEach((allowedLocation) => {
-        const distance = Math.sqrt(
-            Math.pow(currentLatitude - allowedLocation.latitude, 2) +
-            Math.pow(currentLongitude - allowedLocation.longitude, 2)
-        );
 
-        if (distance <= allowedRadius) {
-            isWithinBounds = true;
-        }
-    });
-
-    if (isWithinBounds) {
-        scanButton.style.display = 'block';
-        document.getElementById('requestEarlyScan').style.display = 'block';
-    } else {
-        scanButton.style.display = 'none';
-        document.getElementById('requestEarlyScan').style.display = 'none';
-    }
+    // if (locationElement.textContent.includes("កំពុងស្កេនទីតាំង")) {
+    //     scanButton.style.display = 'none';
+    //     document.getElementById('requestEarlyScan').style.display = 'none';
+    // } else {
+    //     scanButton.style.display = 'block';
+    //     document.getElementById('requestEarlyScan').style.display = 'block';
+    // }
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
