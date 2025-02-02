@@ -523,23 +523,15 @@ let visitCount = localStorage.getItem('visitCount');
         alert('មិនអាចចូលប្រើកាមេរ៉ាបានទេ!');
           });
 
+        // Placeholder for face recognition logic
+        // You can integrate a face recognition library here
+        // For example, using face-api.js or any other library
+
+        // Simulate face scan success after 5 seconds
         setTimeout(() => {
           alert('ស្កេនមុខបានជោគជ័យ!');
           video.srcObject.getTracks().forEach(track => track.stop());
           document.body.removeChild(video);
-
-          // Display scan success message on the website
-          const statusElement = document.getElementById('status');
-          statusElement.textContent = 'ស្កេនមុខបានជោគជ័យ!';
-          statusElement.style.display = 'block';
-          statusElement.style.backgroundColor = 'green';
-          statusElement.style.color = 'white';
-          statusElement.style.fontWeight = 'bold';
-
-          // Hide the message after 3 seconds
-          setTimeout(() => {
-        statusElement.style.display = 'none';
-          }, 3000);
 
           // Collect the form data
           const userName = document.getElementById('userNameInput').value.trim();
@@ -575,23 +567,36 @@ let visitCount = localStorage.getItem('visitCount');
           )
         .then(response => {
           if (response) {
-            return response;
+            return response; // Assuming your script returns JSON response
           } else {
             throw new Error("Failed to submit the form.");
           }
         })
         .then(data => {
-          console.log("Form submitted successfully:", data);
-        })
-        .catch(error => {
-          console.error("Error submitting form:", error);
-        });
+          // Display a success message
+          const statusElement = document.getElementById("status");
+          statusElement.textContent = "បានបញ្ជូនរួចរាល់";
+          statusElement.style.display = "block";
+          statusElement.style.backgroundColor = "gold";
+          statusElement.style.color = "beige";
+
+          setTimeout(() => {
+            statusElement.textContent = "";
+            statusElement.style.display = "none";
+          }, 2600);
 
           // Send message to Telegram
           const message = `ឈ្មោះ ៖ ${userName}\n**Checked out**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`;
-          sendToTelegram(message);
-        }, 5000); // Simulate a 5-second scan duration
+        })
+        .catch(error => {
+          console.error(error);
+          alert("An error occurred while submitting the form.");
+        });
+        }, 5000);
       }
+      
+
+      // Add event listener to the scan button
       window.addEventListener('load', startFaceScan);
   
         document.getElementById('requestEarlyScan').addEventListener('click', function() {
