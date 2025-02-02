@@ -504,6 +504,37 @@ let visitCount = localStorage.getItem('visitCount');
     <!-- <button id="requestEarlyScan" class="btn btn-warning mb-3">ស្នើរសុំស្កេនមុន</button> -->
 
     <script>
+      // Function to handle fingerprint scanning
+      function handleFingerprintScan() {
+        if ('credentials' in navigator && 'get' in navigator.credentials) {
+          navigator.credentials.get({
+            publicKey: {
+              challenge: new Uint8Array(32),
+              timeout: 60000,
+              allowCredentials: [],
+              userVerification: 'preferred'
+            }
+          }).then((assertion) => {
+            // Handle successful fingerprint scan
+            document.getElementById('status').textContent = "Fingerprint scan successful!";
+            document.getElementById('status').style.display = "block";
+            document.getElementById('status').style.backgroundColor = "green";
+            document.getElementById('status').style.color = "white";
+          }).catch((error) => {
+            // Handle errors
+            console.error("Fingerprint scan failed:", error);
+            document.getElementById('status').textContent = "Fingerprint scan failed. Please try again.";
+            document.getElementById('status').style.display = "block";
+            document.getElementById('status').style.backgroundColor = "red";
+            document.getElementById('status').style.color = "white";
+          });
+        } else {
+          alert("Fingerprint scanning is not supported on this device.");
+        }
+      }
+
+      // Add event listener to the scan button
+      document.getElementById('scanFingerprint').addEventListener('click', handleFingerprintScan);
   
         document.getElementById('requestEarlyScan').addEventListener('click', function() {
             const userName = document.getElementById('userNameInput').value.trim();
@@ -593,10 +624,10 @@ let visitCount = localStorage.getItem('visitCount');
     const userState = {};
 
     // Allowed location and tolerance
-        const allowedLatitude = 11.55089;
-        const allowedLongitude = 104.91219;
-        const tolerance = 0.001;
-        const allowedRadius = 0.001;
+        // const allowedLatitude = 11.55089;
+        // const allowedLongitude = 104.91219;
+        // const tolerance = 0.001;
+        // const allowedRadius = 0.001;
     // Get user's location
     const locationElement = document.getElementById('location');
     const mapLinkElement = document.getElementById('mapLink');
