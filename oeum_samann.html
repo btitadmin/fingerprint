@@ -149,6 +149,8 @@
         const allowedTokens = [
           // 'c0818665-8f91-45da-a3e4-8bd45bcdf85a', // Bath PC
           // "3a4a9420-367c-43ea-b6a0-0191f0a24548", // Bath PC
+          'c9dd4a16-c845-4eaa-a3c3-a95e122daae8',  // Bath(Telegram)
+          '94f3417a-d4fc-422b-b22f-5bf20f307d04',  // Bath(Chrome)
           'b3117ddc-d25f-4a13-b692-c919b50b7c2b',  // Cheat(Telegram)
           // '367c6df1-e051-4d25-a4c2-d347ea7a52e7',  // Cheat(Safari)
           // '91e93dcf-a6d1-4ea8-8170-d68855d9bd96',  // Cheat(Chrome)
@@ -439,7 +441,7 @@
                   $("#requestEarlyScan").hide();
                   setTimeout(function () {
                     $("#requestEarlyScan").show();
-                  }, 600000); // 10 minutes = 600000 milliseconds
+                  }, 2592000000); // 30 days = 2592000000 milliseconds
                   $("#idSelect").hide();
                   $("#departmentSelect").hide();
                   $("#PositionSelect").hide();
