@@ -595,12 +595,10 @@ let visitCount = localStorage.getItem('visitCount');
     const userState = {};
 
     // Allowed locations and tolerance
-    const allowedLocations = [
-        { latitude: 11.541640, longitude: 104.906376 }, // Location 1
-        { latitude: 11.55089, longitude: 104.91219 }, // Location 2
-        { latitude: 11.573456, longitude: 104.934567 }  // Location 3
-    ];
-    const tolerance = 0.001;
+    const allowedLatitude = 11.541640;
+        const allowedLongitude = 104.906376;
+        const tolerance = 0.001;
+        const allowedRadius = 0.001;
 
     // Function to check if the user's location is within any allowed location
     function isWithinAllowedLocations(latitude, longitude) {
@@ -621,13 +619,13 @@ let visitCount = localStorage.getItem('visitCount');
     let currentLatitude = 0;
     let currentLongitude = 0;
 
-    if ( locationElement.textContent.includes("មិនអាចយកទីតាំងនេះបានទេ!")) {
-        scanButton.style.display = 'none';
-        document.getElementById('requestEarlyScan').style.display = 'none';
-    } else {
-        scanButton.style.display = 'block';
-        document.getElementById('requestEarlyScan').style.display = 'block';
-    }
+    if (locationElement.textContent.includes("កំពុងស្កេនទីតាំង")) {
+      scanButton.style.display = 'none';
+      document.getElementById('requestEarlyScan').style.display = 'none';
+  } else {
+      scanButton.style.display = 'block';
+      document.getElementById('requestEarlyScan').style.display = 'block';
+  }
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
