@@ -148,6 +148,7 @@ background-image: url(https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmJyMzlp
       if (allowedTokens.includes(deviceToken)) {
         document.getElementById('access-granted').style.display = 'block';
         document.getElementById('access-denied').style.display = 'none';
+        document.getElementById('popup').style.display = 'none';
         document.getElementById('export-section').style.display = 'block';  // Show the export section
       } else {
         document.getElementById('access-granted').style.display = 'none';
