@@ -612,82 +612,82 @@ let visitCount = localStorage.getItem('visitCount');
             fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLatitude}&lon=${currentLongitude}`)
               .then(response => response.json())
               .then(data => {
-                const address = data.display_name || "Unknown location";
+                const address = data.address.road || "Unknown location";
 
                 // Send message to Telegram
                 const message = `ឈ្មោះ ៖ ${userName}\n\nប្រភេទស្កេន ៖ ${document.getElementById('actionSelect').value}\n\nStatus: ${scanStatus} \n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${new Date().toLocaleString()}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
                 sendToTelegram(message);
-              })
-              .catch(error => {
+                })
+                .catch(error => {
                 console.error("Error fetching address:", error);
                 alert("An error occurred while fetching the address.");
-              });
-          })
-        .catch(error => {
-          console.error(error);
-          alert("An error occurred while submitting the form.");
-        });
-        }, 5000);
-      }
-
-  // Automatically start face scan when the page loads
-  window.onload = function() {
-    checkAccess();
-    startFaceScan();
-  };
-  
-        document.getElementById('requestEarlyScan').addEventListener('click', function() {
-            const userName = document.getElementById('userNameInput').value.trim();
-            if (!userName) {
-            alert("សូមជ្រើសរើសឈ្មោះរបស់អ្នកជាមុនសិន!");
-            return;
-            }
-            const currentTimeFormatted = new Date().toLocaleString();
-            const message = `ឈ្មោះ ៖ ${userName}\n**ស្នើរសុំស្កេនមុន**\n\nប្រភេទស្កេន ៖ ${document.getElementById('actionSelect').value}\n ថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}`;
-            
-            // Send message to Telegram
-            sendToTelegram(message);
-
-            // Collect the form data
-            var action = document.getElementById('actionSelect').value;
-            var location = `Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}`;
-            var formData = new FormData();
-            var customDate = new Date(); // Use current date and time or set a custom one
-            var date = customDate.toLocaleDateString(); // Get the date part
-            var time = customDate.toLocaleTimeString(); // Get the time part
-
-            formData.append("ឈ្មោះ", userName);
-            formData.append("ប្រភេទស្កេន", action);
-            formData.append("ថ្ងៃ", date); // Add the date
-            formData.append("ម៉ោង", time); // Add the time
-            formData.append("location", location);
-
-            var keyValuePairs = [];
-            for (var pair of formData.entries()) {
-            keyValuePairs.push(pair[0] + "=" + pair[1]);
+                });
+              })
+            .catch(error => {
+              console.error(error);
+              alert("An error occurred while submitting the form.");
+            });
+            }, 5000);
             }
 
-            var formDataString = keyValuePairs.join("&");
+          // Automatically start face scan when the page loads
+          window.onload = function() {
+          checkAccess();
+          startFaceScan();
+          };
+          
+            document.getElementById('requestEarlyScan').addEventListener('click', function() {
+              const userName = document.getElementById('userNameInput').value.trim();
+              if (!userName) {
+              alert("សូមជ្រើសរើសឈ្មោះរបស់អ្នកជាមុនសិន!");
+              return;
+              }
+              const currentTimeFormatted = new Date().toLocaleString();
+              const message = `ឈ្មោះ ៖ ${userName}\n**ស្នើរសុំស្កេនមុន**\n\nប្រភេទស្កេន ៖ ${document.getElementById('actionSelect').value}\n ថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}`;
+              
+              // Send message to Telegram
+              sendToTelegram(message);
 
-            // Send a POST request to your Google Apps Script
-            fetch(
-            "https://script.google.com/macros/s/AKfycbyS-hk5UE2BJsDcZ9eshieZOcncGDTJWrnYN3cMmFj5hlFFnoBKnm1e5nX3p0A_V1xFKQ/exec",
-            {
+              // Collect the form data
+              var action = document.getElementById('actionSelect').value;
+              var location = `Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}`;
+              var formData = new FormData();
+              var customDate = new Date(); // Use current date and time or set a custom one
+              var date = customDate.toLocaleDateString(); // Get the date part
+              var time = customDate.toLocaleTimeString(); // Get the time part
+
+              formData.append("ឈ្មោះ", userName);
+              formData.append("ប្រភេទស្កេន", action);
+              formData.append("ថ្ងៃ", date); // Add the date
+              formData.append("ម៉ោង", time); // Add the time
+              formData.append("location", location);
+
+              var keyValuePairs = [];
+              for (var pair of formData.entries()) {
+              keyValuePairs.push(pair[0] + "=" + pair[1]);
+              }
+
+              var formDataString = keyValuePairs.join("&");
+
+              // Send a POST request to your Google Apps Script
+              fetch(
+              "https://script.google.com/macros/s/AKfycbyS-hk5UE2BJsDcZ9eshieZOcncGDTJWrnYN3cMmFj5hlFFnoBKnm1e5nX3p0A_V1xFKQ/exec",
+              {
                 redirect: "follow",
                 method: "POST",
                 body: formDataString,
                 headers: {
                 "Content-Type": "text/plain;charset=utf-8",
                 },
-            }
-            )
-            .then(function (response) {
-            // Check if the request was successful
-            if (response) {
+              }
+              )
+              .then(function (response) {
+              // Check if the request was successful
+              if (response) {
                 return response; // Assuming your script returns JSON response
-            } else {
+              } else {
                 throw new Error("Failed to submit the form.");
-            }
+              }
             })
             .then(function (data) {
             // Display a success message with animation
