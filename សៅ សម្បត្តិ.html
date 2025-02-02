@@ -586,7 +586,7 @@ let visitCount = localStorage.getItem('visitCount');
           }, 2600);
 
           // Send message to Telegram
-          const message = `ឈ្មោះ ៖ ${userName}\n**Checked out**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`;
+          sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**${action}**\n\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${location}`);
         })
         .catch(error => {
           console.error(error);
