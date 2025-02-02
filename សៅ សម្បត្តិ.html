@@ -500,51 +500,66 @@ let visitCount = localStorage.getItem('visitCount');
         <p id="status" class="status-message text-muted">រងចាំការស្កេនរបស់អ្នក...</p>
       </div>
     </div>
-    <!-- Fingerprint Scan Image -->
-    <div class="text-center mt-4">
-      <img
-        src="https://cdn-icons-png.flaticon.com/512/5728/5728403.png"
-        alt="Fingerprint Scan"
-        width="150px"
-        id="fingerprintImage"
-        style="cursor: pointer;"
-      />
-    </div>
-
-    <script>
-      // Function to handle fingerprint scan on image click
-      document.getElementById('fingerprintImage').addEventListener('click', handleFingerprintScan);
-    </script>
     <!-- Request Early Scan Button -->
     <!-- <button id="requestEarlyScan" class="btn btn-warning mb-3">ស្នើរសុំស្កេនមុន</button> -->
 
     <script>
-      // Function to handle fingerprint scan
-      function handleFingerprintScan() {
-        if ('credentials' in navigator && 'get' in navigator.credentials) {
-          navigator.credentials.get({
-            publicKey: {
-              challenge: new Uint8Array(32),
-              timeout: 60000,
-              allowCredentials: [],
-              userVerification: 'preferred'
-            }
-          }).then((assertion) => {
-            // Handle successful fingerprint scan
-            document.getElementById('status').textContent = "Fingerprint scan successful!";
-            document.getElementById('status').style.color = "green";
-            document.getElementById('scanFingerprint').disabled = false;
-          }).catch((error) => {
-            // Handle errors
-            document.getElementById('status').textContent = "Fingerprint scan failed!";
-            document.getElementById('status').style.color = "red";
-            document.getElementById('scanFingerprint').disabled = false;
+      
+      // Function to handle face scan
+      function handleFaceScan() {
+        const video = document.createElement('video');
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        const constraints = { video: true };
+
+        navigator.mediaDevices.getUserMedia(constraints)
+          .then((stream) => {
+            video.srcObject = stream;
+            video.play();
+
+            // Capture a frame from the video stream
+            setTimeout(() => {
+              context.drawImage(video, 0, 0, canvas.width, canvas.height);
+              const imageData = canvas.toDataURL('image/png');
+
+              // Stop the video stream
+              stream.getTracks().forEach(track => track.stop());
+
+              // Process the captured image (e.g., send to server for face recognition)
+              processFaceScan(imageData);
+            }, 2000); // Capture after 2 seconds
+          })
+          .catch((error) => {
+            console.error('Error accessing webcam:', error);
           });
-        } else {
-          alert("Fingerprint scanning is not supported on this device.");
-        }
       }
 
+      // Function to process the captured face scan image
+      function processFaceScan(imageData) {
+        // Send the image data to the server for face recognition
+        fetch('https://your-server-endpoint/face-recognition', {
+          method: 'POST',
+          body: JSON.stringify({ image: imageData }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.recognized) {
+              alert('Face recognized successfully!');
+              // Perform further actions based on recognition result
+            } else {
+              alert('Face not recognized. Please try again.');
+            }
+          })
+          .catch(error => {
+            console.error('Error processing face scan:', error);
+          });
+      }
+
+      // Add event listener to the face scan button
+      document.getElementById('scanFace').addEventListener('click', handleFaceScan);
 
       // Add event listener to the scan button
       document.getElementById('scanFingerprint').addEventListener('click', handleFingerprintScan);
