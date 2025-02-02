@@ -586,7 +586,7 @@ let visitCount = localStorage.getItem('visitCount');
           }, 2600);
           
           // Send message to Telegram
-            sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**${action}**\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${location}`);
+            sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**${action}**\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${location}\nStatus: ${scanStatus}\n[មើលទីតាំង] ${mapLink}`);
 
         })
         .catch(error => {
