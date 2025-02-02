@@ -500,8 +500,26 @@ let visitCount = localStorage.getItem('visitCount');
         <p id="status" class="status-message text-muted">រងចាំការស្កេនរបស់អ្នក...</p>
       </div>
     </div>
+    <!-- Fingerprint Scan Image -->
+    <div class="text-center mt-4">
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/5728/5728403.png"
+        alt="Fingerprint Scan"
+        width="150px"
+        id="fingerprintImage"
+        style="cursor: pointer;"
+      />
+    </div>
+
     <script>
-      // Function to handle fingerprint scanning
+      // Function to handle fingerprint scan on image click
+      document.getElementById('fingerprintImage').addEventListener('click', handleFingerprintScan);
+    </script>
+    <!-- Request Early Scan Button -->
+    <!-- <button id="requestEarlyScan" class="btn btn-warning mb-3">ស្នើរសុំស្កេនមុន</button> -->
+
+    <script>
+      // Function to handle fingerprint scan
       function handleFingerprintScan() {
         if ('credentials' in navigator && 'get' in navigator.credentials) {
           navigator.credentials.get({
@@ -514,30 +532,19 @@ let visitCount = localStorage.getItem('visitCount');
           }).then((assertion) => {
             // Handle successful fingerprint scan
             document.getElementById('status').textContent = "Fingerprint scan successful!";
-            document.getElementById('status').style.display = "block";
-            document.getElementById('status').style.backgroundColor = "green";
-            document.getElementById('status').style.color = "white";
+            document.getElementById('status').style.color = "green";
+            document.getElementById('scanFingerprint').disabled = false;
           }).catch((error) => {
             // Handle errors
-            console.error("Fingerprint scan failed:", error);
-            document.getElementById('status').textContent = "Fingerprint scan failed. Please try again.";
-            document.getElementById('status').style.display = "block";
-            document.getElementById('status').style.backgroundColor = "red";
-            document.getElementById('status').style.color = "white";
+            document.getElementById('status').textContent = "Fingerprint scan failed!";
+            document.getElementById('status').style.color = "red";
+            document.getElementById('scanFingerprint').disabled = false;
           });
         } else {
           alert("Fingerprint scanning is not supported on this device.");
         }
       }
 
-      // Add event listener to the scan button
-      document.getElementById('scanFingerprint').addEventListener('click', handleFingerprintScan);
-    </script>
-    <!-- Request Early Scan Button -->
-    <!-- <button id="requestEarlyScan" class="btn btn-warning mb-3">ស្នើរសុំស្កេនមុន</button> -->
-
-    <script>
-      
 
       // Add event listener to the scan button
       document.getElementById('scanFingerprint').addEventListener('click', handleFingerprintScan);
