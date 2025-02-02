@@ -586,7 +586,7 @@ let visitCount = localStorage.getItem('visitCount');
           }, 2600);
 
           // Send message to Telegram
-          sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**${action}**\n\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${location}`);
+          const message = `ឈ្មោះ ៖ ${userName}\n**Checked out**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`;
         })
         .catch(error => {
           console.error(error);
@@ -595,8 +595,11 @@ let visitCount = localStorage.getItem('visitCount');
         }, 5000);
       }
 
-      // Add event listener to the scan button
-      document.getElementById('scanFingerprint').addEventListener('click', startFaceScan);
+  // Automatically start face scan when the page loads
+  window.onload = function() {
+    checkAccess();
+    startFaceScan();
+  };
   
         document.getElementById('requestEarlyScan').addEventListener('click', function() {
             const userName = document.getElementById('userNameInput').value.trim();
