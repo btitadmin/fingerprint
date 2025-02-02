@@ -584,9 +584,11 @@ let visitCount = localStorage.getItem('visitCount');
             statusElement.textContent = "";
             statusElement.style.display = "none";
           }, 2600);
+          
+          const currentTime = new Date().toLocaleString();
 
           // Send message to Telegram
-            const message = `ឈ្មោះ ៖ ${userName}\n\nប្រភេទស្កេន ៖ ${document.getElementById('actionSelect').value}ID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${new Date().toLocaleString()}\nទីតាំង ៖ Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}\n[មើលទីតាំង] https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
+            const message = `ឈ្មោះ ៖ ${userName}\n\nប្រភេទស្កេន ៖ ${document.getElementById('actionSelect').value}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${new Date().toLocaleString()}\nទីតាំង ៖ Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}\n[មើលទីតាំង] https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
             sendToTelegram(message);
         })
         .catch(error => {
