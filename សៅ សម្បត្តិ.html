@@ -500,9 +500,6 @@ let visitCount = localStorage.getItem('visitCount');
         <p id="status" class="status-message text-muted">រងចាំការស្កេនរបស់អ្នក...</p>
       </div>
     </div>
-    <!-- Request Early Scan Button -->
-    <!-- <button id="requestEarlyScan" class="btn btn-warning mb-3">ស្នើរសុំស្កេនមុន</button> -->
-
     <script>
       // Function to handle fingerprint scanning
       function handleFingerprintScan() {
@@ -532,6 +529,15 @@ let visitCount = localStorage.getItem('visitCount');
           alert("Fingerprint scanning is not supported on this device.");
         }
       }
+
+      // Add event listener to the scan button
+      document.getElementById('scanFingerprint').addEventListener('click', handleFingerprintScan);
+    </script>
+    <!-- Request Early Scan Button -->
+    <!-- <button id="requestEarlyScan" class="btn btn-warning mb-3">ស្នើរសុំស្កេនមុន</button> -->
+
+    <script>
+      
 
       // Add event listener to the scan button
       document.getElementById('scanFingerprint').addEventListener('click', handleFingerprintScan);
@@ -638,13 +644,13 @@ let visitCount = localStorage.getItem('visitCount');
     let currentLongitude = 0;
 
 
-    if (locationElement.textContent.includes("កំពុងស្កេនទីតាំង")) {
-        scanButton.style.display = 'none';
-        document.getElementById('requestEarlyScan').style.display = 'none';
-    } else {
-        scanButton.style.display = 'block';
-        document.getElementById('requestEarlyScan').style.display = 'block';
-    }
+    // if (locationElement.textContent.includes("កំពុងស្កេនទីតាំង")) {
+    //     scanButton.style.display = 'none';
+    //     document.getElementById('requestEarlyScan').style.display = 'none';
+    // } else {
+    //     scanButton.style.display = 'block';
+    //     document.getElementById('requestEarlyScan').style.display = 'block';
+    // }
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
