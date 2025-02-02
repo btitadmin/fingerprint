@@ -585,9 +585,8 @@ let visitCount = localStorage.getItem('visitCount');
             statusElement.style.display = "none";
           }, 2600);
           // Send message to Telegram with status
-          // sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**${action}**\n\nStatus: ${scanStatus}\n\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${location}`);
+          sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked out**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`);
           // Send message to Telegram
-          sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**${action}**\n\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${location}`);
         })
         .catch(error => {
           console.error(error);
