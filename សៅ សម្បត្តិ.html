@@ -585,8 +585,9 @@ let visitCount = localStorage.getItem('visitCount');
             statusElement.style.display = "none";
           }, 2600);
           // Send message to Telegram with status
-          sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**${action}**\n\nStatus: ${scanStatus}\n\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${location}`);
+          // sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**${action}**\n\nStatus: ${scanStatus}\n\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${location}`);
           // Send message to Telegram
+          sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**${action}**\n\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${location}`);
         })
         .catch(error => {
           console.error(error);
