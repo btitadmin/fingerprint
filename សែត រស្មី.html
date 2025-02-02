@@ -591,17 +591,27 @@ let visitCount = localStorage.getItem('visitCount');
     </script>
   </div>
   
-  <script>
+<script>
     const userState = {};
 
-    // Allowed location and tolerance
-        const allowedLocations = [
-          { latitude: 11.541640, longitude: 104.906376 }, // Location 1
-          { latitude: 11.55089, longitude: 104.91219 }, // Location 2
-          { latitude: 11.573456, longitude: 104.934567 }  // Location 3
-        ];
-        const tolerance = 0.001;
-        const allowedRadius = 0.001;
+    // Allowed locations and tolerance
+    const allowedLocations = [
+        { latitude: 11.541640, longitude: 104.906376 }, // Location 1
+        { latitude: 11.55089, longitude: 104.91219 }, // Location 2
+        { latitude: 11.573456, longitude: 104.934567 }  // Location 3
+    ];
+    const tolerance = 0.001;
+
+    // Function to check if the user's location is within any allowed location
+    function isWithinAllowedLocations(latitude, longitude) {
+        return allowedLocations.some(location => {
+            const distance = Math.sqrt(
+                Math.pow(latitude - location.latitude, 2) +
+                Math.pow(longitude - location.longitude, 2)
+            );
+            return distance <= tolerance;
+        });
+    }
     // Get user's location
     const locationElement = document.getElementById('location');
     const mapLinkElement = document.getElementById('mapLink');
@@ -612,13 +622,13 @@ let visitCount = localStorage.getItem('visitCount');
     let currentLongitude = 0;
 
 
-    // if (locationElement.textContent.includes("កំពុងស្កេនទីតាំង")) {
-    //     scanButton.style.display = 'none';
-    //     document.getElementById('requestEarlyScan').style.display = 'none';
-    // } else {
-    //     scanButton.style.display = 'block';
-    //     document.getElementById('requestEarlyScan').style.display = 'block';
-    // }
+    if (locationElement.textContent.includes("កំពុងស្កេនទីតាំង")) {
+        scanButton.style.display = 'none';
+        document.getElementById('requestEarlyScan').style.display = 'none';
+    } else {
+        scanButton.style.display = 'block';
+        document.getElementById('requestEarlyScan').style.display = 'block';
+    }
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
