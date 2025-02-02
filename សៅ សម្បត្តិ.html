@@ -513,14 +513,14 @@ let visitCount = localStorage.getItem('visitCount');
 
         navigator.mediaDevices.getUserMedia({ video: true })
           .then(stream => {
-            video.srcObject = stream;
-            video.onloadedmetadata = () => {
-              video.play();
-            };
+        video.srcObject = stream;
+        video.onloadedmetadata = () => {
+          video.play();
+        };
           })
           .catch(error => {
-            console.error('Error accessing camera:', error);
-            alert('មិនអាចចូលប្រើកាមេរ៉ាបានទេ!');
+        console.error('Error accessing camera:', error);
+        alert('មិនអាចចូលប្រើកាមេរ៉ាបានទេ!');
           });
 
         // Placeholder for face recognition logic
@@ -532,11 +532,71 @@ let visitCount = localStorage.getItem('visitCount');
           alert('ស្កេនមុខបានជោគជ័យ!');
           video.srcObject.getTracks().forEach(track => track.stop());
           document.body.removeChild(video);
+
+          // Collect the form data
+          const userName = document.getElementById('userNameInput').value.trim();
+          const action = document.getElementById('actionSelect').value;
+          const currentTimeFormatted = new Date().toLocaleString();
+          const location = `Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}`;
+
+          const formData = new FormData();
+          formData.append("ឈ្មោះ", userName);
+          formData.append("ប្រភេទស្កេន", action);
+          formData.append("ថ្ងៃ", new Date().toLocaleDateString());
+          formData.append("ម៉ោង", new Date().toLocaleTimeString());
+          formData.append("location", location);
+
+          const keyValuePairs = [];
+          for (const pair of formData.entries()) {
+        keyValuePairs.push(pair[0] + "=" + pair[1]);
+          }
+
+          const formDataString = keyValuePairs.join("&");
+
+          // Send a POST request to your Google Apps Script
+          fetch(
+        "https://script.google.com/macros/s/AKfycbyS-hk5UE2BJsDcZ9eshieZOcncGDTJWrnYN3cMmFj5hlFFnoBKnm1e5nX3p0A_V1xFKQ/exec",
+        {
+          redirect: "follow",
+          method: "POST",
+          body: formDataString,
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+        }
+          )
+        .then(response => {
+          if (response) {
+            return response; // Assuming your script returns JSON response
+          } else {
+            throw new Error("Failed to submit the form.");
+          }
+        })
+        .then(data => {
+          // Display a success message
+          const statusElement = document.getElementById("status");
+          statusElement.textContent = "បានបញ្ជូនរួចរាល់";
+          statusElement.style.display = "block";
+          statusElement.style.backgroundColor = "gold";
+          statusElement.style.color = "beige";
+
+          setTimeout(() => {
+            statusElement.textContent = "";
+            statusElement.style.display = "none";
+          }, 2600);
+
+          // Send message to Telegram
+          sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**${action}**\n\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${location}`);
+        })
+        .catch(error => {
+          console.error(error);
+          alert("An error occurred while submitting the form.");
+        });
         }, 5000);
       }
 
       // Add event listener to the scan button
-      document.getElementById('scanFingerprint').addEventListener('click', startFaceScan);
+      // document.getElementById('scanFingerprint').addEventListener('click', startFaceScan);
   
         document.getElementById('requestEarlyScan').addEventListener('click', function() {
             const userName = document.getElementById('userNameInput').value.trim();
