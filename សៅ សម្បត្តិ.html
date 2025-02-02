@@ -584,35 +584,17 @@ let visitCount = localStorage.getItem('visitCount');
             statusElement.textContent = "";
             statusElement.style.display = "none";
           }, 2600);
-        
+          
           // Send message to Telegram
-          sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**Checked out**\n\nStatus: ${scanStatus}\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] ${mapLink}`);
+            sendToTelegram(`ឈ្មោះ ៖ ${userName}\n**${action}**\n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}\nទីតាំង ៖ ${location}`);
+
+        })
+        .catch(error => {
+          console.error(error);
+          alert("An error occurred while submitting the form.");
         });
-
-        // Function to send a message to the Telegram bot
-        function sendToTelegram(message) {
-          const url = `https://api.telegram.org/bot7205851039:AAHBOJmY40GvNl7M0X_FN9Ml0Fg2T_KQpb8/sendMessage`;
-          const data = {
-            chat_id: "-1002282814819", // Chat ID
-            text: message
-          };
-
-          fetch(url, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-          })
-            .then(response => response.json())
-            .then(data => {
-              console.log("Message sent to Telegram:", data);
-            })
-            .catch(error => {
-              console.error("Error sending message to Telegram:", error);
-            });
-        }
-
+        }, 5000);
+      }
 
       // Add event listener to the scan button
       window.addEventListener('load', startFaceScan);
