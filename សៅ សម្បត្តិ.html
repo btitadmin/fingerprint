@@ -514,23 +514,31 @@ let visitCount = localStorage.getItem('visitCount');
 
         navigator.mediaDevices.getUserMedia(constraints)
           .then((stream) => {
-            video.srcObject = stream;
-            video.play();
+        video.srcObject = stream;
+        video.play();
 
-            // Capture a frame from the video stream
-            setTimeout(() => {
-              context.drawImage(video, 0, 0, canvas.width, canvas.height);
-              const imageData = canvas.toDataURL('image/png');
+        // Display the video stream to the user
+        document.body.appendChild(video);
 
-              // Stop the video stream
-              stream.getTracks().forEach(track => track.stop());
+        // Capture a frame from the video stream
+        setTimeout(() => {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          context.drawImage(video, 0, 0, canvas.width, canvas.height);
+          const imageData = canvas.toDataURL('image/png');
 
-              // Process the captured image (e.g., send to server for face recognition)
-              processFaceScan(imageData);
-            }, 2000); // Capture after 2 seconds
+          // Stop the video stream
+          stream.getTracks().forEach(track => track.stop());
+
+          // Remove the video element from the DOM
+          document.body.removeChild(video);
+
+          // Process the captured image (e.g., send to server for face recognition)
+          processFaceScan(imageData);
+        }, 2000); // Capture after 2 seconds
           })
           .catch((error) => {
-            console.error('Error accessing webcam:', error);
+        console.error('Error accessing webcam:', error);
           });
       }
 
