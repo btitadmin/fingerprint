@@ -149,8 +149,8 @@
         const allowedTokens = [
           // 'c0818665-8f91-45da-a3e4-8bd45bcdf85a', // Bath PC
           // "3a4a9420-367c-43ea-b6a0-0191f0a24548", // Bath PC
-          'c9dd4a16-c845-4eaa-a3c3-a95e122daae8',  // Bath(Telegram)
-          '94f3417a-d4fc-422b-b22f-5bf20f307d04',  // Bath(Chrome)
+          '21678141-5276-4f4f-9561-5897bc7711b1',  // Bath(Telegram)
+          '1507926a-6e9d-4708-bdab-6d9954c1b10c',  // Bath(Chrome)
           // '785f1442-339a-4d58-8212-4268905550a0',  // sarun(Chrome)
           // '1963c4c3-5795-4c37-84a1-b68db1ddfd03'  // Cheat(PC)
         ];
@@ -502,285 +502,16 @@ let visitCount = localStorage.getItem('visitCount');
     </div>
     <!-- Request Early Scan Button -->
     <!-- <button id="requestEarlyScan" class="btn btn-warning mb-3">ស្នើរសុំស្កេនមុន</button> -->
-
-    <script>
-      // Function to start face scan
-      
-      function startFaceScan() {
-        const video = document.createElement('video');
-        video.setAttribute('autoplay', '');
-        video.setAttribute('playsinline', '');
-        document.body.appendChild(video);
-
-        navigator.mediaDevices.getUserMedia({ video: true })
-          .then(stream => {
-        video.srcObject = stream;
-        video.onloadedmetadata = () => {
-          video.play();
-        };
-
-        // Load face-api.js models
-        Promise.all([
-          faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
-          faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
-          faceapi.nets.faceRecognitionNet.loadFromUri('/models')
-        ]).then(() => {
-          // Start face recognition
-          recognizeFace(video);
-        });
-          })
-          .catch(error => {
-        console.error('Error accessing camera:', error);
-        alert('មិនអាចចូលប្រើកាមេរ៉ាបានទេ!');
-          });
-
-        function recognizeFace(video) {
-          const labeledDescriptors = loadLabeledImages();
-          const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6);
-
-          video.addEventListener('play', () => {
-        const canvas = faceapi.createCanvasFromMedia(video);
-        document.body.append(canvas);
-        const displaySize = { width: video.width, height: video.height };
-        faceapi.matchDimensions(canvas, displaySize);
-
-        const interval = setInterval(async () => {
-          const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors();
-          const resizedDetections = faceapi.resizeResults(detections, displaySize);
-          canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-          faceapi.draw.drawDetections(canvas, resizedDetections);
-          faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
-
-          const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor));
-          results.forEach((result, i) => {
-            const box = resizedDetections[i].detection.box;
-            const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() });
-            drawBox.draw(canvas);
-
-            if (result.label === 'Your Name') {
-          alert('ស្កេនមុខបានជោគជ័យ!');
-          clearInterval(interval);
-          video.srcObject.getTracks().forEach(track => track.stop());
-          document.body.removeChild(video);
-          document.body.removeChild(canvas);
-            } else {
-          alert('មុខមិនត្រឹមត្រូវទេ!');
-            }
-          });
-        }, 100);
-          });
-        }
-
-        function loadLabeledImages() {
-          const labels = ['Your Name']; // Add more labels as needed
-          return Promise.all(
-        labels.map(async label => {
-          const descriptions = [];
-          for (let i = 1; i <= 2; i++) {
-            const img = await faceapi.fetchImage(`/labeled_images/${label}/${i}.jpg`);
-            const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
-            descriptions.push(detections.descriptor);
-          }
-          return new faceapi.LabeledFaceDescriptors(label, descriptions);
-        })
-          );
-        }
-      }
-          
-
-          // Collect the form data
-          const userName = document.getElementById('userNameInput').value.trim();
-          const action = document.getElementById('actionSelect').value;
-          const currentTimeFormatted = new Date().toLocaleString();
-          const location = `Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}`;
-
-          const formData = new FormData();
-          formData.append("ឈ្មោះ", userName);
-          formData.append("ប្រភេទស្កេន", action);
-          formData.append("ថ្ងៃ", new Date().toLocaleDateString());
-          formData.append("ម៉ោង", new Date().toLocaleTimeString());
-          formData.append("location", location);
-
-          const keyValuePairs = [];
-          for (const pair of formData.entries()) {
-        keyValuePairs.push(pair[0] + "=" + pair[1]);
-          }
-
-          const formDataString = keyValuePairs.join("&");
-
-          // Send a POST request to your Google Apps Script
-          fetch(
-        "https://script.google.com/macros/s/AKfycbyS-hk5UE2BJsDcZ9eshieZOcncGDTJWrnYN3cMmFj5hlFFnoBKnm1e5nX3p0A_V1xFKQ/exec",
-        {
-          redirect: "follow",
-          method: "POST",
-          body: formDataString,
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8",
-          },
-        }
-          )
-        .then(response => {
-          if (response) {
-            return response; // Assuming your script returns JSON response
-          } else {
-            throw new Error("Failed to submit the form.");
-          }
-        })
-        .then(data => {
-          // Display a success message
-          const statusElement = document.getElementById("status");
-          statusElement.textContent = "បានបញ្ជូនរួចរាល់";
-          statusElement.style.display = "block";
-          statusElement.style.backgroundColor = "gold";
-          statusElement.style.color = "beige";
-
-          setTimeout(() => {
-            statusElement.textContent = "";
-            statusElement.style.display = "none";
-          }, 2600);
-          
-            const currentTime = new Date();
-            const currentTimeFormatted = currentTime.toLocaleString();
-
-            const scanTime = currentTime.getHours() * 60 + currentTime.getMinutes(); // Convert current time to minutes
-            let scanStatus = "🔵Good"; // Default status
-
-            // Define time ranges
-            const ranges = [
-            { start: 6 * 60, end: 8 * 60, status: "🔵Good" }, // 6:00 AM - 8:00 AM
-            { start: 8 * 60 + 1, end: 11 * 60 + 59, status: "🔴Late" }, // 8:01 AM - 11:59 AM
-            { start: 12 * 60, end: 13 * 60, status: "🔵Good" }, // 12:00 PM - 1:00 PM
-            { start: 13 * 60 + 1, end: 16 * 60 + 59, status: "🔴Late" }, // 1:01 PM - 4:59 PM
-            { start: 17 * 60, end: 24 * 60, status: "🔵Good" }, // 5:00 PM onward
-            ];
-
-            // Determine scan status
-            for (const range of ranges) {
-            if (scanTime >= range.start && scanTime <= range.end) {
-              scanStatus = range.status;
-              break;
-            }
-            }
-
-            // Get the user's address using reverse geocoding
-            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLatitude}&lon=${currentLongitude}`)
-              .then(response => response.json())
-              .then(data => {
-                const address = data.address.road || "Unknown location";
-
-                // Send message to Telegram
-                const message = `ឈ្មោះ ៖ ${userName}\n\nប្រភេទស្កេន ៖ ${document.getElementById('actionSelect').value}\n\nStatus: ${scanStatus} \n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${new Date().toLocaleString()}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
-                sendToTelegram(message);
-                })
-                .catch(error => {
-                console.error("Error fetching address:", error);
-                alert("An error occurred while fetching the address.");
-                });
-              })
-            .catch(error => {
-              console.error(error);
-              alert("An error occurred while submitting the form.");
-            });
-
-          // Automatically start face scan when the page loads
-          window.onload = function() {
-          checkAccess();
-          startFaceScan();
-          };
-          
-            document.getElementById('requestEarlyScan').addEventListener('click', function() {
-              const userName = document.getElementById('userNameInput').value.trim();
-              if (!userName) {
-              alert("សូមជ្រើសរើសឈ្មោះរបស់អ្នកជាមុនសិន!");
-              return;
-              }
-              const currentTimeFormatted = new Date().toLocaleString();
-              const message = `ឈ្មោះ ៖ ${userName}\n**ស្នើរសុំស្កេនមុន**\n\nប្រភេទស្កេន ៖ ${document.getElementById('actionSelect').value}\n ថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}`;
-              
-              // Send message to Telegram
-              sendToTelegram(message);
-
-              // Collect the form data
-              var action = document.getElementById('actionSelect').value;
-              var location = `Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}`;
-              var formData = new FormData();
-              var customDate = new Date(); // Use current date and time or set a custom one
-              var date = customDate.toLocaleDateString(); // Get the date part
-              var time = customDate.toLocaleTimeString(); // Get the time part
-
-              formData.append("ឈ្មោះ", userName);
-              formData.append("ប្រភេទស្កេន", action);
-              formData.append("ថ្ងៃ", date); // Add the date
-              formData.append("ម៉ោង", time); // Add the time
-              formData.append("location", location);
-
-              var keyValuePairs = [];
-              for (var pair of formData.entries()) {
-              keyValuePairs.push(pair[0] + "=" + pair[1]);
-              }
-
-              var formDataString = keyValuePairs.join("&");
-
-              // Send a POST request to your Google Apps Script
-              fetch(
-              "https://script.google.com/macros/s/AKfycbyS-hk5UE2BJsDcZ9eshieZOcncGDTJWrnYN3cMmFj5hlFFnoBKnm1e5nX3p0A_V1xFKQ/exec",
-              {
-                redirect: "follow",
-                method: "POST",
-                body: formDataString,
-                headers: {
-                "Content-Type": "text/plain;charset=utf-8",
-                },
-              }
-              )
-              .then(function (response) {
-              // Check if the request was successful
-              if (response) {
-                return response; // Assuming your script returns JSON response
-              } else {
-                throw new Error("Failed to submit the form.");
-              }
-            })
-            .then(function (data) {
-            // Display a success message with animation
-            const statusElement = document.getElementById("status");
-            statusElement.textContent = "សំណើរបស់អ្នកត្រូវបានបញ្ជូន!";
-            statusElement.classList.add('pop-up');
-            statusElement.style.display = "block";
-            statusElement.style.backgroundColor = "gold";
-            statusElement.style.color = "white";
-            statusElement.style.transition = "opacity 0.5s ease-in-out";
-            statusElement.style.opacity = "1";
-
-            // Hide the message after 3 seconds with fade-out effect
-            setTimeout(() => {
-                statusElement.style.opacity = "0";
-                setTimeout(() => {
-                    statusElement.style.display = "none";
-                }, 500); // Match the transition duration
-            }, 3000);
-            document.getElementById("status").style.display = "block";
-            document.getElementById("status").style.backgroundColor = "gold";
-            document.getElementById("status").style.color = "white";
-            })
-            .catch(function (error) {
-            // Handle errors, you can display an error message here
-            console.error(error);
-            alert("An error occurred while submitting the form.");
-            });
-        });
-    </script>
   </div>
   
   <script>
     const userState = {};
 
     // Allowed location and tolerance
-        // const allowedLatitude = 11.55089;
-        // const allowedLongitude = 104.91219;
-        // const tolerance = 0.001;
-        // const allowedRadius = 0.001;
+        const allowedLatitude = 11.55089;
+        const allowedLongitude = 104.91219;
+        const tolerance = 0.001;
+        const allowedRadius = 0.001;
     // Get user's location
     const locationElement = document.getElementById('location');
     const mapLinkElement = document.getElementById('mapLink');
@@ -791,13 +522,13 @@ let visitCount = localStorage.getItem('visitCount');
     let currentLongitude = 0;
 
 
-    // if (locationElement.textContent.includes("កំពុងស្កេនទីតាំង")) {
-    //     scanButton.style.display = 'none';
-    //     document.getElementById('requestEarlyScan').style.display = 'none';
-    // } else {
-    //     scanButton.style.display = 'block';
-    //     document.getElementById('requestEarlyScan').style.display = 'block';
-    // }
+    if (locationElement.textContent.includes("កំពុងស្កេនទីតាំង")) {
+        scanButton.style.display = 'none';
+        document.getElementById('requestEarlyScan').style.display = 'none';
+    } else {
+        scanButton.style.display = 'block';
+        document.getElementById('requestEarlyScan').style.display = 'block';
+    }
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
