@@ -1,311 +1,128 @@
 <!DOCTYPE html>
-<html lang="km">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fingerprint Check-In/Out System</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
     <style>
-      /* Custom styles */
-      .card-body {
-        background-color: #f0f0f08e;
-        box-shadow: 0px 0px 1px 1px #6161618c;
-        border-radius: 8px;
-        border: 1px solid #080052;
-      }
-
-      .action-info p {
-        font-size: 1.2rem;
-      }
-
-      .action-info .label {
-        font-weight: bold;
-      }
-
-      .action-info .value {
-        color: blue;
-      }
-
-      .map-link {
-        word-wrap: break-word;
-      }
-
-      .status-message {
-        font-size: 1.3rem;
-        font-weight: bold;
-        color: #dc3545;
-      }
-
-      .modal-dialog {
-        max-width: 450px;
-      }
-
-      .btn {
-        width: 100%;
-        background-color: #007bff;
-        color: white;
-      }
-
-      .btn:disabled {
-        opacity: 0.6;
-      }
-
-      .main-header {
-        font-family: "Arial", sans-serif;
-        color: #343a40;
-      }
-
-      .card-title mark {
-        /* background-color: #ffc107; */
-        color: #212529;
-        font-size: 12px;
-      }
-      @keyframes popUp {
-        0% {
-          transform: scale(0.5);
-          opacity: 0;
+        /* Custom styles */
+        .card-body {
+            background-color: #f0f0f08e;
+            box-shadow: 0px 0px 1px 1px #6161618c;
+            border-radius: 8px;
+            border: 1px solid #080052;
         }
-        50% {
-          transform: scale(1.1);
-          opacity: 1;
+
+        .action-info p {
+            font-size: 1.2rem;
         }
-        100% {
-          transform: scale(1);
-          opacity: 1;
+
+        .action-info .label {
+            font-weight: bold;
         }
-      }
 
-      .pop-up {
-        animation: popUp 0.5s ease-out;
-        display: inline-block; /* Ensures animation works properly for inline text */
-        font-size: 1.2em; /* Adjust as needed */
-        font-weight: bold;
-        color: #4caf50; /* Success green */
-      }
-      /* Base styles for the alert */
-      .alert {
-        position: fixed;
-        top: 20%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #4caf50; /* Green background */
-        color: white;
-        padding: 20px 30px;
-        font-size: 1.2em;
-        font-weight: bold;
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.4s ease-out, transform 0.4s ease-out;
-      }
+        .action-info .value {
+            color: blue;
+        }
 
-      /* Show alert */
-      .alert.show {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translate(-50%, -50%) scale(1);
-      }
+        .map-link {
+            word-wrap: break-word;
+        }
 
-      /* Hidden state */
-      .alert.hidden {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.8);
-        font-weight: bold;
-        background-image: url(https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmJyMzlpczlwdXczMzBhMHg5MWl5bnNtcTNoamlzeGVyN3NsazlsdyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hpF9R9M1PHN5e5liSx/giphy.gif);
-      }
+        .status-message {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #dc3545;
+        }
+
+        .modal-dialog {
+            max-width: 450px;
+        }
+
+        .btn {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+        }
+
+        .main-header {
+            font-family: 'Arial', sans-serif;
+            color: #343a40;
+        }
+
+        .card-title mark {
+            /* background-color: #ffc107; */
+            color: #212529;
+            font-size: 12px;
+        }
+        @keyframes popUp {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.pop-up {
+  animation: popUp 0.5s ease-out;
+  display: inline-block; /* Ensures animation works properly for inline text */
+  font-size: 1.2em; /* Adjust as needed */
+  font-weight: bold;
+  color: #4CAF50; /* Success green */
+}
+/* Base styles for the alert */
+.alert {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #4CAF50; /* Green background */
+  color: white;
+  padding: 20px 30px;
+  font-size: 1.2em;
+  font-weight: bold;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+/* Show alert */
+.alert.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Hidden state */
+.alert.hidden {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8);
+  font-weight: bold;
+  background-image: url(https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmJyMzlpczlwdXczMzBhMHg5MWl5bnNtcTNoamlzeGVyN3NsazlsdyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hpF9R9M1PHN5e5liSx/giphy.gif);
+}
+
     </style>
-    <script>
-      // Function to generate a unique device token (UUID)
-      function generateDeviceToken() {
-        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-          /[xy]/g,
-          function (c) {
-            const r = (Math.random() * 16) | 0;
-            const v = c === "x" ? r : (r & 0x3) | 0x8;
-            return v.toString(16);
-          }
-        );
-      }
+</head>
 
-      // Function to store and check the device token
-      function checkAccess() {
-        // List of allowed tokens
-        const allowedTokens = [
-          // 'c0818665-8f91-45da-a3e4-8bd45bcdf85a', // Bath PC
-          // "3a4a9420-367c-43ea-b6a0-0191f0a24548", // Bath PC
-          'c9dd4a16-c845-4eaa-a3c3-a95e122daae8',  // Bath(Telegram)
-          '94f3417a-d4fc-422b-b22f-5bf20f307d04',  // Bath(Chrome)
-          // '785f1442-339a-4d58-8212-4268905550a0',  // sarun(Chrome)
-          // '1963c4c3-5795-4c37-84a1-b68db1ddfd03'  // Cheat(PC)
-        ];
-        let deviceToken = localStorage.getItem("device_token");
-
-        // If no token exists, generate one and store it
-        if (!deviceToken) {
-          deviceToken = generateDeviceToken();
-          localStorage.setItem("device_token", deviceToken);
-        }
-
-        // Check if the stored token matches any of the allowed tokens
-        if (allowedTokens.includes(deviceToken)) {
-          document.getElementById("access-granted").style.display = "block";
-          document.getElementById("access-denied").style.display = "none";
-          document.getElementById("popup").style.display = "none";
-          document.getElementById("export-section").style.display = "block"; // Show the export section
-        } else {
-          document.getElementById("access-granted").style.display = "none";
-          document.getElementById("access-denied").style.display = "block";
-          document.getElementById("export-section").style.display = "none"; // Hide the export section
-        }
-      }
-
-      // Run the checkAccess function when the page loads
-      window.onload = checkAccess;
-
-      // Function to handle the export of user data to CSV
-      function exportUserDataToCSV() {
-        const userName = document.getElementById("userNameSelect").value;
-        const startDate = document.getElementById("startDateSelect").value;
-        const endDate = document.getElementById("endDateSelect").value;
-
-        const usersData = [
-          { userName: "user1", date: "2024-01-01", data: "Some data" },
-          { userName: "user2", date: "2024-01-02", data: "Some more data" },
-        ];
-
-        const filteredData = usersData.filter((user) => {
-          const userDate = new Date(user.date);
-          return (
-            (userName === "all" || user.userName === userName) &&
-            (!startDate || userDate >= new Date(startDate)) &&
-            (!endDate || userDate <= new Date(endDate))
-          );
-        });
-
-        let csvContent = "User Name, Date, Data\n";
-        filteredData.forEach((user) => {
-          csvContent += `${user.userName}, ${user.date}, ${user.data}\n`;
-        });
-
-        const blob = new Blob([csvContent], { type: "text/csv" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "user_data.csv";
-        link.click();
-      }
-    </script>
-  </head>
-
-  <body>
-    <h1
-      id="access-denied"
-      class="text-center"
-      style="display: flex; padding: 100px 0"
-    >
-      អ្នកមិនអាចបើកស្កេនបានទេ!
-    </h1>
-    <div
-      id="popup"
-      style="display: block; text-align: center; top: -5rem; position: relative"
-    >
-      <a href="#"
-        ><img
-          src="https://cdn-icons-png.flaticon.com/512/5728/5728403.png"
-          alt=""
-          width="100px"
-      /></a>
-    </div>
-    <div class="Bulbsignal" style="display: none">
-      <span
-        style="
-          display: flex;
-          align-items: center;
-          margin: auto;
-          justify-content: center;
-          background-color: whitesmoke;
-          width: 80%;
-          border-radius: 8px;
-          padding: 20px;
-          position: relative;
-          top: -5rem;
-          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-            0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        "
-      >
-        1. តើការបើកនេះត្រឹមត្រូវដែរឬទេ?<br />2. តើអ្នកបានជ្រើសរើស Web Browser
-        ត្រឹមត្រូវដែរឬទេ?<br />"Chrome,Safari,"<br />3.
-        តើអ្នកអភិវឌ្ឍបានប្រាប់អ្នកអាចប្រើបាននៅក្នុងកម្មវិធីមួយណា?<br />"Chrome
-        or Safari"
-        <style>
-          .Bulbsignal button:hover {
-            transform: scale(0.98);
-            transition: all 0.3s ease-in-out;
-          }
-        </style>
-        <a href="https://t.me/Sao_Som_Bath" target="_blank"
-          ><button
-            style="
-              border: none;
-              outline: none;
-              background-color: #007bff;
-              border-radius: 8px;
-              padding: 10px;
-              position: absolute;
-              top: 14rem;
-              left: 0;
-              color: white;
-            "
-          >
-            ទំនាក់ទងមកកាន់ IT <i class="fa-brands fa-telegram"></i></button
-        ></a>
-        <img
-          src="https://cdn0.iconfinder.com/data/icons/colourful-education/250/bulb-512.png"
-          alt=""
-          width="50px"
-          style="
-            display: flex;
-            position: relative;
-            top: -5rem;
-            align-items: end;
-            z-index: 1;
-            right: -10px;
-          "
-        />
-      </span>
-    </div>
-
-    <p
-      id="access-granted"
-      style="
-        color: green;
-        font-weight: bold;
-        display: none;
-        text-align: center;
-        position: absolute;
-      "
-    ></p>
-    <p id="access-denied" style="color: red; font-weight: bold; display: none">
-      សូមអភ័យទោស! អ្នកមិនមានសិទ្ធិចូលប្រើទេ!
-    </p>
-
-    <section id="export-section" style="display: none">
-      <div class="container mt-5 main-header">
+<body>
+    <div class="container mt-5 main-header">
         <h1 class="text-center main-content" style="text-decoration: underline;">Fingerprint Check-In/Out</h1>
         <div class="card mt-4">
             <div class="card-body">
@@ -319,22 +136,24 @@
         <div class="mb-3 mt-4">
           <label for="userNameInput" class="form-label d-none">ជ្រើសរើសអ្នកប្រើប្រាស់</label>
           <select id="userNameInput" class="form-select hidename" required>
-            <option value="សៅ សម្បត្តិ">សៅ សម្បត្តិ(0163)</option>
-            <!-- <option value="ឌឹម សុជាតិ">ឌឹម សុជាតិ(0158)</option>
+            <!-- <option value="" disabled selected>ជ្រើសរើសឈ្មោះរបស់អ្នក!</option> -->
+            <!-- <option value="សៅ សម្បត្តិ">សៅ សម្បត្តិ(0163)</option>
+            <option value="ឌឹម សុជាតិ">ឌឹម សុជាតិ(0158)</option>
             <option value="សៀង សារុន">សៀង សារុន(0151)</option>
             <option value="ឆន រត្តនៈ">ឆន រត្តនៈ(0243)</option>
             <option value="ម៉ុល នីតា">ម៉ុល នីតា(0242)</option>
             <option value="សឹម សុខ">សឹម សុខ(0250)</option>
-            <option value="ផូ សុខនី">ផូ សុខនី(0254)</option>
-            <option value="ឡេង ឌឿន">ឡេង ឌឿន(0169)</option>
-            <option value="វណ្ណ ដាណែត">វណ្ណ ដាណែត(0172)</option>
+            <option value="ផូ សុខនី">ផូ សុខនី(0254)</option> -->
+            <!-- <option value="ឡេង ឌឿន">ឡេង ឌឿន(0169)</option> -->
+            <!-- <option value="វណ្ណ ដាណែត">វណ្ណ ដាណែត(0172)</option>
             <option value="វ៉ាន់ សារ៉េត">វ៉ាន់ សារ៉េត(0062)</option>
-            <option value="គឺ ទឺកឡា">គឺ ទឺកឡា(0183)</option>
-            <option value="លី ស៊ាងអុី">លី ស៊ាងអុី(0224)</option>
-            <option value="វណ្ណ ដាណែត">វណ្ណ ដាណែត(0172)</option>
+            <!-- <option value="គឺ ទឺកឡា">គឺ ទឺកឡា(0183)</option>  -->
+            <!-- <option value="លី ស៊ាងអុី">លី ស៊ាងអុី(0224)</option> -->
+            <!-- <option value="វណ្ណ ដាណែត">វណ្ណ ដាណែត(0172)</option> -->
             <option value="ម៉ុង ដាលីន">ម៉ុង ដាលីន(0066)</option>
-            <option value="ភឿន ដាលីន">ភឿន ដាលីន(0016)</option>
+            <!-- <option value="ភឿន ដាលីន">ភឿន ដាលីន(0016)</option>
             <option value="បឿន កញ្ញា">បឿន កញ្ញា(0238)</option> -->
+        
           </select>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -342,12 +161,6 @@
         <!-- Include Select2 JS -->
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script>
-
-$(document).ready(function () {
-                  $("#popup").on("click", function () {
-                    $(".Bulbsignal").fadeToggle(500);
-                  });
-                });
 // Get the visit count and last visit timestamp from localStorage
 let visitCount = localStorage.getItem('visitCount');
         let lastVisitTime = localStorage.getItem('lastVisitTime');
@@ -423,7 +236,7 @@ let visitCount = localStorage.getItem('visitCount');
               $('#requestEarlyScan').hide();
               setTimeout(function() {
                 $('#requestEarlyScan').show();
-                }, 2592000000); // 30 days = 2592000000 milliseconds
+              }, 6000); // 1 minute = 60000 milliseconds
               $('#idSelect').hide();
               $('#departmentSelect').hide();
               $('#PositionSelect').hide();
@@ -459,33 +272,33 @@ let visitCount = localStorage.getItem('visitCount');
         <div class="mb-3">
           <label for="idSelect" class="form-label ID"></label>
           <select id="idSelect" class="form-select" required>
-            <option value="0163">0163</option>
+            <option value="0066">0066</option>
             <!-- Add more options as needed -->
           </select>
         </div>
         <div class="mb-3">
           <label for="idSelect" class="form-label DT"></label>
           <select id="departmentSelect" class="form-select" required>
-            <option value="IT">IT</option>
+            <option value="Sale">Sale</option>
             <!-- Add more options as needed -->
           </select>
         </div>
         <div class="mb-3">
           <label for="idSelect" class="form-label PT"></label>
           <select id="PositionSelect" class="form-select" required>
-            <option value="IT SUPPORT">IT SUPPORT</option>
+            <option value="Sale 318">Sale 318</option>
             <!-- Add more options as needed -->
           </select>
         </div>
         <div class="mb-3">
           <label for="idSelect" class="form-label BH"></label>
           <select id="BranchSelect" class="form-select" required>
-            <option value="Head Office">Head Office</option>
+            <option value="318 Shop">318 Shop</option>
             <!-- Add more options as needed -->
           </select>
         </div>
         <button id="scanFingerprint" class="btn btn-primary mb-3">ចាប់ផ្តើមស្កេន</button>
-        <button id="requestEarlyScan" class="btn btn-warning mb-3 d-none">ស្នើរសុំស្កេនមុន</button>
+        <button id="requestEarlyScan" class="btn btn-warning mb-3">ស្នើរសុំស្កេនមុន</button>
         
 
         <!-- Action Information -->
@@ -504,244 +317,54 @@ let visitCount = localStorage.getItem('visitCount');
     <!-- <button id="requestEarlyScan" class="btn btn-warning mb-3">ស្នើរសុំស្កេនមុន</button> -->
 
     <script>
-      // Function to start face scan
-      
-      function startFaceScan() {
-        const video = document.createElement('video');
-        video.setAttribute('autoplay', '');
-        video.setAttribute('playsinline', '');
-        document.body.appendChild(video);
-
-        navigator.mediaDevices.getUserMedia({ video: true })
-          .then(stream => {
-        video.srcObject = stream;
-        video.onloadedmetadata = () => {
-          video.play();
-        };
-
-        // Load face-api.js models
-        Promise.all([
-          faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
-          faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
-          faceapi.nets.faceRecognitionNet.loadFromUri('/models')
-        ]).then(() => {
-          // Start face recognition
-          recognizeFace(video);
-        });
-          })
-          .catch(error => {
-        console.error('Error accessing camera:', error);
-        alert('មិនអាចចូលប្រើកាមេរ៉ាបានទេ!');
-          });
-
-        function recognizeFace(video) {
-          const labeledDescriptors = loadLabeledImages();
-          const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6);
-
-          video.addEventListener('play', () => {
-        const canvas = faceapi.createCanvasFromMedia(video);
-        document.body.append(canvas);
-        const displaySize = { width: video.width, height: video.height };
-        faceapi.matchDimensions(canvas, displaySize);
-
-        const interval = setInterval(async () => {
-          const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors();
-          const resizedDetections = faceapi.resizeResults(detections, displaySize);
-          canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-          faceapi.draw.drawDetections(canvas, resizedDetections);
-          faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
-
-          const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor));
-          results.forEach((result, i) => {
-            const box = resizedDetections[i].detection.box;
-            const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() });
-            drawBox.draw(canvas);
-
-            if (result.label === 'Your Name') {
-          alert('ស្កេនមុខបានជោគជ័យ!');
-          clearInterval(interval);
-          video.srcObject.getTracks().forEach(track => track.stop());
-          document.body.removeChild(video);
-          document.body.removeChild(canvas);
-            } else {
-          alert('មុខមិនត្រឹមត្រូវទេ!');
+        document.getElementById('requestEarlyScan').addEventListener('click', function() {
+            const userName = document.getElementById('userNameInput').value.trim();
+            if (!userName) {
+            alert("សូមជ្រើសរើសឈ្មោះរបស់អ្នកជាមុនសិន!");
+            return;
             }
-          });
-        }, 100);
-          });
-        }
+            const currentTimeFormatted = new Date().toLocaleString();
+            const message = `ឈ្មោះ ៖ ${userName}\n**ស្នើរសុំស្កេនមុន**\n\nប្រភេទស្កេន ៖ ${document.getElementById('actionSelect').value}\n ថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}`;
+            
+            // Send message to Telegram
+            sendToTelegram(message);
 
-        function loadLabeledImages() {
-          const labels = ['Your Name']; // Add more labels as needed
-          return Promise.all(
-        labels.map(async label => {
-          const descriptions = [];
-          for (let i = 1; i <= 2; i++) {
-            const img = await faceapi.fetchImage(`/labeled_images/${label}/${i}.jpg`);
-            const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
-            descriptions.push(detections.descriptor);
-          }
-          return new faceapi.LabeledFaceDescriptors(label, descriptions);
-        })
-          );
-        }
-      }
-          
+            // Collect the form data
+            var action = document.getElementById('actionSelect').value;
+            var location = `Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}`;
 
-          // Collect the form data
-          const userName = document.getElementById('userNameInput').value.trim();
-          const action = document.getElementById('actionSelect').value;
-          const currentTimeFormatted = new Date().toLocaleString();
-          const location = `Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}`;
+            var formData = new FormData();
+            formData.append('ឈ្មោះ', userName);
+            formData.append('ប្រភេទស្កេន', action);
+            formData.append('ថ្ងៃ/ម៉ោង', currentTimeFormatted);
+            formData.append('location', location);
 
-          const formData = new FormData();
-          formData.append("ឈ្មោះ", userName);
-          formData.append("ប្រភេទស្កេន", action);
-          formData.append("ថ្ងៃ", new Date().toLocaleDateString());
-          formData.append("ម៉ោង", new Date().toLocaleTimeString());
-          formData.append("location", location);
-
-          const keyValuePairs = [];
-          for (const pair of formData.entries()) {
-        keyValuePairs.push(pair[0] + "=" + pair[1]);
-          }
-
-          const formDataString = keyValuePairs.join("&");
-
-          // Send a POST request to your Google Apps Script
-          fetch(
-        "https://script.google.com/macros/s/AKfycbyS-hk5UE2BJsDcZ9eshieZOcncGDTJWrnYN3cMmFj5hlFFnoBKnm1e5nX3p0A_V1xFKQ/exec",
-        {
-          redirect: "follow",
-          method: "POST",
-          body: formDataString,
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8",
-          },
-        }
-          )
-        .then(response => {
-          if (response) {
-            return response; // Assuming your script returns JSON response
-          } else {
-            throw new Error("Failed to submit the form.");
-          }
-        })
-        .then(data => {
-          // Display a success message
-          const statusElement = document.getElementById("status");
-          statusElement.textContent = "បានបញ្ជូនរួចរាល់";
-          statusElement.style.display = "block";
-          statusElement.style.backgroundColor = "gold";
-          statusElement.style.color = "beige";
-
-          setTimeout(() => {
-            statusElement.textContent = "";
-            statusElement.style.display = "none";
-          }, 2600);
-          
-            const currentTime = new Date();
-            const currentTimeFormatted = currentTime.toLocaleString();
-
-            const scanTime = currentTime.getHours() * 60 + currentTime.getMinutes(); // Convert current time to minutes
-            let scanStatus = "🔵Good"; // Default status
-
-            // Define time ranges
-            const ranges = [
-            { start: 6 * 60, end: 8 * 60, status: "🔵Good" }, // 6:00 AM - 8:00 AM
-            { start: 8 * 60 + 1, end: 11 * 60 + 59, status: "🔴Late" }, // 8:01 AM - 11:59 AM
-            { start: 12 * 60, end: 13 * 60, status: "🔵Good" }, // 12:00 PM - 1:00 PM
-            { start: 13 * 60 + 1, end: 16 * 60 + 59, status: "🔴Late" }, // 1:01 PM - 4:59 PM
-            { start: 17 * 60, end: 24 * 60, status: "🔵Good" }, // 5:00 PM onward
-            ];
-
-            // Determine scan status
-            for (const range of ranges) {
-            if (scanTime >= range.start && scanTime <= range.end) {
-              scanStatus = range.status;
-              break;
-            }
+            var keyValuePairs = [];
+            for (var pair of formData.entries()) {
+            keyValuePairs.push(pair[0] + "=" + pair[1]);
             }
 
-            // Get the user's address using reverse geocoding
-            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLatitude}&lon=${currentLongitude}`)
-              .then(response => response.json())
-              .then(data => {
-                const address = data.address.road || "Unknown location";
+            var formDataString = keyValuePairs.join("&");
 
-                // Send message to Telegram
-                const message = `ឈ្មោះ ៖ ${userName}\n\nប្រភេទស្កេន ៖ ${document.getElementById('actionSelect').value}\n\nStatus: ${scanStatus} \n\nID: ${document.getElementById('idSelect').value}\nDepartment: ${document.getElementById('departmentSelect').value}\nPosition: ${document.getElementById('PositionSelect').value}\nBranch: ${document.getElementById('BranchSelect').value}\nថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${new Date().toLocaleString()}\nទីតាំង ៖ ${address}\n[មើលទីតាំង] https://www.google.com/maps?q=${currentLatitude},${currentLongitude}`;
-                sendToTelegram(message);
-                })
-                .catch(error => {
-                console.error("Error fetching address:", error);
-                alert("An error occurred while fetching the address.");
-                });
-              })
-            .catch(error => {
-              console.error(error);
-              alert("An error occurred while submitting the form.");
-            });
-
-
-          // Automatically start face scan when the page loads
-          window.onload = function() {
-          checkAccess();
-          startFaceScan();
-          };
-          
-            document.getElementById('requestEarlyScan').addEventListener('click', function() {
-              const userName = document.getElementById('userNameInput').value.trim();
-              if (!userName) {
-              alert("សូមជ្រើសរើសឈ្មោះរបស់អ្នកជាមុនសិន!");
-              return;
-              }
-              const currentTimeFormatted = new Date().toLocaleString();
-              const message = `ឈ្មោះ ៖ ${userName}\n**ស្នើរសុំស្កេនមុន**\n\nប្រភេទស្កេន ៖ ${document.getElementById('actionSelect').value}\n ថ្ងៃខែឆ្នាំ/ម៉ោង ៖ ${currentTimeFormatted}`;
-              
-              // Send message to Telegram
-              sendToTelegram(message);
-
-              // Collect the form data
-              var action = document.getElementById('actionSelect').value;
-              var location = `Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}`;
-              var formData = new FormData();
-              var customDate = new Date(); // Use current date and time or set a custom one
-              var date = customDate.toLocaleDateString(); // Get the date part
-              var time = customDate.toLocaleTimeString(); // Get the time part
-
-              formData.append("ឈ្មោះ", userName);
-              formData.append("ប្រភេទស្កេន", action);
-              formData.append("ថ្ងៃ", date); // Add the date
-              formData.append("ម៉ោង", time); // Add the time
-              formData.append("location", location);
-
-              var keyValuePairs = [];
-              for (var pair of formData.entries()) {
-              keyValuePairs.push(pair[0] + "=" + pair[1]);
-              }
-
-              var formDataString = keyValuePairs.join("&");
-
-              // Send a POST request to your Google Apps Script
-              fetch(
-              "https://script.google.com/macros/s/AKfycbyS-hk5UE2BJsDcZ9eshieZOcncGDTJWrnYN3cMmFj5hlFFnoBKnm1e5nX3p0A_V1xFKQ/exec",
-              {
+            // Send a POST request to your Google Apps Script
+            fetch(
+            "https://script.google.com/macros/s/AKfycbyS-hk5UE2BJsDcZ9eshieZOcncGDTJWrnYN3cMmFj5hlFFnoBKnm1e5nX3p0A_V1xFKQ/exec",
+            {
                 redirect: "follow",
                 method: "POST",
                 body: formDataString,
                 headers: {
                 "Content-Type": "text/plain;charset=utf-8",
                 },
-              }
-              )
-              .then(function (response) {
-              // Check if the request was successful
-              if (response) {
+            }
+            )
+            .then(function (response) {
+            // Check if the request was successful
+            if (response) {
                 return response; // Assuming your script returns JSON response
-              } else {
+            } else {
                 throw new Error("Failed to submit the form.");
-              }
+            }
             })
             .then(function (data) {
             // Display a success message with animation
@@ -778,10 +401,10 @@ let visitCount = localStorage.getItem('visitCount');
     const userState = {};
 
     // Allowed location and tolerance
-        // const allowedLatitude = 11.55089;
-        // const allowedLongitude = 104.91219;
-        // const tolerance = 0.001;
-        // const allowedRadius = 0.001;
+    const allowedLatitude = 11.55089;
+    const allowedLongitude = 104.91219;
+    const tolerance = 0.01;
+
     // Get user's location
     const locationElement = document.getElementById('location');
     const mapLinkElement = document.getElementById('mapLink');
@@ -790,15 +413,6 @@ let visitCount = localStorage.getItem('visitCount');
     let isWithinBounds = false;
     let currentLatitude = 0;
     let currentLongitude = 0;
-
-
-    // if (locationElement.textContent.includes("កំពុងស្កេនទីតាំង")) {
-    //     scanButton.style.display = 'none';
-    //     document.getElementById('requestEarlyScan').style.display = 'none';
-    // } else {
-    //     scanButton.style.display = 'block';
-    //     document.getElementById('requestEarlyScan').style.display = 'block';
-    // }
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -848,18 +462,13 @@ let visitCount = localStorage.getItem('visitCount');
       var userName = document.getElementById('userNameInput').value.trim();
       var action = document.getElementById('actionSelect').value;
       var timestamp = new Date().toLocaleString();
-      var customDate = new Date(); // Use current date and time or set a custom one
-      var date = customDate.toLocaleDateString(); // Get the date part
-      var time = customDate.toLocaleTimeString(); // Get the time part
       var location = `Lat: ${currentLatitude.toFixed(5)}, Long: ${currentLongitude.toFixed(5)}`;
 
       var formData = new FormData();
-
-          formData.append("ឈ្មោះ", userName);
-          formData.append("ប្រភេទស្កេន", action);
-          formData.append("ថ្ងៃ", date); // Add the date
-          formData.append("ម៉ោង", time); // Add the time
-          formData.append("location", location);
+      formData.append('ឈ្មោះ', userName);
+      formData.append('ប្រភេទស្កេន', action);
+      formData.append('ថ្ងៃ/ម៉ោង', timestamp);
+      formData.append('location', location);
 
       var keyValuePairs = [];
       for (var pair of formData.entries()) {
@@ -962,15 +571,16 @@ let visitCount = localStorage.getItem('visitCount');
       const currentTime = new Date();
       const currentTimeFormatted = currentTime.toLocaleString();
 
+      // Determine if the scan is early, on time, or late
       const scanTime = currentTime.getHours() * 60 + currentTime.getMinutes(); // Convert current time to minutes
-let scanStatus = "🔵Good"; // Default status
+      let scanStatus = "🔵Good"; // Default status
 
 // Define time ranges
 const ranges = [
-  { start: 6 * 60, end: 8 * 60 , status: "🔵Good" }, // 6:00 AM - 7:30 AM
-  { start: 8 * 60 + 1, end: 11 * 60 + 59, status: "🔴Late" }, // 7:31 AM - 10:59 AM
-  { start: 12 * 60, end: 13 * 60, status: "🔵Good" }, // 11:00 AM - 12:00 PM
-  { start: 13 * 60 + 1, end: 16 * 60 + 59, status: "🔴Late" }, // 12:01 PM - 4:59 PM
+  { start: 6 * 60, end: 7 * 60 + 30, status: "🔵Good" }, // 6:00 AM - 7:30 AM
+  { start: 7 * 60 + 31, end: 10 * 60 + 59, status: "🔴Late" }, // 7:31 AM - 10:59 AM
+  { start: 11 * 60, end: 12 * 60, status: "🔵Good" }, // 11:00 AM - 12:00 PM
+  { start: 12 * 60 + 1, end: 16 * 60 + 59, status: "🔴Late" }, // 12:01 PM - 4:59 PM
   { start: 17 * 60, end: 24 * 60, status: "🔵Good" }, // 5:00 PM onward
 ];
 
@@ -982,17 +592,15 @@ for (const range of ranges) {
   }
 }
       // Get the user's address using reverse geocoding
-           fetch(
-                    `https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLatitude}&lon=${currentLongitude}`,
-                    {
-                        headers: {
-                            "Accept-Language": "km",
-                        },
-                    }
-                )
-                    .then((response) => response.json())
-                    .then((data) => {
-                        const address = data.address.road || "មិនអាចរកទីតាំងបាន";
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${currentLatitude}&lon=${currentLongitude}`, {
+        headers: {
+          'Accept-Language': 'km'
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          const address = data.display_name || "មិនអាចរកទីតាំងបាន";
+
           // Set action as per selected action (Check-In or Check-Out)
           if (action === "Check-Out") {
             userState[userName] = "Check-Out";
@@ -1029,7 +637,7 @@ for (const range of ranges) {
           // Reload the page after 1 minute to hide the button
           setTimeout(() => {
             window.location.href = window.location.href;
-          }, 60000); // 45 minutes = 2700000 milliseconds
+          }, 60000); // 1 minute = 60000 milliseconds
         })
         .catch(error => {
           console.error("Error fetching address:", error);
@@ -1069,7 +677,7 @@ for (const range of ranges) {
       // Reload the page after 1 minute to hide the button
       setTimeout(() => {
         window.location.href = window.location.href;
-      }, 60000); // 45 minutes = 2700000 milliseconds
+      }, 60000); // 1 minute = 60000 milliseconds
     });
 
     // Check the button state on page load
@@ -1119,7 +727,10 @@ for (const range of ranges) {
         document.getElementById('status').textContent = displayedData.status;
       }
     });
-      </script>
-    </section>
-  </body>
-</html>
+    
+
+    
+  </script>
+</body>
+
+<script
